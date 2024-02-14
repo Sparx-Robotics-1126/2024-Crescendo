@@ -21,13 +21,14 @@ public class Rotation extends SubsystemBase {
 
     private Pigeon2 rotationPigeon;
 
+    private double power=0;
+
     public Rotation() {
         rotationMotor = new CANSparkMax(RotationConstants.MASTER_ID, CANSparkLowLevel.MotorType.kBrushless);
         rotationMotorSlave = new CANSparkMax(RotationConstants.SLAVE_ID, CANSparkLowLevel.MotorType.kBrushless);
 
         rotationMotorSlave.setInverted(true);
         rotationPigeon = new Pigeon2(RotationConstants.ROTATION_PIGEON_ID);
-
 
         configureMotor(rotationMotor, rotationMotorSlave);
     }
@@ -52,11 +53,18 @@ public class Rotation extends SubsystemBase {
             slave.setSmartCurrentLimit(Constants.MAX_CURRENT);
         }
     }
+
     @Override
     public void periodic() {
-       var pitch =  rotationPigeon.getPitch().getValue();
+        var pitch = rotationPigeon.getPitch().getValue();
 
         SmartDashboard.putNumber("Rotation Pitch", pitch);
+        SmartDashboard.putNumber("Arm Power", power);
+    }
+
+    public void moveArm(double power) {
+        this.power = power;
+        rotationMotor.set(power);
     }
 
 }

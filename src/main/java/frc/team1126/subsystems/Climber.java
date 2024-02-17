@@ -120,10 +120,16 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean isLeftHome() {
+        if (!leftHome.get()){
+            m_leftEncoder.setPosition(0.0);
+        }
         return leftHome.get();
     }
 
     public boolean isRightHome() {
+        if(!rightHome.get()) {
+            m_rightEncoder.setPosition(0.0);
+        }
         return rightHome.get();
     }
 

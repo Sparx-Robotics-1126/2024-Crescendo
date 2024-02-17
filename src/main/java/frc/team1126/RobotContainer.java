@@ -20,7 +20,7 @@ import frc.team1126.Constants.SwerveConstants;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
 import frc.team1126.commands.climber.MoveMax;
-import frc.team1126.commands.rotoation.MoveArm;
+// import frc.team1126.commands.rotoation.MoveArm;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
 import frc.team1126.subsystems.Rotation;
@@ -34,7 +34,7 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-  public static final CANdleSubsystem m_candleSubsystem = new  CANdleSubsystem();
+  // public static final CANdleSubsystem m_candleSubsystem = new  CANdleSubsystem();
 
   private static HashMap<String, Command> pathMap = new HashMap<>();
 
@@ -49,26 +49,26 @@ public class RobotContainer {
   // private final JoystickButton coneMode = new JoystickButton(operator.getHID(),
   // XboxController.Button.kBack.value);
 
-  public final static SwerveSubsystem swerve = new SwerveSubsystem(new  File(Filesystem.getDeployDirectory(), "swerve"));
+  // public final static SwerveSubsystem swerve = new SwerveSubsystem(new  File(Filesystem.getDeployDirectory(), "swerve"));
 
   public final Limelight m_limeLight = new Limelight();
 
   public final static Climber climber = new Climber();
 
-  public final static Rotation rotation = new Rotation();
+  // public final static Rotation rotation = new Rotation();
 
   public RobotContainer() {
     configureDriverBindings();
     configureOperatoreBindings();
 
-    Command driveFieldOrientedAnglularVelocity = swerve.driveCommand(
-      () -> MathUtil.clamp(MathUtil.applyDeadband(-driver.getLeftY(), .1), -1,
-          1),
-      () -> MathUtil.clamp(MathUtil.applyDeadband(-driver.getLeftX(),.1), -1,
-          1),
-      () -> -driver.getRightX());
+    // Command driveFieldOrientedAnglularVelocity = swerve.driveCommand(
+    //   () -> MathUtil.clamp(MathUtil.applyDeadband(-driver.getLeftY(), .1), -1,
+    //       1),
+    //   () -> MathUtil.clamp(MathUtil.applyDeadband(-driver.getLeftX(),.1), -1,
+    //       1),
+    //   () -> -driver.getRightX());
 
-      swerve.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      // swerve.setDefaultCommand(driveFieldOrientedAnglularVelocity);
     // swerve.setDefaultCommand(new DriveFieldRelative(swerve, 
     //                                                 () -> driver.getRawAxis(translationAxis)*-1,
     //                                                 () -> driver.getRawAxis(strafeAxis) *-1,
@@ -77,7 +77,7 @@ public class RobotContainer {
     // configureChooser();
     climber.setDefaultCommand(new MoveClimber(climber, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
     
-    rotation.setDefaultCommand(new MoveArm(rotation, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
+    // rotation.setDefaultCommand(new MoveArm(rotation, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
     
     // climber.setDefaultCommand(climber.moveClimber(
     // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftY.value),
@@ -91,7 +91,10 @@ public class RobotContainer {
 
   private void configureDriverBindings()
   {
-  driver.leftTrigger().onTrue(new InstantCommand(() -> swerve.zeroGyro()));
+  // driver.leftTrigger().onTrue(new InstantCommand(() -> swerve.zeroGyro()));
+
+
+
   // driver.a().whileTrue(new VisionAlignment(this::getXSpeed, 0, swerve));
   // driver.x().whileTrue(new LLAlignCommand(true));
   // driver.b().whileTrue(new DriveToDistance(swerve,60));

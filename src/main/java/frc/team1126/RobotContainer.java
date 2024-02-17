@@ -7,30 +7,23 @@ package frc.team1126;
 import java.io.File;
 import java.util.HashMap;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.team1126.Constants.SwerveConstants;
-// import frc.team1126.commands.Limelight.DriveToDistance;
-// import frc.team1126.commands.Limelight.LLAlignCommand;
-// import frc.team1126.commands.Limelight.VisionAlignment;
-// import frc.team1126.commands.drive.DriveFieldRelative;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
 import frc.team1126.commands.climber.MoveMax;
-// import frc.team1126.commands.rotoation.MoveArm;
+import frc.team1126.commands.rotoation.MoveArm;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
+import frc.team1126.subsystems.Rotation;
 import frc.team1126.subsystems.SwerveSubsystem;
 //import frc.team1126.subsystems.SwerveSubsystem;
 import frc.team1126.subsystems.sensors.Limelight;
@@ -62,7 +55,7 @@ public class RobotContainer {
 
   public final static Climber climber = new Climber();
 
-  // public final static Rotation rotation = new Rotation();
+  public final static Rotation rotation = new Rotation();
 
   public RobotContainer() {
     configureDriverBindings();
@@ -84,7 +77,7 @@ public class RobotContainer {
     // configureChooser();
     climber.setDefaultCommand(new MoveClimber(climber, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
     
-    // rotation.setDefaultCommand(new MoveArm(rotation, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
+    rotation.setDefaultCommand(new MoveArm(rotation, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
     
     // climber.setDefaultCommand(climber.moveClimber(
     // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftY.value),

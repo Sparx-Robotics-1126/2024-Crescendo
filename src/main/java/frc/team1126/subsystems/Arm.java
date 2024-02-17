@@ -9,28 +9,28 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants;
-import frc.team1126.Constants.RotationConstants;
+import frc.team1126.Constants.ArmConstants;
 
-public class Rotation extends SubsystemBase {
+public class Arm extends SubsystemBase {
 
-    private CANSparkMax rotationMotor;
-    private CANSparkMax rotationMotorSlave;
+    private CANSparkMax armMotor;
+    private CANSparkMax armMotorSlave;
 
-    private RelativeEncoder rotationEncoder;
-    private RelativeEncoder rotationEncoderSlave;
+    private RelativeEncoder armEncoder;
+    private RelativeEncoder armEncoderSlave;
 
-    private Pigeon2 rotationPigeon;
+    private Pigeon2 armPigeon;
 
-    private double power=0;
+    private double power = 0;
 
-    public Rotation() {
-        rotationMotor = new CANSparkMax(RotationConstants.MASTER_ID, CANSparkLowLevel.MotorType.kBrushless);
-        rotationMotorSlave = new CANSparkMax(RotationConstants.SLAVE_ID, CANSparkLowLevel.MotorType.kBrushless);
+    public Arm() {
+        armMotor = new CANSparkMax(ArmConstants.MASTER_ID, CANSparkLowLevel.MotorType.kBrushless);
+        armMotorSlave = new CANSparkMax(ArmConstants.SLAVE_ID, CANSparkLowLevel.MotorType.kBrushless);
 
-        rotationMotorSlave.setInverted(true);
-        rotationPigeon = new Pigeon2(RotationConstants.ROTATION_PIGEON_ID);
+        armMotorSlave.setInverted(true);
+        armPigeon = new Pigeon2(ArmConstants.ARM_PIGEON_ID);
 
-        configureMotor(rotationMotor, rotationMotorSlave);
+        configureMotor(armMotor, armMotorSlave);
     }
 
     /**
@@ -56,15 +56,15 @@ public class Rotation extends SubsystemBase {
 
     @Override
     public void periodic() {
-        var pitch = rotationPigeon.getPitch().getValue();
+        var pitch = armPigeon.getPitch().getValue();
 
-        SmartDashboard.putNumber("Rotation Pitch", pitch);
+        SmartDashboard.putNumber("arm Pitch", pitch);
         SmartDashboard.putNumber("Arm Power", power);
     }
 
     public void moveArm(double power) {
         this.power = power;
-        rotationMotor.set(power);
+        armMotor.set(power);
     }
 
 }

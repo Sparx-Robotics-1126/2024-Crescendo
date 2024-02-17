@@ -357,10 +357,10 @@ public final class Constants {
         public static final int SHOOTER_ID = 7;
     }
 
-    public static class RotationConstants {
+    public static class ArmConstants {
         public static final int MASTER_ID = 8;
         public static final int SLAVE_ID = 9;
-        public static final int ROTATION_PIGEON_ID = 5;
+        public static final int ARM_PIGEON_ID = 5;
     }
 
     /**

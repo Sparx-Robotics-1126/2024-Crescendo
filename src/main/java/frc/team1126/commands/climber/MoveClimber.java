@@ -12,19 +12,18 @@ import static  frc.team1126.Constants.ClimberConstants.*;
 public class MoveClimber extends Command {
 
   private final DoubleSupplier power;
+  // private final DoubleSupplier rightPower;
   private final Climber climber;
 
   public MoveClimber(Climber climber, DoubleSupplier power) {
     addRequirements(RobotContainer.climber);
     this.climber = climber;
     this.power = power;
-    // this.rightPower = rightPower;
   }
 
   @Override
   public void execute() {
     double speed = MathUtil.applyDeadband(power.getAsDouble(), .1);
-    // double speedRight = MathUtil.applyDeadband(rightPower.getAsDouble(), .1);
 
     // System.out.println("in here " + climber.isLeftHome());
     var actualLeftDistance = climber.getLeftPosition();

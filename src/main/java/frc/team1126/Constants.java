@@ -15,12 +15,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.util.PIDConstants;
+
 import frc.lib.swervelib.parser.PIDFConfig;
 
 public final class Constants {
     public static final double NOMINAL_VOLTAGE = 12;
     public static final int MAX_CURRENT = 80;
     public static final double DEAD_BAND = .5;
+
+ public static final class AutonConstants
+  {
+
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(2.5, 0, .9);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(0, 0, 1);
+  }
+
 
     public static final class Auton
     {

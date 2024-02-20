@@ -51,5 +51,10 @@
       <option name="name" value="WPIcb311d09-36e9-4143-a032-55bb2b94443b_0Release" />
       <option name="url" value="https://dev.studica.com/maven/release/2024/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPI1ccce5a4-acd2-4d18-bca3-4b8047188400_0Release" />
+      <option name="name" value="WPI1ccce5a4-acd2-4d18-bca3-4b8047188400_0Release" />
+      <option name="url" value="https://broncbotz3481.github.io/YAGSL-Lib/yagsl/repos" />
+    </remote-repository>
   </component>
 </project>

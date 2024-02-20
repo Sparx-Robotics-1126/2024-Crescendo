@@ -213,8 +213,8 @@ public final class Constants {
     public static class LimelightConstants {
         public static final boolean USE_FOR_TARGETING = true;
         public static final boolean LED_ON_DEFAULT = false;
-        public static final double CAMERA_MIN_FLOOR_HEIGHT = 8;
-        public static final double CAMERA_INITIAL_PITCH = 46.5;
+        public static final double CAMERA_MIN_FLOOR_HEIGHT = 8.628;
+        public static final double CAMERA_INITIAL_PITCH = 28;
         // declare ID's of pipelines here
         public static final int kCubePipeline = 0;
         public static final int kReflectivePipeline = 1;
@@ -343,24 +343,26 @@ public final class Constants {
         public static final int MOTOR_RIGHT_ID = 21;
 
         public static final double MAX_HEIGHT = 4.1;
-        public static final int LEFT_DIGITAL_INPUT = 0;
-        public static final int RIGHT_DIGITAL_INPUT = 1;
+        public static final int LEFT_DIGITAL_INPUT = 10;
+        public static final int RIGHT_DIGITAL_INPUT = 11;
     }
 
     public static class StorageConstants {
         
-        public static final int ACQ_WHEELS_ID = 6;
-        public static final int LIGHT_SENSOR = 5; // what the light sensor id was for 2023 extension, probably DIO 
+        public static final int ACQ_WHEELS_ID = 25;
+        public static final int LIGHT_SENSOR = 15; // what the light sensor id was for 2023 extension, probably DIO 
     }
 
     public static class ShooterConstants {
-        public static final int SHOOTER_ID = 7;
+        public static final int SHOOTER_ID = 26;
+        public static final double SHOOTER_SPEED = 999999999999999999.0;
     }
 
     public static class ArmConstants {
-        public static final int MASTER_ID = 8;
-        public static final int SLAVE_ID = 9;
-        public static final int ARM_PIGEON_ID = 5;
+        public static final int MASTER_ID = 30;
+        public static final int SLAVE_ID = 31;
+        public static final int ARM_PIGEON_ID = 16;
+        public static final int ARM_LIMIT_SWITCH_ID = 19;
     }
 
     /**

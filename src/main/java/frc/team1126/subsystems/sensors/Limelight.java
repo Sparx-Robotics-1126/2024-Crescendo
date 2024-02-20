@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.Toolbox.AprilTag;
@@ -234,22 +235,38 @@ private AprilTag getAprilTag(Integer targetId) {
     return calculateTargetDistanceInInches() >= 115.0;
   }
 
-  public  boolean inRange() {
-	if (calculateTargetDistanceInInches() <115 & calculateTargetDistanceInInches()>20){
-		return true;
-	}
-    return false;
+  public  boolean inSpeakerRange(double targetRange) {
+
+	  if (hasSpeakerTarget()) {
+		  if (calculateTargetDistanceInInches() < targetRange + 12 & calculateTargetDistanceInInches() > targetRange - 12) {
+			  return true;
+		  }
+	  }
+	  return false;
   }
 /**
    * returns if there is a target detected by the limelight
    */
   public boolean hasTarget() {
+
+
 	if(targetId >0){
 		return true;
 	}
 	return false;
 	
     // return validTarget.getBoolean(false);
+  }
+
+  public boolean hasSpeakerTarget(){
+
+	  if((DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && targetId > SPEAKER_1_BLUE_ID ) ||
+			  ( DriverStation.getAlliance().get() == DriverStation.Alliance.Red && targetId > SPEAKER_1_RED_ID ))
+	  {
+		  return true;
+	  }
+
+	  return false;
   }
 
   public Pose3d getRobotPoseInTargetSpace() {
@@ -280,6 +297,8 @@ private AprilTag getAprilTag(Integer targetId) {
 		}
         SmartDashboard.putNumber("Distance to target", calculateTargetDistanceInInches());
 		SmartDashboard.putBoolean("Has Target", hasTarget());
+
+
 
 	}
 }

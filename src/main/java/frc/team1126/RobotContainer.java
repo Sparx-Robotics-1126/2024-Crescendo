@@ -9,22 +9,34 @@ import java.util.HashMap;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.team1126.Constants.SwerveConstants;
-// import frc.team1126.commands.climber.MoveClimber;
+import frc.team1126.commands.Shooter.ShootNote;
+import frc.team1126.commands.Shooter.SpinShooter;
+import frc.team1126.commands.Storage.EjectNote;
+import frc.team1126.commands.Storage.SpinStorage;
+import frc.team1126.commands.arm.ArmToGround;
+import frc.team1126.commands.arm.MoveArm;
+import frc.team1126.commands.arm.MoveArmToPosition;
+import frc.team1126.commands.climber.MoveClimber;
 // import frc.team1126.commands.climber.MoveHome;
 // import frc.team1126.commands.climber.MoveMax;
 // import frc.team1126.commands.rotoation.MoveArm;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
+import frc.team1126.subsystems.Shooter;
+import frc.team1126.subsystems.Storage;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.SwerveSubsystem;
+import frc.team1126.subsystems.CANdleSubsystem.AnimationTypes;
 //import frc.team1126.subsystems.SwerveSubsystem;
 import frc.team1126.subsystems.sensors.Limelight;
 
@@ -34,7 +46,7 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-  // public static final CANdleSubsystem m_candleSubsystem = new  CANdleSubsystem();
+  public static final CANdleSubsystem m_candleSubsystem = new  CANdleSubsystem();
 
   private static HashMap<String, Command> pathMap = new HashMap<>();
 
@@ -53,13 +65,17 @@ public class RobotContainer {
 
   public final Limelight m_limeLight = new Limelight();
 
-  // public final static Climber climber = new Climber();
+  public final static Climber climber = new Climber();
 
-  // public final static Rotation rotation = new Rotation();
+  public final static Arm arm = new Arm();
+
+  public final static Storage storage = new Storage();
+
+  public final static Shooter shooter = new Shooter();
 
   public RobotContainer() {
     configureDriverBindings();
-    configureOperatoreBindings();
+    configureOperatorBindings();
 
     Command driveFieldOrientedAnglularVelocity = swerve.driveCommand(
       () -> MathUtil.clamp(MathUtil.applyDeadband(-driver.getLeftY(), .1), -1,
@@ -75,9 +91,9 @@ public class RobotContainer {
     //                                                 () -> driver.getRawAxis(rotationAxis)*-1)); 
 
     // configureChooser();
-    // climber.setDefaultCommand(new MoveClimber(climber, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
+    climber.setDefaultCommand(new MoveClimber(climber, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
     
-    // rotation.setDefaultCommand(new MoveArm(rotation, () -> -operator.getRawAxis(XboxController.Axis.kLeftY.value)));
+    arm.setDefaultCommand(new MoveArm(arm, () -> operator.getRawAxis(XboxController.Axis.kRightY.value)));
     
     // climber.setDefaultCommand(climber.moveClimber(
     // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftY.value),
@@ -116,7 +132,24 @@ public class RobotContainer {
   // swerve.setTranslationalScalar(Constants.SwerveConstants.SWERVE_NORMAL_TRANSLATION)));
   }
 
-  private void configureOperatoreBindings() {
+  private void configureOperatorBindings() {
+    // operator.y().whileTrue(new MoveArmToPosition(arm, 85));
+    // operator.a().whileTrue(new ArmToGround(arm));
+    // operator.b().whileTrue(new MoveArmToPosition(arm, 30));
+    // operator.x().whileTrue(new MoveArmToPosition(arm, 55));
+//    operator.a().whileTrue(  new SequentialCommandGroup(
+//       new SpinStorage(storage),
+//      new MoveArmToPosition(arm, 40),
+//     new SpinShooter(shooter)));
+
+    
+    operator.rightTrigger().whileTrue(new ShootNote(shooter,storage));
+    operator.b().whileTrue(new EjectNote(storage));
+    
+    operator.a().whileTrue(new SpinStorage(storage)
+                .andThen(new MoveArmToPosition(arm, 40))
+                .andThen(new SpinShooter(shooter)));
+
     // operator.start().onTrue(new InstantCommand(()
     // ->m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.CONE)));
     // operator.back().onTrue(new InstantCommand(() ->
@@ -200,11 +233,19 @@ public class RobotContainer {
 
     if (DriverStation.getMatchTime() < SwerveConstants.EndGameSeconds
         && DriverStation.getMatchTime() > SwerveConstants.StopRumbleSeconds) {
-
+      m_candleSubsystem.changeAnimation(AnimationTypes.purpleStrobe);
       driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
       operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
 
     } else {
+          if ( DriverStation.getAlliance().get() == Alliance.Red && !storage.getHasNote()){
+      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+    }
+    else if ( DriverStation.getAlliance().get() == Alliance.Blue && !storage.getHasNote()) {
+      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+    } else {
+      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
+    }
       driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
       operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
 

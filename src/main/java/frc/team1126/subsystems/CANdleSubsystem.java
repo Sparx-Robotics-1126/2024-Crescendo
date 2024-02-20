@@ -39,7 +39,8 @@ public class CANdleSubsystem extends SubsystemBase {
         RedColorFlow,
         BlueColorFlow,
         YellowColorFlow,
-        PurpleColorFlow
+        PurpleColorFlow,
+        purpleStrobe
     }
     private AnimationTypes m_currentAnimation;
     public CANdleSubsystem() {
@@ -88,8 +89,8 @@ public class CANdleSubsystem extends SubsystemBase {
 
     public enum LEDState {
 
-        CUBE(CANdleConstants.PURPLE_R, CANdleConstants.PURPLE_G, CANdleConstants.PURPLE_B),
-        CONE(CANdleConstants.YELLOW_R, CANdleConstants.YELLOW_G, CANdleConstants.YELLOW_B),
+        PURPLE(CANdleConstants.PURPLE_R, CANdleConstants.PURPLE_G, CANdleConstants.PURPLE_B),
+        YELLOW(CANdleConstants.YELLOW_R, CANdleConstants.YELLOW_G, CANdleConstants.YELLOW_B),
         RED(CANdleConstants.RED_R, CANdleConstants.RED_G, CANdleConstants.RED_B),
 		BLU(CANdleConstants.BLUE_R, CANdleConstants.BLUE_G, CANdleConstants.BLUE_B),
         GREEN(CANdleConstants.GREEN_R, CANdleConstants.GREEN_G, CANdleConstants.GREEN_B);
@@ -157,6 +158,8 @@ public class CANdleSubsystem extends SubsystemBase {
                 break;
             case Empty:
                 break;
+            case purpleStrobe:
+            m_toAnimate = new StrobeAnimation(CANdleConstants.PURPLE_R,CANdleConstants.PURPLE_G, CANdleConstants.PURPLE_B, 0,  98.0 / 256.0, LedCount);
             default:
                 break;
         }

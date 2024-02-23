@@ -85,8 +85,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    var ll = Limelight.getInstance();
    
-    if(RobotContainer.m_storage.getHasNote()) {
+    if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
       
       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
     } else {
@@ -98,7 +99,7 @@ public class Robot extends TimedRobot {
       }
     }
 
-    var ll = Limelight.getInstance();
+  
 
     if (ll.hasSpeakerTarget()) {
 			if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {

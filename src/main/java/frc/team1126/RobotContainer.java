@@ -28,6 +28,7 @@ import frc.team1126.commands.Shooter.SpinShooterForAmp;
 import frc.team1126.commands.Storage.EjectNote;
 import frc.team1126.commands.Storage.SpinStorage;
 import frc.team1126.commands.arm.ArmToGround;
+import frc.team1126.commands.arm.DoNothingArm;
 import frc.team1126.commands.arm.HoldArmAtPosition;
 import frc.team1126.commands.arm.MoveArm;
 import frc.team1126.commands.arm.MoveArmForClimb;
@@ -167,6 +168,7 @@ public class RobotContainer {
 
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
     m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, driveAngle));
+    m_operator.povDown().onTrue(new DoNothingArm(m_arm));
 
     // close 25
     // mid 34.5

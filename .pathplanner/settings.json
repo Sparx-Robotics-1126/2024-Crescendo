@@ -3,9 +3,15 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "New Folder"
+    "Amp, Pickup, Speaker",
+    "Otherside",
+    "Speaker, Pickup, Amp"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Amp, Pickup, Speaker",
+    "Otherside",
+    "Speaker Pickup, Amp"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

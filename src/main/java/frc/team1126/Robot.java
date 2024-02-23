@@ -29,7 +29,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    // if(Limelight.getInstance().inRange() ) {
+
+
+
+
+    // if(!Limelight.getInstance().inSpeakerRange(75) && robotContainer.m_storage.getHasNote()) {
     //   m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
     // } 
   }
@@ -64,7 +68,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    RobotContainer.m_storage.setHasNote();
+  }
 
   @Override
   public void autonomousExit() {}
@@ -72,6 +78,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     if (autonomousCommand != null) autonomousCommand.cancel();
+    
     // robotContainer.swerve.zeroGyro();
     // RobotContainer.swerve.stopAllModules();
   }
@@ -79,7 +86,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
    
-    if(RobotContainer.storage.getHasNote()) {
+    if(RobotContainer.m_storage.getHasNote()) {
       
       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
     } else {
@@ -90,6 +97,18 @@ public class Robot extends TimedRobot {
         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
       }
     }
+
+    var ll = Limelight.getInstance();
+
+    if (ll.hasSpeakerTarget()) {
+			if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+			} else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			} else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			}
+		}
   }
 
   @Override

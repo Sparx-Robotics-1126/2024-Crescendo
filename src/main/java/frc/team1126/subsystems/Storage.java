@@ -12,24 +12,24 @@ import frc.team1126.Constants.StorageConstants;
 public class Storage extends SubsystemBase {
     
     //neo 550 to power both acquisition wheels and storage belts
-    private CANSparkMax storageWheels;
-    private RelativeEncoder storageEncoder;
-    private DigitalInput noteSensor;
-    private boolean hasNote;
+    private CANSparkMax m_storageWheels;
+    private RelativeEncoder m_storageEncoder;
+    private DigitalInput m_noteSensor;
+    private boolean m_hasNote;
 
     public Storage() {
 
-        storageWheels = new CANSparkMax(StorageConstants.ACQ_WHEELS_ID, CANSparkLowLevel.MotorType.kBrushless); // shouldn't need to specify that this is a neo 550 in code, but keep this in mind
-        storageEncoder = storageWheels.getEncoder();
+        m_storageWheels = new CANSparkMax(StorageConstants.ACQ_WHEELS_ID, CANSparkLowLevel.MotorType.kBrushless); // shouldn't need to specify that this is a neo 550 in code, but keep this in mind
+        m_storageEncoder = m_storageWheels.getEncoder();
         
-        noteSensor = new DigitalInput(StorageConstants.LIGHT_SENSOR);
-        hasNote = false;
+        m_noteSensor = new DigitalInput(StorageConstants.LIGHT_SENSOR);
+        m_hasNote = false;
     }
 
     @Override
     public void periodic() {
-        var lightSensorState = noteSensor.get();
-        SmartDashboard.putBoolean("Light Sensor Limit",  !noteSensor.get());
+        var lightSensorState = m_noteSensor.get();
+        SmartDashboard.putBoolean("Light Sensor Limit",  !m_noteSensor.get());
         SmartDashboard.putNumber("Storage Wheels Speed",getStorageWheelsSpeed());
     }
 
@@ -37,27 +37,27 @@ public class Storage extends SubsystemBase {
         // if (noteSensor.get()) {
         //     storageWheels.set(0);
         // } else {
-            storageWheels.set(speed);
+            m_storageWheels.set(speed);
         // }
     }
 
     public double getStorageWheelsSpeed() {
-        return storageWheels.get();
+        return m_storageWheels.get();
     }
 
     public boolean hasNote() {
-        return !noteSensor.get();
+        return !m_noteSensor.get();
     }
 
     public void setHasNote(){
-        hasNote = true;
+        m_hasNote = true;
     }
 
     public void resetNote(){
-        hasNote = false;
+        m_hasNote = false;
     }
 
     public boolean getHasNote() {
-        return hasNote;
+        return m_hasNote;
     }
 }

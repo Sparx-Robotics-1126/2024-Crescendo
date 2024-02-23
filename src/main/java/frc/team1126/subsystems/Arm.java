@@ -2,6 +2,7 @@ package frc.team1126.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
@@ -18,40 +19,66 @@ import frc.team1126.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
 
-    private CANSparkMax armLeftMotor;
-    private CANSparkMax armRightMotor;
+    private CANSparkMax m_armLeftMotor;
+    private CANSparkMax m_armRightMotor;
 
-    private RelativeEncoder armLeftEncoder;
-    private RelativeEncoder armRightEncoder;
+    private RelativeEncoder m_armLeftEncoder;
+    private RelativeEncoder m_armRightEncoder;
 
-    private Pigeon2 armPigeon;
-    private DigitalInput homeLimit;
-    private final SparkPIDController sparkPIDController;
-    private final PIDController pidController = new PIDController(0.05, 0.0, 0.0);
-    private double targetAngle;
-    
+    private Pigeon2 m_armPigeon;
+    public DigitalInput m_homeLimit;
+    private final SparkPIDController m_sparkPIDController;
+    private final PIDController m_pidController = new PIDController(0.028, 0.028, 0.003); 
+    //0.03, 0.0, 0.00 // 0.028, 0.028, 0.0022
+    private double m_targetAngle;
+    private double m_pidOutput;
 
-    private double power = 0;
+    private double m_power = 0;
 
     public Arm() {
-        armLeftMotor = new CANSparkMax(ArmConstants.MASTER_ID, CANSparkLowLevel.MotorType.kBrushless);
-        armRightMotor = new CANSparkMax(ArmConstants.SLAVE_ID, CANSparkLowLevel.MotorType.kBrushless);
-        armPigeon = new Pigeon2(ArmConstants.ARM_PIGEON_ID);
-        homeLimit = new DigitalInput(ArmConstants.ARM_LIMIT_SWITCH_ID);
+        m_armLeftMotor = new CANSparkMax(ArmConstants.MASTER_ID, CANSparkLowLevel.MotorType.kBrushless);
+        m_armRightMotor = new CANSparkMax(ArmConstants.SLAVE_ID, CANSparkLowLevel.MotorType.kBrushless);
+        m_armPigeon = new Pigeon2(ArmConstants.ARM_PIGEON_ID);
+        initPigeon();
+        m_homeLimit = new DigitalInput(ArmConstants.ARM_LIMIT_SWITCH_ID);
 
-        armLeftMotor.restoreFactoryDefaults();
-        armRightMotor.restoreFactoryDefaults();
-        armLeftMotor.follow(armRightMotor);
-        armLeftMotor.setInverted(false);
-        armLeftMotor.setIdleMode(IdleMode.kBrake);
-        armRightMotor.setIdleMode(IdleMode.kBrake);
+        m_armLeftMotor.restoreFactoryDefaults();
+        m_armRightMotor.restoreFactoryDefaults();
+        // m_armLeftMotor.follow(m_armRightMotor);
+        m_armRightMotor.setInverted(false);
+        m_armLeftMotor.setInverted(true);
+        m_armLeftMotor.setIdleMode(IdleMode.kBrake);
+        m_armRightMotor.setIdleMode(IdleMode.kBrake);
 
-        armLeftEncoder = armLeftMotor.getEncoder();
-        armRightEncoder = armRightMotor.getEncoder();
-        sparkPIDController = armRightMotor.getPIDController();
-        sparkPIDController.setFeedbackDevice(armRightEncoder);
+        m_armLeftEncoder = m_armLeftMotor.getEncoder();
+        m_armRightEncoder = m_armRightMotor.getEncoder();
+        m_sparkPIDController = m_armRightMotor.getPIDController();
+        m_sparkPIDController.setFeedbackDevice(m_armRightEncoder);
         set(PIDF.PROPORTION, PIDF.INTEGRAL, PIDF.DERIVATIVE,
                 PIDF.FEEDFORWARD, PIDF.INTEGRAL_ZONE);
+
+               
+    }
+
+    private void initPigeon() {
+        // Factory default the Pigeon.
+        var toApply = new Pigeon2Configuration();
+        // var mountPose = toApply.MountPose;
+        toApply.MountPose.MountPosePitch = 0;
+        // toApply.MountPose.MountPoseRoll = 0;
+        // toApply.MountPose.MountPoseYaw = -90;
+        /*
+         * User can change the configs if they want, or leave it empty for
+         * factory-default
+         */
+
+         m_armPigeon.getConfigurator().apply(toApply);
+
+        m_armPigeon.getPitch().setUpdateFrequency(1000);
+        m_armPigeon.setYaw(0, .1);
+
+        m_armPigeon.getYaw().setUpdateFrequency(100);
+        m_armPigeon.getYaw().waitForUpdate(.1);
     }
 
     public static class PIDF {
@@ -79,27 +106,70 @@ public class Arm extends SubsystemBase {
     }
 
     public void set(double p, double i, double d, double f, double iz) {
-        sparkPIDController.setP(p);
-        sparkPIDController.setI(i);
-        sparkPIDController.setD(d);
-        sparkPIDController.setFF(f);
-        sparkPIDController.setIZone(iz);
+        m_sparkPIDController.setP(p);
+        m_sparkPIDController.setI(i);
+        m_sparkPIDController.setD(d);
+        m_sparkPIDController.setFF(f);
+        m_sparkPIDController.setIZone(iz);
     }
 
     public void runPID(double targetPosition) {
-        sparkPIDController.setReference(targetPosition, CANSparkMax.ControlType.kPosition);
+        m_sparkPIDController.setReference(targetPosition, CANSparkMax.ControlType.kPosition);
     }
     public void runPigeonPID(double targetAngle) {
         double currentAngle = getPitch();
-        double error = targetAngle - currentAngle;
-        double pidOutput = pidController.calculate(error);
-        double feedForward = PIDF.FEEDFORWARD * targetAngle; // calculate feedforward term
-        double totalOutput = pidOutput + feedForward; // add feedforward to PID output
-        armRightMotor.set(totalOutput);
+        if (currentAngle <0){
+            currentAngle = 0;
+        }
+        double error =  currentAngle -targetAngle;
+        m_targetAngle = error;
+        double pidOutput = m_pidController.calculate(error);
+        // double feedForward = PIDF.FEEDFORWARD * targetAngle; // calculate feedforward term
+        double totalOutput = pidOutput + .094762*Math.cos(m_armPigeon.getPitch().getValueAsDouble()); //+ feedForward; // add feedforward to PID output
+
+        m_pidOutput = totalOutput;
+        m_armRightMotor.set(totalOutput);
+        m_armLeftMotor.set(totalOutput);
+    }
+
+    public void runAmpPID(double targetAngle) {
+        double currentAngle = getPitch();
+        if (currentAngle <0){
+            currentAngle = 0;
+        }
+
+        try (PIDController pidController = new PIDController(0.01, 0.0, 0.000)) {
+            double error =  currentAngle -targetAngle;
+            m_targetAngle = error;
+            double pidOutput = pidController.calculate(error);
+            // double feedForward = PIDF.FEEDFORWARD * targetAngle; // calculate feedforward term
+            double totalOutput = pidOutput + .094762*Math.cos(m_armPigeon.getPitch().getValueAsDouble()); //+ feedForward; // add feedforward to PID output
+
+            m_pidOutput = totalOutput;
+            m_armRightMotor.set(totalOutput);
+            m_armLeftMotor.set(totalOutput);
+        }
+    }
+    public void runClimbPID(double targetAngle) {
+
+        try (PIDController pidController = new PIDController(0.015, 0.0, 0.000)) {
+            double currentAngle = getPitch();
+            if (currentAngle <0){
+                currentAngle = 0;
+            }
+            double error =  currentAngle -targetAngle;
+            m_targetAngle = error;
+            double pidOutput = pidController.calculate(error);
+            double totalOutput = pidOutput ;
+
+            m_pidOutput = totalOutput;
+            m_armRightMotor.set(totalOutput);
+            m_armLeftMotor.set(totalOutput);
+        }
     }
 
     public double getAngle() {
-        return armRightEncoder.getPosition() * 360;
+        return m_armRightEncoder.getPosition() * 360;
     }
     public Command setAngleCommand(double angle) {
         return this.run(() -> runPigeonPID(angle));
@@ -108,18 +178,21 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
-        SmartDashboard.putNumber("arm Pitch", armPigeon.getPitch().getValue());
-        SmartDashboard.putNumber("Arm Power", power);
-        SmartDashboard.putNumber("Arm Left", armLeftMotor.get());
-        SmartDashboard.putNumber("Arm Right", armRightMotor.get());
-        SmartDashboard.putNumber("Arm Angle",getAngle());
-        SmartDashboard.putNumber("Arm left speed", armLeftEncoder.getVelocity());
-        SmartDashboard.putNumber("Arm right speed", armRightEncoder.getVelocity());
-        SmartDashboard.putBoolean("Home Limit", getHomeLimit());
+        SmartDashboard.putNumber("arm Pitch", getPitch());
+        SmartDashboard.putNumber("Arm Power", m_power);
+        SmartDashboard.putNumber("Arm Left", m_armLeftMotor.get());
+        SmartDashboard.putNumber("Arm Right", m_armRightMotor.get());
+        // SmartDashboard.putNumber("Arm Angle",getAngle());
+        // SmartDashboard.putNumber("Target Angle", m_targetAngle);
+        SmartDashboard.putNumber("Arm left speed", m_armLeftEncoder.getVelocity());
+        SmartDashboard.putNumber("Arm right speed", m_armRightEncoder.getVelocity());
+        SmartDashboard.putBoolean("Home Limit", m_homeLimit.get()); // getHomeLimit());\
+        SmartDashboard.putNumber("PID Output", m_pidOutput);
     }
 
     public void changeAngle(double liftPower) {
-        armRightMotor.set(liftPower);
+        m_armRightMotor.set(liftPower);
+        m_armLeftMotor.set(liftPower);
     }
 
     public Command runManual(DoubleSupplier supplier) {
@@ -130,23 +203,23 @@ public class Arm extends SubsystemBase {
     }
 
     public void moveArm(double power) {
-        this.power = -power;
-        armLeftMotor.set(power);
-        armRightMotor.set(power);
+        m_power = power;
+        m_armLeftMotor.set(m_power);
+        m_armRightMotor.set(m_power);
     }
 
     public double getPitch() {
-        return armPigeon.getPitch().getValue();
+        return m_armPigeon.getRoll().getValue();
     }
     public void zeroPigeon() {
-        armPigeon.reset();
+        m_armPigeon.reset();
     }
 
     public boolean getHomeLimit() {
-        return !homeLimit.get();
+        return m_homeLimit.get();
     }
     public Command setAngle(double degrees) {
-        targetAngle = degrees;
+        m_targetAngle = degrees;
         return run(() -> {
             runPID(degrees);
         });

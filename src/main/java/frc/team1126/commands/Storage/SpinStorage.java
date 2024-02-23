@@ -6,45 +6,45 @@ import frc.team1126.subsystems.Storage;
 
 public class SpinStorage extends Command {
 
-    private Storage storage;
-    private boolean sawNote=false;
+    private Storage m_storage;
+    private boolean m_sawNote = false;
 
 
     public SpinStorage(Storage storage) {
-        addRequirements(RobotContainer.storage);
-        this.storage = storage;
+        addRequirements(RobotContainer.m_storage);
+        m_storage = storage;
     }
 
     @Override
     public void execute() {
-        sawNote = storage.hasNote();
+        m_sawNote = m_storage.hasNote();
 
-if (sawNote)
+if (m_sawNote)
 {
-    storage.setStorageWheels(0);
+    m_storage.setStorageWheels(0);
 }
 
-        if (storage.hasNote()) {
-            while (storage.hasNote()) {
-                storage.setStorageWheels(.3);
+        if (m_storage.hasNote()) {
+            while (m_storage.hasNote()) {
+                m_storage.setStorageWheels(.2);
             }
-            sawNote = true;
-            storage.setStorageWheels(0);
-            storage.setHasNote();
+            m_sawNote = true;
+            m_storage.setStorageWheels(0);
+            m_storage.setHasNote();
         }
         else{
-            storage.setStorageWheels(5);
+            m_storage.setStorageWheels(5);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        storage.setStorageWheels(0.0);
+        m_storage.setStorageWheels(0.0);
     }
 
     @Override
     public boolean isFinished() {
-        if (sawNote) {
+        if (m_sawNote) {
             return true;
         }
         return false;

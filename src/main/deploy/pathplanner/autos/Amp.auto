@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.72,
+      "y": 7.12
+    },
+    "rotation": 82.87
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "EjectNote"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Speaker Pickup, Amp",
+  "choreoAuto": false
+}

@@ -11,43 +11,43 @@ import static  frc.team1126.Constants.ClimberConstants.*;
 
 public class MoveClimber extends Command {
 
-  private final DoubleSupplier power;
+  private final DoubleSupplier m_power;
   // private final DoubleSupplier rightPower;
-  private final Climber climber;
+  private final Climber m_climber;
 
   public MoveClimber(Climber climber, DoubleSupplier power) {
-    addRequirements(RobotContainer.climber);
-    this.climber = climber;
-    this.power = power;
+    addRequirements(RobotContainer.m_climber);
+    m_climber = climber;
+    m_power = power;
   }
 
   @Override
   public void execute() {
-    double speed = MathUtil.applyDeadband(power.getAsDouble(), .1);
+    double speed = MathUtil.applyDeadband(m_power.getAsDouble(), .1);
 
     // System.out.println("in here " + climber.isLeftHome());
-    var actualLeftDistance = climber.getLeftPosition();
+    var actualLeftDistance = m_climber.getLeftPosition();
     if (actualLeftDistance > MAX_HEIGHT && speed > 0) {
-      climber.setLeftPower(0);
-    } else if (!climber.isLeftHome() && speed < 0) {
-      climber.setLeftPower(0);
+      m_climber.setLeftPower(0);
+    } else if (!m_climber.isLeftHome() && speed < 0) {
+      m_climber.setLeftPower(0);
     } else {
-      climber.setLeftPower(speed);
+      m_climber.setLeftPower(speed);
     }
 
-    var actualRightDistance = climber.getRightPosition();
+    var actualRightDistance = m_climber.getRightPosition();
     if (actualRightDistance >  MAX_HEIGHT && speed > 0) {
-      climber.setRightPower(0);
-    } else if (!climber.isRightHome() && speed < 0) {
-      climber.setRightPower(0);
+      m_climber.setRightPower(0);
+    } else if (!m_climber.isRightHome() && speed < 0) {
+      m_climber.setRightPower(0);
     } else {
-      climber.setRightPower(speed);
+      m_climber.setRightPower(speed);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    climber.setLeftPower(0);
+    m_climber.setLeftPower(0);
   }
 
   @Override

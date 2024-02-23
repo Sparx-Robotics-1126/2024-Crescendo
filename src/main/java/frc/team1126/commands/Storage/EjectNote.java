@@ -6,28 +6,28 @@ import frc.team1126.subsystems.Storage;
 
 public class EjectNote extends Command {
 
-    private Storage storage;
-    private double speed;
+    private Storage m_storage;
+    private double m_speed;
     
     public EjectNote(Storage storage) {
-        addRequirements(RobotContainer.storage);
-        this.storage = storage;
-        this.speed = -1;
+        addRequirements(RobotContainer.m_storage);
+        m_storage = storage;
+        m_speed = -1;
 
     }
 
     @Override
     public void execute(){
  
-    storage.setHasNote();
+        m_storage.setHasNote();
 
 
-        this.storage.setStorageWheels(speed);
+        m_storage.setStorageWheels(m_speed);
     }
 
        @Override
    public void end(boolean interrupted) {
-       storage.setStorageWheels(0.0);
+        m_storage.setStorageWheels(0.0);
    }
 
    

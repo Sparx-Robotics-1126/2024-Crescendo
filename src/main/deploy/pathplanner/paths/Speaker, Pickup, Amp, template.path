@@ -1,0 +1,158 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.720442224426489,
+        "y": 5.433702459533721
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.5608832337271612,
+        "y": 5.437531499653093
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.4987833875488867,
+        "y": 5.624616329733554
+      },
+      "prevControl": {
+        "x": 2.5789996991914155,
+        "y": 5.479505036489972
+      },
+      "nextControl": {
+        "x": 2.405974149531378,
+        "y": 5.7925082245103745
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.720442224426489,
+        "y": 7.123692518019931
+      },
+      "prevControl": {
+        "x": 1.6764131264245357,
+        "y": 6.771459734004299
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot in Speaker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "parallel",
+              "data": {
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "MoveArmToPosition"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "SpinSchooter"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ShootNote"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pick Note Up, and go to Position",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "parallel",
+              "data": {
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "ArmToGround"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "SpinStorage"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "MoveArmToPosition"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Amp Score",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "EjectNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Speaker, Pickup, Amp",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

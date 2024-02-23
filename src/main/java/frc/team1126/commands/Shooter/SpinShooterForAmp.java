@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.team1126.RobotContainer;
 import frc.team1126.subsystems.Shooter;
 
-public class SpinShooter extends Command {
+public class SpinShooterForAmp extends Command {
     
 
     private Shooter m_shooter;
 
-    public SpinShooter(Shooter shooter) {
+    public SpinShooterForAmp(Shooter shooter) {
 
         addRequirements(RobotContainer.m_shooter);
         m_shooter = shooter;
@@ -18,7 +18,7 @@ public class SpinShooter extends Command {
 
     @Override
     public void execute(){
-        m_shooter.setShooterSpeed(.6);
+        m_shooter.setShooterSpeed(.3);
     }
 
        @Override

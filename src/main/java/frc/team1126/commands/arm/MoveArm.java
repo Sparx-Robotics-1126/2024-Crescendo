@@ -8,27 +8,32 @@ import frc.team1126.RobotContainer;
 import frc.team1126.subsystems.Arm;
 
 public class MoveArm extends Command {
-    private final DoubleSupplier power;
-    private final Arm rotation;
+    private final DoubleSupplier m_power;
+    private final Arm m_arm;
 
-    public MoveArm(Arm rotation, DoubleSupplier power) {
-        addRequirements(RobotContainer.arm);
-        this.rotation = rotation;
-        this.power = power;
+    public MoveArm(Arm arm, DoubleSupplier power) {
+        addRequirements(RobotContainer.m_arm);
+        m_arm = arm;
+        m_power = power;
     }
 
     @Override
     public void execute(){
-        while(!rotation.getHomeLimit()) {
-            double speed = MathUtil.applyDeadband(power.getAsDouble(), .1);
+        double speed = MathUtil.applyDeadband(m_power.getAsDouble(), .1);
 
-            rotation.moveArm(speed);
+        if (m_power.getAsDouble()> 0 && m_arm.getPitch() < 90 ){
+            m_arm.moveArm(speed);
+        }
+        else if (m_power.getAsDouble() < 0 && !m_arm.m_homeLimit.get()) {
+            m_arm.moveArm(speed);
+        } else {
+            m_arm.moveArm(0);
         }
     }
 
     @Override
     public void end(boolean interupted){
-        rotation.moveArm(0);
+        m_arm.moveArm(0);
     }
 
     @Override

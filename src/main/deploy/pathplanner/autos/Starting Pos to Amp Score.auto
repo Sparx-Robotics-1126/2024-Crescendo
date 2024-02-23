@@ -1,0 +1,44 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.8966704123032583,
+      "y": 6.740728186286426
+    },
+    "rotation": -90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Starting Pos to Amp Score"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveArmToPosition"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EjectNote"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Amp, Pickup, Speaker",
+  "choreoAuto": false
+}

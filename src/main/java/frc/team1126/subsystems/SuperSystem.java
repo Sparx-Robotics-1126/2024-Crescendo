@@ -6,13 +6,13 @@ import frc.team1126.subsystems.sensors.Limelight;
 
 public class SuperSystem extends SubsystemBase{
 
-    private SwerveSubsystem swerve;
-    private Climber climber;
-    private Limelight limelight;
-    private Arm arm;
-     private CANdleSubsystem candle;
-     private Shooter shooter;
-     private Storage storage;
+    private SwerveSubsystem m_swerve;
+    private Climber m_climber;
+    private Limelight m_limelight;
+    private Arm m_arm;
+    private CANdleSubsystem m_candle;
+    private Shooter m_shooter;
+    private Storage m_storage;
 
 
     public SuperSystem(SwerveSubsystem swerve, Climber climber,
@@ -20,27 +20,27 @@ public class SuperSystem extends SubsystemBase{
                        CANdleSubsystem candle, Shooter shooter,
                        Storage storage) {
 
-        this.swerve = swerve;
-        this.climber = climber;
-        this.limelight = limelight;
-        this.arm = arm;
-        this.candle = candle;
-        this.shooter = shooter;
-        this.storage = storage;
+        m_swerve = swerve;
+        m_climber = climber;
+        m_limelight = limelight;
+        m_arm = arm;
+        m_candle = candle;
+        m_shooter = shooter;
+        m_storage = storage;
     }
 
     @Override
     public void periodic() {
 
-        if (storage.hasNote()) {
-            if (limelight.inSpeakerRange(204) || limelight.inSpeakerRange(105)) {
+        if (m_storage.hasNote()) {
+            if (m_limelight.inSpeakerRange(204) || m_limelight.inSpeakerRange(105)) {
                 SmartDashboard.putBoolean("In Range", true);
-                if (limelight.inSpeakerRange(204)) {
-                    candle.setLEDState(CANdleSubsystem.LEDState.BLU);
-                } else if (limelight.inSpeakerRange(105)) {
-                    candle.setLEDState(CANdleSubsystem.LEDState.GREEN);
+                if (m_limelight.inSpeakerRange(204)) {
+                    m_candle.setLEDState(CANdleSubsystem.LEDState.BLU);
+                } else if (m_limelight.inSpeakerRange(105)) {
+                    m_candle.setLEDState(CANdleSubsystem.LEDState.GREEN);
                 } else {
-                    candle.setLEDState(CANdleSubsystem.LEDState.YELLOW);
+                    m_candle.setLEDState(CANdleSubsystem.LEDState.YELLOW);
                 }
             } else {
                 SmartDashboard.putBoolean("In Range", false);

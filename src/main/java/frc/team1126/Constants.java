@@ -35,9 +35,9 @@ public final class Constants {
     public static final class Auton
     {
 
-        public static final PIDFConfig xAutoPID     = new PIDFConfig(0.7, 0, 0);
-        public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
-        public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
+        public static final PIDFConfig X_AUTO_PID     = new PIDFConfig(0.7, 0, 0);
+        public static final PIDFConfig Y_AUTO_PID     = new PIDFConfig(0.7, 0, 0);
+        public static final PIDFConfig ANGLE_AUTO_PID = new PIDFConfig(0.4, 0, 0.01);
 
         public static final double MAX_SPEED        = 2;
         public static final double MAX_ACCELERATION = 2;
@@ -181,7 +181,7 @@ public final class Constants {
 
     public static class CANdleConstants {
         /* CANdle ID */
-        public static final int CANdleID = 3;
+        public static final int CANDLE_ID = 15;
 
         /* Purple RGB */
         public static final int PURPLE_R = 255;
@@ -214,24 +214,24 @@ public final class Constants {
         public static final boolean USE_FOR_TARGETING = true;
         public static final boolean LED_ON_DEFAULT = false;
         public static final double CAMERA_MIN_FLOOR_HEIGHT = 8.628;
-        public static final double CAMERA_INITIAL_PITCH = 28;
+        public static final double CAMERA_INITIAL_PITCH = 33.5;
         // declare ID's of pipelines here
-        public static final int kCubePipeline = 0;
-        public static final int kReflectivePipeline = 1;
-        public static final int kApriltagPipeline = 4;
+        public static final int K_CUBE_PIPELINE = 0;
+        public static final int K_REFLECTIVE_PIPELINE = 1;
+        public static final int K_APRILTAG_PIPELINE = 4;
 
         // PID values for limelight
-        public static final PIDGains kLLTargetGains = new PIDGains(0.008, 0, 0);
+        public static final PIDGains K_LL_TARGET_GAINS = new PIDGains(0.008, 0, 0);
 
-        public static final PIDGains kLLPuppyTurnGains = new PIDGains(0.02, 0, 0); // .008
-        public static final PIDGains kLLPuppyDriveGains = new PIDGains(0.008, 0, 0);
-        public static final double kPuppyTurnMotionSmoothing = 0.3;
-        public static final double kPuppyDriveMotionSmoothing = 0.4;
+        public static final PIDGains K_LL_PUPPY_GAINS = new PIDGains(0.02, 0, 0); // .008
+        public static final PIDGains K_LL_PUPPY_DRIVE_GAINS = new PIDGains(0.008, 0, 0);
+        public static final double K_PUPPY_TURN_MOTION_SMOOTHING = 0.3;
+        public static final double K_PUPPY_DRIVE_MOTION_SMOOTHING = 0.4;
 
-        public static final PIDGains kLLAlignStrafeGains = new PIDGains(.04, 0.0015, 0.001);
-        public static final PIDGains kLLAlignDriveGains = new PIDGains(.025, 0.0015, 0.0005);
-        public static final double kAlignDriveMotionSmoothing = 0;
-        public static final double kAlignStrafeMotionSmoothing = 0;
+        public static final PIDGains K_LL_ALIGN_STRAFE_GAINS = new PIDGains(.04, 0.0015, 0.001);
+        public static final PIDGains K_LL_ALIGN_DRIVE_GAINS = new PIDGains(.025, 0.0015, 0.0005);
+        public static final double K_ALIGN_DRIVE_MOTION_SMOOTHING = 0;
+        public static final double K_ALIGN_STRAFE_MOTION_SMOOTHING = 0;
 
         public static final double SPEAKER_HEIGHT = 78.0; // height needs to be changed
         public static final double AMP_HEIGHT = 26.0;
@@ -328,16 +328,16 @@ public final class Constants {
         public static final boolean CHASSIS_VELOCITY_CORRECTION = false;
 
         //for endgame rumble feature
-        public static final int EndGameSeconds = 30;
-        public static final int StopRumbleSeconds = 28;
+        public static final int ENDGAME_SECONDS = 30;
+        public static final int STOP_RUMBLE_SECONDS = 28;
     }
 
     public static class ClimberConstants {
         
-        public static final double kGearRatio = 10.71;// 10.75; // 8.45;// 10.71;
-        public static final double kWheelDiameterInches = 6;
-        public static final double kWheelDiameterMeters = Units.inchesToMeters(kWheelDiameterInches);
-        public static final double kEncoderDistanceConversionFactor = ((Math.PI * kWheelDiameterMeters) / (kGearRatio));
+        public static final double K_GEAR_RATIO = 10.71;// 10.75; // 8.45;// 10.71;
+        public static final double K_WHEEL_DIAMETER_INCHES = 6;
+        public static final double K_WHEEL_DIAMETER_METERS = Units.inchesToMeters(K_WHEEL_DIAMETER_INCHES);
+        public static final double kEncoderDistanceConversionFactor = ((Math.PI * K_WHEEL_DIAMETER_METERS) / (K_GEAR_RATIO));
 
         public static final int MOTOR_LEFT_ID = 20;
         public static final int MOTOR_RIGHT_ID = 21;
@@ -355,7 +355,6 @@ public final class Constants {
 
     public static class ShooterConstants {
         public static final int SHOOTER_ID = 26;
-        public static final double SHOOTER_SPEED = 999999999999999999.0;
     }
 
     public static class ArmConstants {

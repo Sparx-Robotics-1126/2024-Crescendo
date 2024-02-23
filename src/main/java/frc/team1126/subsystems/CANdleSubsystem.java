@@ -13,7 +13,7 @@ import frc.team1126.Constants.CANdleConstants;
 import static edu.wpi.first.wpilibj.DriverStation.Alliance.*;
 
 public class CANdleSubsystem extends SubsystemBase {
-    private final CANdle m_candle = new CANdle(CANdleConstants.CANdleID);
+    private final CANdle m_candle = new CANdle(CANdleConstants.CANDLE_ID);
     private final int LedCount = 300;
     public LEDState ledstate;
     private Animation m_toAnimate = null;

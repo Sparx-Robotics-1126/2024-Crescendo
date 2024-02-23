@@ -8,17 +8,16 @@ import frc.team1126.RobotContainer;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.sensors.Limelight;
 
-public class MoveArmToPosition extends Command {
+public class MoveArmToAmp extends Command {
     private double m_targetAngle;
     private final Arm m_arm;
-    private final Limelight m_Limelight;
+    private final Limelight m_Limelight = Limelight.getInstance();
 
-    public MoveArmToPosition(Arm arm, Limelight limelight, double targetAngle) { // -3
+    public MoveArmToAmp(Arm arm) { // -3
         addRequirements(RobotContainer.m_arm, RobotContainer.m_limeLight);
         m_arm = arm;
 
-        m_Limelight = limelight;
-        m_targetAngle = targetAngle;
+        m_targetAngle = 53;
     }
 
     @Override
@@ -29,9 +28,9 @@ public class MoveArmToPosition extends Command {
         // double target = m_targetAngle;
         SmartDashboard.putNumber("Target Angle", m_targetAngle);
         if (currentPitch < m_targetAngle && m_arm.getPitch() < 85) {
-            m_arm.runPigeonPID(m_targetAngle); // positive power to move up
+            m_arm.runAmpPID(m_targetAngle); // positive power to move up
         } else if (currentPitch > m_targetAngle && !m_arm.m_homeLimit.get()) {
-            m_arm.runPigeonPID(m_targetAngle); // negative power to move down
+            m_arm.runAmpPID(m_targetAngle); // negative power to move down
         }
     }
 

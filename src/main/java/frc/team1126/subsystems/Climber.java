@@ -14,40 +14,40 @@ import frc.team1126.Constants.ShooterConstants;
 
 public class Climber extends SubsystemBase {
 
-    private CANSparkMax motorLeft;
-    private CANSparkMax motorRight;
+    private CANSparkMax m_motorLeft;
+    private CANSparkMax m_motorRight;
 
     private RelativeEncoder m_leftEncoder;
     private RelativeEncoder m_rightEncoder;
 
     // private SwerveIMU imu;
 
-    private DigitalInput leftHome;
-    private DigitalInput rightHome;
+    private DigitalInput m_leftHome;
+    private DigitalInput m_rightHome;
 
-    private double leftPower = 0.0;
-    private double rightPower = 0.0;
+    private double m_leftPower = 0.0;
+    private double m_rightPower = 0.0;
 
     public Climber() {
 
-        leftHome = new DigitalInput(LEFT_DIGITAL_INPUT);
-        rightHome = new DigitalInput(RIGHT_DIGITAL_INPUT);
+        m_leftHome = new DigitalInput(LEFT_DIGITAL_INPUT);
+        m_rightHome = new DigitalInput(RIGHT_DIGITAL_INPUT);
 
         // imu= swerveSubsystem.getSwerveIMU();
-        motorLeft = new CANSparkMax(MOTOR_LEFT_ID, CANSparkLowLevel.MotorType.kBrushless);
-        motorRight = new CANSparkMax(MOTOR_RIGHT_ID, CANSparkLowLevel.MotorType.kBrushless);
+        m_motorLeft = new CANSparkMax(MOTOR_LEFT_ID, CANSparkLowLevel.MotorType.kBrushless);
+        m_motorRight = new CANSparkMax(MOTOR_RIGHT_ID, CANSparkLowLevel.MotorType.kBrushless);
 
-        motorLeft.setInverted(true);
-        motorRight.setInverted(true);
-        m_leftEncoder = motorLeft.getEncoder();
-        m_rightEncoder = motorRight.getEncoder();
+        m_motorLeft.setInverted(true);
+        m_motorRight.setInverted(true);
+        m_leftEncoder = m_motorLeft.getEncoder();
+        m_rightEncoder = m_motorRight.getEncoder();
 
         m_rightEncoder.setPositionConversionFactor(kEncoderDistanceConversionFactor);
         m_leftEncoder.setPositionConversionFactor(kEncoderDistanceConversionFactor);
         m_leftEncoder
-                .setVelocityConversionFactor(Math.PI * kWheelDiameterMeters / kGearRatio / 60.0);
+                .setVelocityConversionFactor(Math.PI * K_WHEEL_DIAMETER_METERS / K_GEAR_RATIO / 60.0);
         m_rightEncoder
-                .setVelocityConversionFactor(Math.PI * kWheelDiameterMeters / kGearRatio / 60.0);
+                .setVelocityConversionFactor(Math.PI * K_WHEEL_DIAMETER_METERS / K_GEAR_RATIO / 60.0);
 
         m_leftEncoder.setPosition(0);
         m_rightEncoder.setPosition(0);
@@ -61,14 +61,13 @@ public class Climber extends SubsystemBase {
         double averageHeight = (leftHeight + rightHeight) / 2.0;
 
         SmartDashboard.putNumber("Climber Height", averageHeight);
-        // SmartDashboard.putNumber("Roll", imu.getRoll());
 
         SmartDashboard.putNumber("Left height", m_leftEncoder.getPosition());
         SmartDashboard.putNumber("Right height", m_rightEncoder.getPosition());
-        SmartDashboard.putBoolean("Left Sensor", !leftHome.get());
-        SmartDashboard.putBoolean("Right Sensor", !rightHome.get());
-        SmartDashboard.putNumber("Left Power", leftPower);
-        SmartDashboard.putNumber("Right Power", rightPower);
+        SmartDashboard.putBoolean("Left Sensor", !m_leftHome.get());
+        SmartDashboard.putBoolean("Right Sensor", !m_rightHome.get());
+        SmartDashboard.putNumber("Left Power", m_leftPower);
+        SmartDashboard.putNumber("Right Power", m_rightPower);
     }
 
     public Command moveLeftClimber(double leftY) {
@@ -79,37 +78,15 @@ public class Climber extends SubsystemBase {
         return this.run(() -> setLeftPower(rightY));
     }
 
-    // public Command moveClimberWithIMU(double leftY, double rightY) {
-
-    // return this.run(() -> moveMotorsWithIMU(leftY,rightY));
-    // }
-
     public void setLeftPower(double leftY) {
-        leftPower = leftY;
-        motorLeft.set(leftY);
+        m_leftPower = leftY;
+        m_motorLeft.set(leftY);
     }
 
     public void setRightPower(double rightY) {
-        rightPower = rightY;
-        motorRight.set(rightY);
+        m_rightPower = rightY;
+        m_motorRight.set(rightY);
     }
-
-    // public void moveMotorsWithIMU(double leftY, double rightY) {
-    // double roll = imu.getRoll();
-
-    // if (roll != 0) {
-    // // If the roll is not 0, adjust the power of the motors to correct the roll.
-    // // This is a simple example and might need to be adjusted based on your
-    // specific requirements.
-    // double adjustment = roll * 0.01; // You might need to adjust this factor
-
-    // leftY -= adjustment;
-    // rightY += adjustment;
-    // }
-
-    // // Move the motors
-    // setPower(leftY, rightY);
-    // }
 
     public double getLeftPosition() {
         return m_leftEncoder.getPosition();
@@ -120,17 +97,28 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean isLeftHome() {
-        if (!leftHome.get()){
-            m_leftEncoder.setPosition(0.0);
-        }
-        return leftHome.get();
+        // if (!m_leftHome.get()){
+        //     m_leftEncoder.setPosition(0.0);
+        //     m_motorLeft.set(0);
+        // }
+        return m_leftHome.get();
     }
 
     public boolean isRightHome() {
-        if(!rightHome.get()) {
-            m_rightEncoder.setPosition(0.0);
-        }
-        return rightHome.get();
+        // if(!m_rightHome.get()) {
+        //     m_rightEncoder.setPosition(0.0);
+        //     m_motorRight.set(0);
+        // }
+        return m_rightHome.get();
     }
+
+    public void zeroLeft() {
+        m_leftEncoder.setPosition(0);
+    }
+
+    public void zeroRight() {
+        m_rightEncoder.setPosition(0);
+    }
+
 
 }

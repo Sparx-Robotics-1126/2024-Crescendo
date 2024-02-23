@@ -2,36 +2,33 @@ package frc.team1126.commands.arm;
 
 import java.util.function.DoubleSupplier;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team1126.RobotContainer;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.sensors.Limelight;
 
-public class MoveArmToPosition extends Command {
-    private double m_targetAngle;
+public class MoveArmWithLimelight extends Command {
     private final Arm m_arm;
     private final Limelight m_Limelight;
 
-    public MoveArmToPosition(Arm arm, Limelight limelight, double targetAngle) { // -3
+    public MoveArmWithLimelight(Arm arm, Limelight limelight) { // -3
         addRequirements(RobotContainer.m_arm, RobotContainer.m_limeLight);
         m_arm = arm;
-
         m_Limelight = limelight;
-        m_targetAngle = targetAngle;
     }
 
     @Override
     public void execute() {
-        // m_targetAngle = m_Limelight.getShootingAngle();
-        // System.out.println("This angle " + m_targetAngle );
         double currentPitch = m_arm.getPitch();
-        // double target = m_targetAngle;
-        SmartDashboard.putNumber("Target Angle", m_targetAngle);
-        if (currentPitch < m_targetAngle && m_arm.getPitch() < 85) {
-            m_arm.runPigeonPID(m_targetAngle); // positive power to move up
-        } else if (currentPitch > m_targetAngle && !m_arm.m_homeLimit.get()) {
-            m_arm.runPigeonPID(m_targetAngle); // negative power to move down
+        double target = m_Limelight.calculateTargetAngle();
+        // SmartDashboard.putNumber("Target Angle", target);
+        if (currentPitch < target && m_arm.getPitch() < 85) {
+            m_arm.runPigeonPID(target); // positive power to move up
+        } else if (currentPitch > target && !m_arm.m_homeLimit.get()) {
+            m_arm.runPigeonPID(target); // negative power to move down
         }
     }
 

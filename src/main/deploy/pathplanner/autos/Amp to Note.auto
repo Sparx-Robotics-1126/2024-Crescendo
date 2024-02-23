@@ -1,0 +1,44 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.86729904765713,
+      "y": 7.342841161532055
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp to Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmToGround"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinStorage"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Amp, Pickup, Speaker",
+  "choreoAuto": false
+}

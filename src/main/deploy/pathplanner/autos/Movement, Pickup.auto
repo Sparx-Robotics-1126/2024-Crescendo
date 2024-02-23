@@ -1,0 +1,63 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.72,
+      "y": 5.43
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Speaker to Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmToGround"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinStorage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Note to Amp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveArmToPosition"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Speaker Pickup, Amp",
+  "choreoAuto": false
+}

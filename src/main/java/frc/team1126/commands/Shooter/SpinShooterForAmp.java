@@ -37,6 +37,9 @@ public class SpinShooterForAmp extends Command {
    
    @Override
    public boolean isFinished() {
-     return false;
+    m_storage.resetNote();
+    return false;
+     
    }
+   
 }

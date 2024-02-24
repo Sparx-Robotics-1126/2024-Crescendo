@@ -17,7 +17,7 @@ public class ArmToGround extends Command  {
    public void execute(){
        
        if(!m_arm.getHomeLimit()) {
-        m_arm.moveArm(-.10);
+        m_arm.moveArm(-.20);
        }
     
     }

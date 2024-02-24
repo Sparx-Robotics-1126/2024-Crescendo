@@ -2,24 +2,24 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.38,
-      "y": 4.99
+      "x": 2.0,
+      "y": 7.0
     },
-    "rotation": 74.74
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ShootNote"
+            "pathName": "Leave Community"
           }
         }
       ]
     }
   },
-  "folder": "Otherside",
+  "folder": null,
   "choreoAuto": false
 }

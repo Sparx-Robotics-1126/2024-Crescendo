@@ -6,6 +6,7 @@ package frc.team1126;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -39,9 +40,6 @@ import frc.team1126.commands.arm.HoldArmAtPosition;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
 import frc.team1126.commands.climber.MoveMax;
-// import frc.team1126.commands.climber.MoveHome;
-// import frc.team1126.commands.climber.MoveMax;
-// import frc.team1126.commands.rotoation.MoveArm;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
 import frc.team1126.subsystems.Shooter;
@@ -106,15 +104,13 @@ public class RobotContainer {
     // configureChooser();
 
     //use only if we want manual control of climber;
-    // m_climber
-    //     .setDefaultCommand(new MoveClimber(m_climber, () -> -m_operator.getRawAxis(XboxController.Axis.kLeftY.value)));
+    m_climber
+        .setDefaultCommand(new MoveClimber(m_climber, () -> -m_operator.getRawAxis(XboxController.Axis.kLeftY.value)));
 
     m_arm.setDefaultCommand(new MoveArm(m_arm, () -> -m_operator.getRawAxis(XboxController.Axis.kRightY.value)));
 
-    // climber.setDefaultCommand(climber.moveClimber(
-    // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftY.value),
-    // .1),
-    // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftX.value),
+    // m_climber.setDefaultCommand(m_climber.moveClimber(
+    // MathUtil.applyDeadband(m_operator.getRawAxis(XboxController.Axis.kLeftY.value),
     // .1)));
     // climber.setDefaultCommand(climber.moveLeftClimber(
     // MathUtil.applyDeadband(operator.getRawAxis(XboxController.Axis.kLeftY.value),
@@ -149,7 +145,8 @@ public class RobotContainer {
     // SpinShooter(m_shooter))));
 
     // pickup and move to driveing/amp angle. no need for shooter yet
-    m_operator.a().onTrue(new SpinStorage(m_storage).andThen(new MoveArmToPosition(m_arm, m_limeLight, driveAngle)));
+    m_operator.a().onTrue(new SpinStorage(m_storage)
+        .andThen(new MoveArmToPosition(m_arm, m_limeLight, driveAngle)));
 
     //move are to position.  Limelight will return the angle base on specific distances (close, mid, far)
     m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, closeAngle).alongWith(new SpinShooter(m_shooter)));
@@ -168,7 +165,10 @@ public class RobotContainer {
 
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
     m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, driveAngle));
-    m_operator.povDown().onTrue(new DoNothingArm(m_arm));
+
+ 
+
+    m_operator.povDown().onTrue(new MoveArm(m_arm, -.2));
 
     // close 25
     // mid 34.5
@@ -226,13 +226,8 @@ public class RobotContainer {
   }
 
   public void configureChooser() {
-
-    // _chooser.setDefaultOption("Do Nothing", new InstantCommand());
-    // _chooser.setDefaultOption("2M AUTO", new PathPlannerAuto("2M Auto"));
-    // _chooser.addOption("5M Auto", new PathPlannerAuto("5M Auto"));
-    m_chooser.addOption("Arm Test", new PathPlannerAuto("Arm Test"));
-
-    // SmartDashboard.putData("AUTO CHOICES ", _chooser);
+    
+    m_chooser.setDefaultOption("Leave Community", new PathPlannerAuto("Leave Community"));
 
   }
 

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.86729904765713,
-        "y": 7.342841161532055
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9407274592724502,
-        "y": 7.386898208507707
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.1610126941184125,
-        "y": 6.990384785778517
+        "x": 6.331746473868619,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 1.7644992713956809,
-        "y": 6.902270691846591
+        "x": 5.331746473868619,
+        "y": 7.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp, Pickup, Speaker",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 90.66463915606053,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

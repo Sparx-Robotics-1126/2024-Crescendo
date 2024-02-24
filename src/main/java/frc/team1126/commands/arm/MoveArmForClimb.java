@@ -26,6 +26,7 @@ public class MoveArmForClimb extends Command {
         // else if (currentPitch > m_targetAngle && !m_arm.m_homeLimit.get()) {
         //     m_arm.runClimbPID(m_targetAngle); // negative power to move down
         // }
+        //
     }
 
     @Override

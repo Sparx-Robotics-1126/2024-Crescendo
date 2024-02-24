@@ -75,7 +75,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via
                                                // angle.
     m_swerveDrive.updateCacheValidityPeriods(20, 20, 20);
-    // setupPathPlanner();
+    setupPathPlanner();
   }
 
   /**

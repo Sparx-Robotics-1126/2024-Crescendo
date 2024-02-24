@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.team1126.Constants.SwerveConstants;
 import frc.team1126.commands.Shooter.ShootNote;
@@ -60,7 +62,7 @@ public class RobotContainer {
 
   private static HashMap<String, Command> m_pathMap = new HashMap<>();
 
-  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+  final static SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   CommandXboxController m_driver = new CommandXboxController(Constants.GeneralConstants.DRIVER_CONTROLLER_ID);
   CommandXboxController m_operator = new CommandXboxController(Constants.GeneralConstants.OPERATOR_CONTROLLER_ID);
@@ -88,6 +90,8 @@ public class RobotContainer {
     configureDriverBindings();
     configureOperatorBindings();
 
+NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeLight,32));
+
     Command driveFieldOrientedAnglularVelocity = m_swerve.driveCommand(
         () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), .1), -1,
             1),
@@ -101,7 +105,7 @@ public class RobotContainer {
     // () -> driver.getRawAxis(strafeAxis) *-1,
     // () -> driver.getRawAxis(rotationAxis)*-1));
 
-    // configureChooser();
+    configureChooser();
 
     //use only if we want manual control of climber;
     m_climber
@@ -228,7 +232,13 @@ public class RobotContainer {
   public void configureChooser() {
     
     m_chooser.setDefaultOption("Leave Community", new PathPlannerAuto("Leave Community"));
-
+    m_chooser.addOption("Mover arm test",new MoveArm(m_arm, -.2).withTimeout(1)
+                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
+                .withTimeout(2))
+                .andThen(new ShootNote(m_shooter, m_storage)
+                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(1))
+                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
+                );
   }
 
   /**
@@ -242,7 +252,7 @@ public class RobotContainer {
     // // m_driveSubsystem.setHeading(180);
     // Timer.delay(0.05);
     // // the command to be run in autonomous
-    // SmartDashboard.putData("AUTO CHOICES ", _chooser);
+   
     // return _chooser.getSelected();
     return m_chooser.getSelected();
     // return swerve.getAutonomousCommand(_chooser.getSelected().getName(), true);

@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team1126.RobotContainer;
+import frc.team1126.Constants.GeneralConstants;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.sensors.Limelight;
 
@@ -17,7 +18,7 @@ public class MoveArmToAmp extends Command {
         addRequirements(RobotContainer.m_arm, RobotContainer.m_limeLight);
         m_arm = arm;
 
-        m_targetAngle = 53;
+        m_targetAngle = GeneralConstants.AMP_ANGLE;
     }
 
     @Override

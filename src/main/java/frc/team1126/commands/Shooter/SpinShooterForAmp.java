@@ -32,6 +32,7 @@ public class SpinShooterForAmp extends Command {
        @Override
    public void end(boolean interrupted) {
         m_shooter.setShooterSpeed(0.0);
+        m_storage.resetNote();
    }
 
    

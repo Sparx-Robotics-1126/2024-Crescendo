@@ -27,7 +27,7 @@ private boolean holdingNote = false;
         if (m_storage.hasNote()){
             // m_sawNote = true;
             holdingNote = true;
-            m_storage.setStorageWheels(.2);
+            m_storage.setStorageWheels(.4);
         }
         else if (holdingNote && !m_storage.hasNote()) {
             m_storage.setStorageWheels(0);

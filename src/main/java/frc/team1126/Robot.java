@@ -74,13 +74,14 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
     if (autonomousCommand != null) autonomousCommand.cancel();
     
-    // robotContainer.swerve.zeroGyro();
+    robotContainer.m_swerve.zeroGyro();
     // RobotContainer.swerve.stopAllModules();
   }
 

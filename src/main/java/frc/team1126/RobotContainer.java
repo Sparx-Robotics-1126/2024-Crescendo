@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.team1126.Constants.GeneralConstants;
 import frc.team1126.Constants.SwerveConstants;
 import frc.team1126.commands.Shooter.ShootNote;
 import frc.team1126.commands.Shooter.SpinShooter;
@@ -38,6 +39,7 @@ import frc.team1126.commands.arm.MoveArmForClimb;
 import frc.team1126.commands.arm.MoveArmToAmp;
 import frc.team1126.commands.arm.MoveArmToPosition;
 import frc.team1126.commands.arm.MoveArmWithLimelight;
+import frc.team1126.commands.arm.ZeroPigeon;
 import frc.team1126.commands.arm.HoldArmAtPosition;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
@@ -72,9 +74,9 @@ public class RobotContainer {
   // XboxController.Button.kStart.value);
   // private final JoystickButton coneMode = new JoystickButton(operator.getHID(),
   // XboxController.Button.kBack.value);
+  
 
-  public final static SwerveSubsystem m_swerve = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve"));
+  public static SwerveSubsystem m_swerve;
 
   public final static Limelight m_limeLight = new Limelight();
 
@@ -90,7 +92,11 @@ public class RobotContainer {
     configureDriverBindings();
     configureOperatorBindings();
 
-NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeLight,32));
+    NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeLight,32));
+    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53));
+    
+    m_swerve  = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve"));
 
     Command driveFieldOrientedAnglularVelocity = m_swerve.driveCommand(
         () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), .1), -1,
@@ -113,6 +119,9 @@ NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeL
 
     m_arm.setDefaultCommand(new MoveArm(m_arm, () -> -m_operator.getRawAxis(XboxController.Axis.kRightY.value)));
 
+    
+
+  
     // m_climber.setDefaultCommand(m_climber.moveClimber(
     // MathUtil.applyDeadband(m_operator.getRawAxis(XboxController.Axis.kLeftY.value),
     // .1)));
@@ -127,12 +136,12 @@ NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeL
 
   private void configureOperatorBindings() {
    
-    var angle = 32;
+    // var angle = 32;
 
-    var closeAngle = 21;
-    var midAngle = 34.5;
-    var ampAngle = 53;
-    var driveAngle = 35;
+    // var closeAngle = 21;
+    // var midAngle = 34.5;
+    // var ampAngle = 53;
+    // var driveAngle = 35;
 
     // System.out.println("getting calcresult in robotContainer: " + angle1);
 
@@ -150,11 +159,11 @@ NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeL
 
     // pickup and move to driveing/amp angle. no need for shooter yet
     m_operator.a().onTrue(new SpinStorage(m_storage)
-        .andThen(new MoveArmToPosition(m_arm, m_limeLight, driveAngle)));
+        .andThen(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE)));
 
     //move are to position.  Limelight will return the angle base on specific distances (close, mid, far)
-    m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, closeAngle).alongWith(new SpinShooter(m_shooter)));
-    m_operator.b().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, midAngle).alongWith(new SpinShooter(m_shooter)));
+    m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.CLOSE_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter)));
+    m_operator.b().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.MID_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter)));
     m_operator.y().whileTrue(new MoveArmToAmp(m_arm));
     // .alongWith(new SpinShooter(m_shooter))
 
@@ -168,7 +177,8 @@ NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeL
     //     .alongWith(new SpinShooter(m_shooter)));
 
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
-    m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, driveAngle));
+    m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE));
+    m_operator.povLeft().onTrue(new ZeroPigeon(m_arm));
 
  
 
@@ -231,15 +241,44 @@ NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeL
 
   public void configureChooser() {
     
-    m_chooser.setDefaultOption("Leave Community", new PathPlannerAuto("Leave Community"));
-    m_chooser.addOption("Mover arm test",new MoveArm(m_arm, -.2).withTimeout(1)
+    // m_operator.a().onTrue(new SpinStorage(m_storage)
+    // .andThen(new MoveArmToPosition(m_arm, m_limeLight, driveAngle)));
+    m_chooser.setDefaultOption("Do Nothing", new WaitCommand(1));
+    m_chooser.addOption("Leave Start Area", new MoveArm(m_arm, -.2).withTimeout(2).andThen(new PathPlannerAuto("Leave Community")));
+    m_chooser.addOption("Move Arm Pathplanner", new PathPlannerAuto("moveArmTest"));
+    m_chooser.addOption("Leave from subwoofer", new PathPlannerAuto("angledLeaveAuto"));
+    
+    // m_chooser.addOption("Move arm test",new MoveArm(m_arm, -.2).withTimeout(1)
+    //             .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21)
+    //                 .alongWith(new SpinShooter(m_shooter)).withTimeout(2))
+    //             .andThen(new ShootNote(m_shooter, m_storage)
+    //                 .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(1))
+    //             .andThen(new ArmToGround(m_arm)).withTimeout(.5)
+    //                 .andThen(new SpinStorage(m_storage)
+    //                   .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21)))
+    //             .alongWith(new PathPlannerAuto("Leave Community")))
+    //             );
+
+                m_chooser.addOption("Old Move arm test",new MoveArm(m_arm, -.2).withTimeout(1)
                 .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
                 .withTimeout(2))
                 .andThen(new ShootNote(m_shooter, m_storage)
-                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(1))
+                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(3))
                 .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
                 );
+
+                m_chooser.addOption("angled move arm",new MoveArm(m_arm, -.2).withTimeout(1)
+                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
+                .withTimeout(2))
+                .andThen(new ShootNote(m_shooter, m_storage)
+                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1))
+                .andThen(new WaitCommand(2.5)
+                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("angledLeaveAuto"))));
   }
+
+
+    
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

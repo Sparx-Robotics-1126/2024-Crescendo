@@ -28,7 +28,7 @@ public class MoveArm extends Command {
     public void execute(){
         double speed = MathUtil.applyDeadband(m_power, .1);
 
-        if (m_power> 0 && m_arm.getPitch() < 90 ){
+        if (m_power > 0){
             m_arm.moveArm(speed);
         }
         else if (m_power < 0 && !m_arm.m_homeLimit.get()) {

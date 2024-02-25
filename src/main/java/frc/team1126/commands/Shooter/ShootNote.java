@@ -1,10 +1,7 @@
 package frc.team1126.commands.Shooter;
 
-import java.util.Timer;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team1126.RobotContainer;
-import frc.team1126.Constants.ShooterConstants;
 import frc.team1126.subsystems.Shooter;
 import frc.team1126.subsystems.Storage;
 

@@ -18,8 +18,6 @@ public class EjectNote extends Command {
 
     @Override
     public void execute(){
- 
-        m_storage.setHasNote();
 
 
         m_storage.setStorageWheels(m_speed);
@@ -27,12 +25,15 @@ public class EjectNote extends Command {
 
        @Override
    public void end(boolean interrupted) {
+    m_storage.resetNote();
         m_storage.setStorageWheels(0.0);
    }
 
    
    @Override
    public boolean isFinished() {
+
+    m_storage.resetNote();
      return false;
    }
 }

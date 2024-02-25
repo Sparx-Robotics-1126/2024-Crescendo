@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
  SmartDashboard.putData("AUTO CHOICES ",RobotContainer.m_chooser);
-
+    robotContainer.EndGameRumble();
 
     // if(!Limelight.getInstance().inSpeakerRange(75) && robotContainer.m_storage.getHasNote()) {
     //   m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
@@ -92,26 +92,33 @@ public class Robot extends TimedRobot {
     if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
       
       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
-    } else {
-      
+    } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
+        if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+			  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  } else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
+         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  }
+   } else {
       if (ledColor == 0) {
         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
       } else if (ledColor == 1) {
         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
       }
-    }
+   }
 
   
 
-    if (ll.hasSpeakerTarget()) {
-			if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
-			} else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-			} else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-			}
-		}
+    // if (ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()) {
+		// 	if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
+    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+		// 	} else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
+    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+		// 	} else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
+    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+		// 	}
+		// }
   }
 
   @Override

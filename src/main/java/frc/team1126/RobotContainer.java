@@ -10,6 +10,7 @@ import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -94,6 +95,9 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeLight,32));
     NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53));
+    NamedCommands.registerCommand("moveArmToHome", new MoveArmToPosition(m_arm, m_limeLight, .02).withTimeout(2));
+    NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage));
+    NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage).withTimeout(2));
     
     m_swerve  = new SwerveSubsystem(
       new File(Filesystem.getDeployDirectory(), "swerve"));
@@ -178,11 +182,8 @@ public class RobotContainer {
 
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
     m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE));
-    m_operator.povLeft().onTrue(new ZeroPigeon(m_arm));
-
- 
-
     m_operator.povDown().onTrue(new MoveArm(m_arm, -.2));
+    m_operator.povLeft().onTrue(new ZeroPigeon(m_arm));
 
     // close 25
     // mid 34.5
@@ -241,13 +242,32 @@ public class RobotContainer {
 
   public void configureChooser() {
     
-    // m_operator.a().onTrue(new SpinStorage(m_storage)
-    // .andThen(new MoveArmToPosition(m_arm, m_limeLight, driveAngle)));
+    //autos using pathplanner
     m_chooser.setDefaultOption("Do Nothing", new WaitCommand(1));
     m_chooser.addOption("Leave Start Area", new MoveArm(m_arm, -.2).withTimeout(2).andThen(new PathPlannerAuto("Leave Community")));
     m_chooser.addOption("Move Arm Pathplanner", new PathPlannerAuto("moveArmTest"));
     m_chooser.addOption("Leave from subwoofer", new PathPlannerAuto("angledLeaveAuto"));
-    
+    m_chooser.addOption("fromangleshoot(PATH ONLY)", new PathPlannerAuto("movefromangleshoot"));
+    m_chooser.addOption("fromangleshoot(FULL)", new PathPlannerAuto("movefromangleshoot(real)"));
+
+    //old way to do auto (sequential commands)
+    m_chooser.addOption("Old Move arm test",new MoveArm(m_arm, -.2).withTimeout(1)
+                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
+                .withTimeout(2))
+                .andThen(new ShootNote(m_shooter, m_storage)
+                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(3))
+                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
+                );
+
+    m_chooser.addOption("angled move arm",new MoveArm(m_arm, -.2).withTimeout(1)
+                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
+                .withTimeout(2))
+                .andThen(new ShootNote(m_shooter, m_storage)
+                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1))
+                .andThen(new WaitCommand(2.5)
+                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("angledLeaveAuto")))
+                );
+
     // m_chooser.addOption("Move arm test",new MoveArm(m_arm, -.2).withTimeout(1)
     //             .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21)
     //                 .alongWith(new SpinShooter(m_shooter)).withTimeout(2))
@@ -258,22 +278,6 @@ public class RobotContainer {
     //                   .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21)))
     //             .alongWith(new PathPlannerAuto("Leave Community")))
     //             );
-
-                m_chooser.addOption("Old Move arm test",new MoveArm(m_arm, -.2).withTimeout(1)
-                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
-                .withTimeout(2))
-                .andThen(new ShootNote(m_shooter, m_storage)
-                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(3))
-                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
-                );
-
-                m_chooser.addOption("angled move arm",new MoveArm(m_arm, -.2).withTimeout(1)
-                .andThen(new MoveArmToPosition(m_arm, m_limeLight, 21).alongWith(new SpinShooter(m_shooter))
-                .withTimeout(2))
-                .andThen(new ShootNote(m_shooter, m_storage)
-                .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1))
-                .andThen(new WaitCommand(2.5)
-                .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("angledLeaveAuto"))));
   }
 
 

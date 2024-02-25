@@ -1,0 +1,87 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3763132980811417,
+      "y": 5.531946336619947
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "shootNote"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmToHome"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Move back to note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "spinStorage"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveArmTo32"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootNote"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmToHome"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move out to line"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

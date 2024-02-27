@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6766573533147066,
-      "y": 4.263236890110144
+      "x": 2.0,
+      "y": 7.0
     },
-    "rotation": -73.77537002637037
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "fixed Angled leave"
+            "pathName": "Leave Community"
           }
         }
       ]

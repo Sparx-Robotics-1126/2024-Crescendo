@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6766573533147066,
-      "y": 4.263236890110144
+      "x": 0.8393012850426425,
+      "y": 6.755413868609491
     },
-    "rotation": -73.77537002637037
+    "rotation": -106.75574892919899
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "fixed Angled leave"
+            "pathName": "move from angled shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move to line from angle"
           }
         }
       ]

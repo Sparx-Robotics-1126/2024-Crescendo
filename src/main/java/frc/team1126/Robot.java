@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
  SmartDashboard.putData("AUTO CHOICES ",RobotContainer.m_chooser);
-    robotContainer.EndGameRumble();
+   
 
     // if(!Limelight.getInstance().inSpeakerRange(75) && robotContainer.m_storage.getHasNote()) {
     //   m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
     var ll = Limelight.getInstance();
    
     if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
-      
       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
     } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
         if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
@@ -106,6 +105,7 @@ public class Robot extends TimedRobot {
       } else if (ledColor == 1) {
         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
       }
+       //robotContainer.EndGameRumble();
    }
 
   

@@ -28,7 +28,7 @@ public class Arm extends SubsystemBase {
     private Pigeon2 m_armPigeon;
     public DigitalInput m_homeLimit;
     private final SparkPIDController m_sparkPIDController;
-    private final PIDController m_pidController = new PIDController(0.028, 0.028, 0.003); 
+    private final PIDController m_pidController = new PIDController(0.028, 0.025, 0.002); 
     //0.03, 0.0, 0.00 // 0.028, 0.028, 0.0022
     private double m_targetAngle;
     private double m_pidOutput;
@@ -125,7 +125,7 @@ public class Arm extends SubsystemBase {
         m_targetAngle = error;
         double pidOutput = m_pidController.calculate(error);
         // double feedForward = PIDF.FEEDFORWARD * targetAngle; // calculate feedforward term
-        double totalOutput = pidOutput + .094762*Math.cos(m_armPigeon.getPitch().getValueAsDouble()); //+ feedForward; // add feedforward to PID output
+        double totalOutput = pidOutput + .023913*Math.cos(m_armPigeon.getPitch().getValueAsDouble()); //+ feedForward; // add feedforward to PID output
 
         m_pidOutput = totalOutput;
         m_armRightMotor.set(totalOutput);

@@ -12,62 +12,32 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "shootNote"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmToHome"
+                  "name": "moveDown"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Move back to note"
+                  "name": "spinShooter"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "spinStorage"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "moveArmTo32"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shootNote"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmToHome"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "move out to line"
+                  "name": "moveArmTo32"
                 }
               },
               {
@@ -77,6 +47,87 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveArmToHome"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Move back to note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmTo32"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootNote"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move out to line"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "spinStorage"
           }
         }
       ]

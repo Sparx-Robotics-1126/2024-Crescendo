@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.531946336619947
+      "x": 0.8393012850426425,
+      "y": 6.755413868609491
     },
-    "rotation": 0
+    "rotation": 44.999999999999986
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Move back to note"
+            "pathName": "move from angled shoot"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "move out to line"
+            "pathName": "move to line from angle"
           }
         }
       ]

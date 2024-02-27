@@ -23,12 +23,12 @@ public class MoveArm extends Command {
         m_power = power;
     }
 
-
     @Override
     public void execute(){
         double speed = MathUtil.applyDeadband(m_power, .1);
-
-        if (m_power > 0){
+        //System.out.println(m_power);
+        //System.out.println(speed);
+        if (m_power > 0 ){
             m_arm.moveArm(speed);
         }
         else if (m_power < 0 && !m_arm.m_homeLimit.get()) {

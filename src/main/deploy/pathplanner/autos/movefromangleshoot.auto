@@ -12,27 +12,109 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 3.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinShooter"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "move from angled shoot"
+            "name": "moveArmTo32"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 3.0
+            "name": "shootNote"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "move to line from angle"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move from angled shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmToHome"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "spinStorage"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmTo32"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootNote"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move to line from angle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "spinStorage"
           }
         }
       ]

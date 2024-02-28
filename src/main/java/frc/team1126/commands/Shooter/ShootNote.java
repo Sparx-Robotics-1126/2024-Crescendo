@@ -46,6 +46,6 @@ public class ShootNote extends Command{
    
    @Override
    public boolean isFinished() {
-       return System.currentTimeMillis() - m_startTime >= 3000;
+       return false; //System.currentTimeMillis() - m_startTime >= 3000;
    }
 }

@@ -37,13 +37,32 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo32"
+                  "name": "moveArmTo23"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinStorage"
+                  "name": "spinShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hold"
                 }
               }
             ]
@@ -52,13 +71,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "moveArmToHome"
+            "name": "moveDown"
           }
         },
         {
@@ -87,7 +100,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo32"
+                  "name": "moveArmTo30"
                 }
               },
               {
@@ -100,9 +113,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "shootNote"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hold"
+                }
+              }
+            ]
           }
         },
         {

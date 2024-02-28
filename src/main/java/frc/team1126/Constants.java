@@ -304,7 +304,7 @@ public final class Constants {
 
         public static final double MID_SPEAKER_ANGLE = 34.5;
 
-        public static final double AMP_ANGLE = 53;
+        public static final double AMP_ANGLE = 51;
 
         public static final double DRIVE_ANGLE = 35;
 

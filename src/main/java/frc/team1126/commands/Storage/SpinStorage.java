@@ -10,7 +10,8 @@ public class SpinStorage extends Command {
     private boolean m_sawNote = false;
 private boolean holdingNote = false;
 
-    public SpinStorage(Storage storage) {
+    public 
+    SpinStorage(Storage storage) {
         addRequirements(RobotContainer.m_storage);
         m_storage = storage;
         m_sawNote =false;

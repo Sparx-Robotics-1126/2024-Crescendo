@@ -31,15 +31,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "moveArmTo32"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmTo23"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinShooter"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "shootNote"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hold"
+                }
+              }
+            ]
           }
         },
         {
@@ -55,7 +81,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmToHome"
+                  "name": "moveDown"
                 }
               }
             ]
@@ -74,7 +100,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo32"
+                  "name": "moveArmTo30"
                 }
               },
               {
@@ -87,9 +113,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "shootNote"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hold"
+                }
+              }
+            ]
           }
         },
         {

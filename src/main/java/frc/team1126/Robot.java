@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+     robotContainer.setCANdle();
 
  SmartDashboard.putData("AUTO CHOICES ",RobotContainer.m_chooser);
    
@@ -81,32 +82,16 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (autonomousCommand != null) autonomousCommand.cancel();
     
-    robotContainer.m_swerve.zeroGyro();
+    //robotContainer.m_swerve.zeroGyro();
+    robotContainer.m_storage.resetNote();
     // RobotContainer.swerve.stopAllModules();
   }
 
   @Override
   public void teleopPeriodic() {
-    var ll = Limelight.getInstance();
-   
-    if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
-      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
-    } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
-        if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
-          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
-			  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
-          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-			  } else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
-         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-			  }
-   } else {
-      if (ledColor == 0) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
-      } else if (ledColor == 1) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
-      }
-       //robotContainer.EndGameRumble();
-   }
+
+       robotContainer.EndGameRumble();
+  
 
   
 

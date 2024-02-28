@@ -4,10 +4,13 @@
 
 package frc.team1126;
 
+import static edu.wpi.first.wpilibj.DriverStation.Alliance.Blue;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
@@ -53,6 +56,7 @@ import frc.team1126.subsystems.Storage;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.SwerveSubsystem;
 import frc.team1126.subsystems.CANdleSubsystem.AnimationTypes;
+import frc.team1126.subsystems.CANdleSubsystem.LEDState;
 import frc.team1126.subsystems.sensors.Limelight;
 
 public class RobotContainer {
@@ -94,13 +98,14 @@ public class RobotContainer {
     configureOperatorBindings();
                                            /*REGISTER PATHPLANNER COMMANDS HERE */
     //ARM COMMANDS
-    NamedCommands.registerCommand("moveArmTo32", new MoveArmToPosition(m_arm,m_limeLight,32).withTimeout(2));
-    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53));
+    NamedCommands.registerCommand("moveArmTo23", new MoveArmToPosition(m_arm, m_limeLight,23).withTimeout(2));
+    NamedCommands.registerCommand("moveArmTo30", new MoveArmToPosition(m_arm,m_limeLight,30).withTimeout(2));
+    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53).withTimeout(2));
     NamedCommands.registerCommand("moveArmToHome", new MoveArmToPosition(m_arm, m_limeLight, .02).withTimeout(2));
-    NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(0.5));
-    NamedCommands.registerCommand("hold", new HoldArmAtPosition(m_arm));
+    NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(2));
+    NamedCommands.registerCommand("hold", new HoldArmAtPosition(m_arm).withTimeout(2));
     // SHOOTER COMMANDS
-    NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage).alongWith(new HoldArmAtPosition(m_arm)));
+    NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage).withTimeout(1));
     NamedCommands.registerCommand("spinShooter", new SpinShooter(m_shooter).withTimeout(2));
     //STORAGE COMMANDS
     NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage).withTimeout(2));
@@ -191,6 +196,7 @@ public class RobotContainer {
     m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE));
     m_operator.povDown().onTrue(new MoveArmToPositionNoPID(m_arm, m_limeLight, m_rotationAxis));
     m_operator.povLeft().onTrue(new ZeroPigeon(m_arm));
+    //m_operator.povRight().onTrue(new SpinStorage(m_storage));
 
     // close 25
     // mid 34.5
@@ -210,6 +216,7 @@ public class RobotContainer {
 
     // operator.leftStick().whileTrue(
     // climber.moveLeftClimber(operator.getLeftY()));
+    
 
   }
 
@@ -251,12 +258,13 @@ public class RobotContainer {
     
     //autos using pathplanner
     m_chooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-    m_chooser.addOption("Leave Start Area",new PathPlannerAuto("LeaveCommunity"));
+    m_chooser.addOption("Leave Start Area",new PathPlannerAuto("LeaveStartingZone"));
+    m_chooser.addOption("Leave Angled Start",new PathPlannerAuto("angledLeaveAuto"));
     //m_chooser.addOption("Move Arm Pathplanner", new PathPlannerAuto("moveArmTest"));
     //m_chooser.addOption("Leave from subwoofer", new PathPlannerAuto("angledLeaveAuto"));
     // m_chooser.addOption("fromangleshoot(PATH ONLY)", new PathPlannerAuto("movefromangleshoot"));
     m_chooser.addOption("fromangleshoot", new PathPlannerAuto("MoveFromAngleShoot"));
-    //m_chooser.addOption("test", new PathPlannerAuto("test"));
+    //m_chooser.addOption("test",new PathPlannerAuto("test"));
     //m_chooser.addOption("shootmoveshootpaths", new PathPlannerAuto("shootmoveshootpaths"));
     m_chooser.addOption("shootmoveshoot full", new PathPlannerAuto("ShootMoveShoot"));
     
@@ -313,24 +321,40 @@ public class RobotContainer {
 
   }
 
+  public void setCANdle() {
+    var ll = Limelight.getInstance();
+    //☝️🤓 <- me fr
+    if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
+      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
+     } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
+        if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+			  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  } else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
+         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  }
+   } else {
+      if ( DriverStation.getAlliance().get() == Alliance.Red) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+      } else if ( DriverStation.getAlliance().get() == Alliance.Blue) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+      }
+    }
+  }
+
   public void EndGameRumble() {
 
     if (DriverStation.getMatchTime() < SwerveConstants.ENDGAME_SECONDS
         && DriverStation.getMatchTime() > SwerveConstants.STOP_RUMBLE_SECONDS) {
-      m_candleSubsystem.changeAnimation(AnimationTypes.purpleStrobe);
+      m_candleSubsystem.setLEDState(LEDState.PURPLE);
       m_driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
       m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
 
     } else {
-      if (DriverStation.getAlliance().get() == Alliance.Red && !m_storage.getHasNote()) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
-      } else if (DriverStation.getAlliance().get() == Alliance.Blue && !m_storage.getHasNote()) {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
-      } else {
-        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
-      }
       m_driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
       m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
+      
 
     }
   }

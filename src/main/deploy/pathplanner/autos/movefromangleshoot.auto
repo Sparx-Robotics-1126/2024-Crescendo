@@ -69,6 +69,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "moveDown"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -83,20 +89,26 @@
                 "data": {
                   "name": "moveDown"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "spinStorage"
           }
         },
         {
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "TurnBackToSpeaker"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -106,7 +118,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "spinShooterMid"
                 }
               }
             ]

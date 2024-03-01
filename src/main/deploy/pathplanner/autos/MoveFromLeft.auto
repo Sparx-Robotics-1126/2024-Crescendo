@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.84,
+      "y": 6.755413868609491
+    },
+    "rotation": 40.11176942260633
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move from angled shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move to line from angle"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

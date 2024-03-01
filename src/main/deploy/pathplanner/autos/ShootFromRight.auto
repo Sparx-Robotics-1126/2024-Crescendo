@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.531946336619947
+      "x": 0.6766573533147066,
+      "y": 4.263236890110144
     },
-    "rotation": 0
+    "rotation": -72.31560797344223
   },
   "command": {
     "type": "sequential",
@@ -69,76 +69,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "moveDown"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move back to note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "lowPowerStorage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveArmTo30"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinShooterMid"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "hold"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "move out to line"
+                  "pathName": "fixed Angled leave"
                 }
               },
               {
@@ -148,12 +85,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "spinStorage"
           }
         }
       ]

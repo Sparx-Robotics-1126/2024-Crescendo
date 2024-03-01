@@ -98,17 +98,19 @@ public class RobotContainer {
     configureOperatorBindings();
                                            /*REGISTER PATHPLANNER COMMANDS HERE */
     //ARM COMMANDS
-    NamedCommands.registerCommand("moveArmTo23", new MoveArmToPosition(m_arm, m_limeLight,23).withTimeout(2));
-    NamedCommands.registerCommand("moveArmTo30", new MoveArmToPosition(m_arm,m_limeLight,30).withTimeout(2));
-    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53).withTimeout(2));
+    NamedCommands.registerCommand("moveArmTo23", new MoveArmToPosition(m_arm, m_limeLight,21).withTimeout(1.5));
+    NamedCommands.registerCommand("moveArmTo30", new MoveArmToPosition(m_arm,m_limeLight,30.8).withTimeout(1.5));
+    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53).withTimeout(1.5));
     NamedCommands.registerCommand("moveArmToHome", new MoveArmToPosition(m_arm, m_limeLight, .02).withTimeout(2));
-    NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(2));
-    NamedCommands.registerCommand("hold", new HoldArmAtPosition(m_arm).withTimeout(2));
+    NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(1.5));
+    NamedCommands.registerCommand("hold", new HoldArmAtPosition(m_arm).withTimeout(1.5));
     // SHOOTER COMMANDS
     NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage).withTimeout(1));
-    NamedCommands.registerCommand("spinShooter", new SpinShooter(m_shooter).withTimeout(2));
+    NamedCommands.registerCommand("spinShooter", new SpinShooter(m_shooter, 0.6).withTimeout(1.5));
+    NamedCommands.registerCommand("spinShooterMid", new SpinShooter(m_shooter, 0.9).withTimeout(1.5));
     //STORAGE COMMANDS
-    NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage).withTimeout(2));
+    NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(2));
+    NamedCommands.registerCommand("lowPowerStorage", new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER));
     NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
     
     m_swerve  = new SwerveSubsystem(
@@ -174,12 +176,12 @@ public class RobotContainer {
     // SpinShooter(m_shooter))));
 
     // pickup and move to driveing/amp angle. no need for shooter yet
-    m_operator.a().onTrue(new SpinStorage(m_storage)
+    m_operator.a().whileTrue(new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER)
         .andThen(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE)));
 
     //move are to position.  Limelight will return the angle base on specific distances (close, mid, far)
-    m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.CLOSE_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter))); //
-    m_operator.b().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.MID_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter)));
+    m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.CLOSE_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER))); //
+    m_operator.b().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.MID_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
     m_operator.y().whileTrue(new MoveArmToAmp(m_arm));
     // .alongWith(new SpinShooter(m_shooter))
 
@@ -195,8 +197,9 @@ public class RobotContainer {
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
     m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE));
     m_operator.povDown().onTrue(new MoveArmToPositionNoPID(m_arm, m_limeLight, m_rotationAxis));
-    m_operator.povLeft().onTrue(new ZeroPigeon(m_arm));
-    //m_operator.povRight().onTrue(new SpinStorage(m_storage));
+    m_operator.povLeft().whileTrue(new SpinShooter(m_shooter,1));
+    m_operator.povRight().whileTrue(new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
+    m_operator.rightStick().onTrue(new ZeroPigeon(m_arm));
 
     // close 25
     // mid 34.5
@@ -259,14 +262,17 @@ public class RobotContainer {
     //autos using pathplanner
     m_chooser.setDefaultOption("Do Nothing", new WaitCommand(1));
     m_chooser.addOption("Leave Start Area",new PathPlannerAuto("LeaveStartingZone"));
-    m_chooser.addOption("Leave Angled Start",new PathPlannerAuto("angledLeaveAuto"));
+    //m_chooser.addOption("Leave Angled Start",new PathPlannerAuto("angledLeaveAuto"));
     //m_chooser.addOption("Move Arm Pathplanner", new PathPlannerAuto("moveArmTest"));
     //m_chooser.addOption("Leave from subwoofer", new PathPlannerAuto("angledLeaveAuto"));
     // m_chooser.addOption("fromangleshoot(PATH ONLY)", new PathPlannerAuto("movefromangleshoot"));
-    m_chooser.addOption("fromangleshoot", new PathPlannerAuto("MoveFromAngleShoot"));
+    m_chooser.addOption("ShootAndMoveFromFront", new PathPlannerAuto("ShootMoveShoot"));
+   
+    m_chooser.addOption("shootfromLeftOfSpeaker", new PathPlannerAuto("MoveFromAngleShoot"));
     //m_chooser.addOption("test",new PathPlannerAuto("test"));
     //m_chooser.addOption("shootmoveshootpaths", new PathPlannerAuto("shootmoveshootpaths"));
-    m_chooser.addOption("shootmoveshoot full", new PathPlannerAuto("ShootMoveShoot"));
+    m_chooser.addOption("moveFromRightSpeaker", new PathPlannerAuto("MoveFromRight"));
+    m_chooser.addOption("shootFromRightSpeaker", new PathPlannerAuto("ShootFromRight"));
     
 
     //old way to do auto (sequential commands)
@@ -275,7 +281,7 @@ public class RobotContainer {
     //             .withTimeout(2))
     //             .andThen(new ShootNote(m_shooter, m_storage)
     //             .alongWith(new HoldArmAtPosition(m_arm)).withTimeout(1).andThen(new WaitCommand(3))
-    //             .andThen(new ArmToGround(m_arm)).withTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
+    //             .andThen(new ArmToGround(m_arm)).w\ithTimeout(1).alongWith(new PathPlannerAuto("Leave Community")))
     //             );
 
     // m_chooser.addOption("angled move arm",new MoveArm(m_arm, -.2).withTimeout(1)
@@ -327,7 +333,7 @@ public class RobotContainer {
     if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
      } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
-        if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
+        if (ll.calculateTargetDistanceInInches() > 39 && ll.calculateTargetDistanceInInches() < 41) {
           m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
 			  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
           m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);

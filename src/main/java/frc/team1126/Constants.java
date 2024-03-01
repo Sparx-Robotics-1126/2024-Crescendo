@@ -28,7 +28,7 @@ public final class Constants {
   {
 
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(2.5, 0, .9);
-    public static final PIDConstants ANGLE_PID   = new PIDConstants(0, 0, 1);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(2.5, 0, 0.9);
   }
 
 
@@ -307,6 +307,15 @@ public final class Constants {
         public static final double AMP_ANGLE = 51;
 
         public static final double DRIVE_ANGLE = 35;
+
+        public static final double CLOSE_SPEAKER_POWER = 0.6;
+
+        public static final double MID_SPEAKER_POWER = 0.8;
+
+        public static final double STORAGE_POWER = 0.7;
+
+        public static final double LOW_STORAGE_POWER = 0.6;
+
 
     }
 

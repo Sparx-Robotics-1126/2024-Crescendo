@@ -8,35 +8,43 @@ public class SpinStorage extends Command {
 
     private Storage m_storage;
     private double m_power;
-    private boolean m_sawNote = false;
-private boolean holdingNote = false;
+//     private boolean m_sawNote = false;
+// private boolean holdingNote = false;
 
     public 
     SpinStorage(Storage storage, double power) {
         addRequirements(RobotContainer.m_storage);
         m_storage = storage;
-        m_sawNote =false;
-        holdingNote = false;
+        //m_sawNote =false;
+        // holdingNote = false;
         m_power = power;
     }
 
     @Override
     public void execute() {
 
-        m_storage.setStorageWheels(5);
+        if(!m_storage.hasNote()) {
+            m_storage.setStorageWheels(m_power);
+        } else {
+            m_storage.setStorageWheels(0);
+            m_storage.setHasNote();
+        }
+       
+       
+       
         // if (!m_sawNote){
         //     m_storage.setStorageWheels(5);
         // }
-        if (m_storage.hasNote()){
-            // m_sawNote = true;
-            holdingNote = true;
-            m_storage.setStorageWheels(m_power);
-        }
-        else if (holdingNote && !m_storage.hasNote()) {
-            m_storage.setStorageWheels(0);
-            m_storage.setHasNote();
-            m_sawNote = true;
-        }
+        // if (m_storage.hasNote()){
+        //     // m_sawNote = true;
+        //     holdingNote = true;
+        //     m_storage.setStorageWheels(m_power);
+        // }
+        // else if (holdingNote && !m_storage.hasNote()) {
+        //     m_storage.setStorageWheels(0);
+        //     m_storage.setHasNote();
+        //     m_sawNote = true;
+        // }
 
         // m_sawNote = m_storage.hasNote();
 
@@ -67,9 +75,7 @@ private boolean holdingNote = false;
 
     @Override
     public boolean isFinished() {
-        if (m_sawNote && holdingNote) {
-            m_sawNote = false;
-            holdingNote = false;
+        if (m_storage.hasNote()) {
             return true;
         }
         return false;

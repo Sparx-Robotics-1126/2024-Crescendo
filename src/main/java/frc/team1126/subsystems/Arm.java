@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.ArmConstants;
+import frc.team1126.Constants.GeneralConstants;
+import frc.team1126.subsystems.sensors.Limelight;
 
 public class Arm extends SubsystemBase {
 
@@ -24,6 +26,8 @@ public class Arm extends SubsystemBase {
 
     private RelativeEncoder m_armLeftEncoder;
     private RelativeEncoder m_armRightEncoder;
+
+    private Limelight m_limelight = Limelight.getInstance();
 
     private Pigeon2 m_armPigeon;
     public DigitalInput m_homeLimit;
@@ -112,10 +116,23 @@ public class Arm extends SubsystemBase {
         m_sparkPIDController.setFF(f);
         m_sparkPIDController.setIZone(iz);
     }
+    private double calcAngle(){
+        if(m_limelight.hasSpeakerTarget()) {
+            var dist = m_limelight.getDistance();
+            return  59- Math.atan(50/(dist+35)); // change the 59 or the 35 to tune
+        }
+        return GeneralConstants.CLOSE_SPEAKER_ANGLE;
+        
+    }
 
     public void runPID(double targetPosition) {
         m_sparkPIDController.setReference(targetPosition, CANSparkMax.ControlType.kPosition);
     }
+public void runPigeonPID() {
+
+    runPigeonPID(calcAngle());
+}
+
     public void runPigeonPID(double targetAngle) {
         double currentAngle = getPitch();
         if (currentAngle <0){

@@ -29,6 +29,7 @@ public final class Constants {
 
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(2.5, 0, .9);
     public static final PIDConstants ANGLE_PID   = new PIDConstants(2.5, 0, 0.9);
+    public static final double MAX_MODULE_SPEED = 4.5;
   }
 
 
@@ -304,7 +305,7 @@ public final class Constants {
 
         public static final double MID_SPEAKER_ANGLE = 34.5;
 
-        public static final double AMP_ANGLE = 51;
+        public static final double AMP_ANGLE = 52;
 
         public static final double DRIVE_ANGLE = 35;
 

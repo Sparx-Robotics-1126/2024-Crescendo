@@ -110,7 +110,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("spinShooterMid", new SpinShooter(m_shooter, 0.9).withTimeout(1.5));
     //STORAGE COMMANDS
     NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(2));
-    NamedCommands.registerCommand("lowPowerStorage", new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER));
+    NamedCommands.registerCommand("spinStorageLong", new SpinStorage(m_storage,GeneralConstants.STORAGE_POWER).withTimeout(3));
+    NamedCommands.registerCommand("lowPowerStorage", new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER).withTimeout(3));
     NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
     
     m_swerve  = new SwerveSubsystem(
@@ -150,6 +151,7 @@ public class RobotContainer {
 
   private void configureDriverBindings() {
     m_driver.leftTrigger().onTrue(new InstantCommand(() -> m_swerve.zeroGyro()));
+    m_driver.a().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, 0));
   }
 
   private void configureOperatorBindings() {
@@ -268,11 +270,11 @@ public class RobotContainer {
     // m_chooser.addOption("fromangleshoot(PATH ONLY)", new PathPlannerAuto("movefromangleshoot"));
     m_chooser.addOption("ShootAndMoveFromFront", new PathPlannerAuto("ShootMoveShoot"));
    
-    m_chooser.addOption("shootfromLeftOfSpeaker", new PathPlannerAuto("MoveFromAngleShoot"));
+    m_chooser.addOption("shootfromAmpSide", new PathPlannerAuto("MoveFromAngleShoot"));
     //m_chooser.addOption("test",new PathPlannerAuto("test"));
     //m_chooser.addOption("shootmoveshootpaths", new PathPlannerAuto("shootmoveshootpaths"));
-    m_chooser.addOption("moveFromRightSpeaker", new PathPlannerAuto("MoveFromRight"));
-    m_chooser.addOption("shootFromRightSpeaker", new PathPlannerAuto("ShootFromRight"));
+    //am_chooser.addOption("moveFromSourceSide", new PathPlannerAuto("MoveFromRight"));
+    m_chooser.addOption("shootFromSourceSide", new PathPlannerAuto("ShootFromRight"));
     
 
     //old way to do auto (sequential commands)

@@ -19,20 +19,28 @@ public class ShootNote extends Command{
 
     @Override
     public void initialize() {
-        m_startTime = System.currentTimeMillis();
+        // m_startTime = System.currentTimeMillis();
     }
 
 // wait until wheels get up to speed, when they do move storage forward, then resetNote
    @Override
    public void execute() {
 
-
-    // while(shooter.getShooterSpeed() != ShooterConstants.SHOOTER_SPEED) {
+    if(m_storage.hasNote()) {
         m_shooter.setShooterSpeed(.6);
-    // }
-    // wont work
-    m_storage.setStorageWheels(1);
-    m_storage.resetNote();
+        m_storage.setStorageWheels(1);
+        m_storage.resetNote();
+    } else {
+        m_storage.setStorageWheels(0);
+        m_shooter.setShooterSpeed(0);
+    }
+
+    // // while(shooter.getShooterSpeed() != ShooterConstants.SHOOTER_SPEED) {
+    //     m_shooter.setShooterSpeed(.6);
+    // // }
+    // // wont work
+    // m_storage.setStorageWheels(1);
+    // m_storage.resetNote();
     
    }
 

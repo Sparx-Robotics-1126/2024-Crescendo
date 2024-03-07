@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3763132980811417,
-        "y": 5.53
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3669845521509227,
-        "y": 5.53
+        "x": 1.9994701885647073,
+        "y": 6.138615211040798
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.25,
-        "y": 5.53
+        "x": 2.0,
+        "y": 5.0
       },
       "prevControl": {
-        "x": 2.25,
-        "y": 5.52067125406978
+        "x": 1.9847845062416432,
+        "y": 5.704912751507076
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3noteAuto",
+  "folder": "testOrUnused",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -275,8 +275,10 @@ public class RobotContainer {
     //m_chooser.addOption("shootmoveshootpaths", new PathPlannerAuto("shootmoveshootpaths"));
     //am_chooser.addOption("moveFromSourceSide", new PathPlannerAuto("MoveFromRight"));
     m_chooser.addOption("shootFromSourceSide", new PathPlannerAuto("ShootFromRight"));
-    m_chooser.addOption("test", new PathPlannerAuto("2mAuto"));
+    m_chooser.addOption("yValueTest", new PathPlannerAuto("2mAuto"));
+    m_chooser.addOption("xValueTest", new PathPlannerAuto("xTuningTest"));
     m_chooser.addOption("testAngled", new PathPlannerAuto("angledTest"));
+    m_chooser.addOption("3NoteAuto", new PathPlannerAuto("3NoteAuto"));
 
     
     

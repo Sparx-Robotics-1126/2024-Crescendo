@@ -7,6 +7,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.ShooterConstants;
 import frc.team1126.subsystems.Arm.PIDF;
@@ -28,9 +30,15 @@ public class Shooter extends SubsystemBase {
         m_shooterEncoder = m_shooterMotor.getEncoder();
         m_sparkPIDController =  m_shooterMotor.getPIDController();
         m_sparkPIDController.setFeedbackDevice(m_shooterEncoder);
+        //m_pidController = m_sparkPIDController;
         set(PIDF.PROPORTION, PIDF.INTEGRAL, PIDF.DERIVATIVE,
                 PIDF.FEEDFORWARD, PIDF.INTEGRAL_ZONE);
 
+    }
+
+    @Override
+    public void periodic() {
+       SmartDashboard.putData(m_pidController);
     }
 
     public void set(double p, double i, double d, double f, double iz) {

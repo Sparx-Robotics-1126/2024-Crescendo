@@ -17,6 +17,7 @@ public class Shooter extends SubsystemBase {
     private RelativeEncoder m_shooterEncoder;
     private PIDController m_pidController;
     private final SparkPIDController m_sparkPIDController;
+    private double m_targetSpeed;
     
 
 

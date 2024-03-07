@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.8686726496887707,
+      "y": 6.726042503963363
+    },
+    "rotation": 57.26477372789239
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "angle test"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "testOrUnused",
+  "choreoAuto": false
+}

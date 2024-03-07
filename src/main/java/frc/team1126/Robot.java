@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-     robotContainer.setCANdle();
+     //robotContainer.setCANdle();
 
  SmartDashboard.putData("AUTO CHOICES ",RobotContainer.m_chooser);
    
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    RobotContainer.m_storage.setHasNote();
+    //RobotContainer.m_storage.setHasNote();
   }
 
   @Override
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) autonomousCommand.cancel();
     
     //robotContainer.m_swerve.zeroGyro();
-    robotContainer.m_storage.resetNote();
+    //robotContainer.m_storage.resetNote();
     // RobotContainer.swerve.stopAllModules();
   }
 

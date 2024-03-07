@@ -11,7 +11,7 @@ public class SpinShooterMid extends Command {
 
     public SpinShooterMid(Shooter shooter) {
 
-        addRequirements(RobotContainer.m_shooter);
+       // addRequirements(RobotContainer.m_shooter);
         m_shooter = shooter;
 
     }

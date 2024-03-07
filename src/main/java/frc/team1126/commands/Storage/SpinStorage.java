@@ -13,7 +13,7 @@ public class SpinStorage extends Command {
 
     public 
     SpinStorage(Storage storage, double power) {
-        addRequirements(RobotContainer.m_storage);
+        //addRequirements(RobotContainer.m_storage);
         m_storage = storage;
         //m_sawNote =false;
         // holdingNote = false;

@@ -15,7 +15,7 @@ public class SpinShooterForAmp extends Command {
 
     public SpinShooterForAmp(Shooter shooter, Storage storage) {
 
-        addRequirements(RobotContainer.m_shooter, RobotContainer.m_storage);
+        //addRequirements(RobotContainer.m_shooter, RobotContainer.m_storage);
         m_shooter = shooter;
         m_storage = storage;
     }

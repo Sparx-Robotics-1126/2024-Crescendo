@@ -12,7 +12,7 @@ public class SpinShooter extends Command {
 
     public SpinShooter(Shooter shooter, double power) {
 
-        addRequirements(RobotContainer.m_shooter);
+        //addRequirements(RobotContainer.m_shooter);
         m_shooter = shooter;
         m_power = power;
 

@@ -10,7 +10,7 @@ public class EjectNote extends Command {
     private double m_speed;
     
     public EjectNote(Storage storage) {
-        addRequirements(RobotContainer.m_storage);
+       // addRequirements(RobotContainer.m_storage);
         m_storage = storage;
         m_speed = -1;
 

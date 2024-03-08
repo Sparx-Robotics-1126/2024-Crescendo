@@ -12,7 +12,7 @@ public class ShootNote extends Command{
     private long m_startTime;
 
     public ShootNote(Shooter shooter, Storage storage) {
-        addRequirements(RobotContainer.m_shooter, RobotContainer.m_storage);
+      //  addRequirements(RobotContainer.m_shooter, RobotContainer.m_storage);
         m_shooter = shooter;
         m_storage = storage;
     }

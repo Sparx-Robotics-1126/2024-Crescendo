@@ -48,7 +48,7 @@ public class Arm extends SubsystemBase {
 
         m_armLeftMotor.restoreFactoryDefaults();
         m_armRightMotor.restoreFactoryDefaults();
-        // m_armLeftMotor.follow(m_armRightMotor);
+         m_armLeftMotor.follow(m_armRightMotor);
         m_armRightMotor.setInverted(false);
         m_armLeftMotor.setInverted(true);
         m_armLeftMotor.setIdleMode(IdleMode.kBrake);
@@ -146,7 +146,7 @@ public void runPigeonPID() {
 
         m_pidOutput = totalOutput;
         m_armRightMotor.set(totalOutput);
-        m_armLeftMotor.set(totalOutput);
+        // m_armLeftMotor.set(totalOutput);
     }
 
     public void runAmpPID(double targetAngle) {
@@ -164,7 +164,7 @@ public void runPigeonPID() {
 
             m_pidOutput = totalOutput;
             m_armRightMotor.set(totalOutput);
-            m_armLeftMotor.set(totalOutput);
+            // m_armLeftMotor.set(totalOutput);
         }
     }
     public void runClimbPID(double targetAngle) {
@@ -181,7 +181,7 @@ public void runPigeonPID() {
 
             m_pidOutput = totalOutput;
             m_armRightMotor.set(totalOutput);
-            m_armLeftMotor.set(totalOutput);
+            // m_armLeftMotor.set(totalOutput);
         }
     }
 
@@ -209,7 +209,7 @@ public void runPigeonPID() {
 
     public void changeAngle(double liftPower) {
         m_armRightMotor.set(liftPower);
-        m_armLeftMotor.set(liftPower);
+        // m_armLeftMotor.set(liftPower);
     }
 
     public Command runManual(DoubleSupplier supplier) {
@@ -221,7 +221,7 @@ public void runPigeonPID() {
 
     public void moveArm(double power) {
         m_power = power;
-        m_armLeftMotor.set(m_power);
+        // m_armLeftMotor.set(m_power);
         m_armRightMotor.set(m_power);
     }
 

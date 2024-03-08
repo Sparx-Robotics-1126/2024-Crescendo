@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    RobotContainer.m_storage.setHasNote();
+   // RobotContainer.m_storage.setHasNote();
   }
 
   @Override
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) autonomousCommand.cancel();
     
     //robotContainer.m_swerve.zeroGyro();
-    robotContainer.m_storage.resetNote();
+    //robotContainer.m_storage.resetNote();
     // RobotContainer.swerve.stopAllModules();
   }
 

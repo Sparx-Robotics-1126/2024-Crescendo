@@ -1,7 +1,7 @@
 package frc.team1126.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;

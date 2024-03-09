@@ -1,0 +1,24 @@
+package frc.team1126.lib.properties;
+
+import java.util.function.DoubleConsumer;
+
+/**
+ * A wrapper around PropertyManager.DoubleProperty, for things that shouldn't
+ * be updated frequently for performance issues, like PIDF gains that go over the
+ * CAN bus.
+ *
+ * You should call updateIfChanged every loop, but the actual setter will only get
+ * called if the value changes
+ */
+public class HeavyDoubleProperty extends BaseHeavyProperty<Double> {
+
+    public HeavyDoubleProperty(DoubleConsumer setter, GosDoubleProperty property) {
+        super(setter::accept, property);
+    }
+
+    public static HeavyDoubleProperty create(String propertyName, boolean isConstant, double defaultValue, DoubleConsumer setter) {
+        GosDoubleProperty prop = new GosDoubleProperty(isConstant, propertyName, defaultValue);
+        return new HeavyDoubleProperty(setter, prop);
+    }
+
+}

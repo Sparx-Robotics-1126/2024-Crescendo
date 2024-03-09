@@ -146,6 +146,12 @@
                 "data": {
                   "name": "moveDown"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
               }
             ]
           }

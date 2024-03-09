@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.Toolbox.AprilTag;
 import frc.lib.Toolbox.PIDGains;
 
@@ -20,6 +21,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import frc.lib.swervelib.parser.PIDFConfig;
 
 public final class Constants {
+    public static final boolean DEFAULT_CONSTANT_PROPERTIES = RobotBase.isReal();
     public static final double NOMINAL_VOLTAGE = 12;
     public static final int MAX_CURRENT = 80;
     public static final double DEAD_BAND = .5;
@@ -27,7 +29,7 @@ public final class Constants {
  public static final class AutonConstants
   {
 
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(2.5, 0, .9);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
     public static final PIDConstants ANGLE_PID   = new PIDConstants(2.5, 0, 0.9);
     public static final double MAX_MODULE_SPEED = 4.5;
   }
@@ -301,23 +303,21 @@ public final class Constants {
         // Operator controller port
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
-        public static final double CLOSE_SPEAKER_ANGLE = 21;
+        public static final double CLOSE_SPEAKER_ANGLE = 22;
 
-        public static final double MID_SPEAKER_ANGLE = 34.5;
+        public static final double MID_SPEAKER_ANGLE = 36;
 
-        public static final double AMP_ANGLE = 52;
+        public static final double AMP_ANGLE = 50;
 
-        public static final double DRIVE_ANGLE = 35;
+        public static final double DRIVE_ANGLE = 34.5;
 
-        public static final double CLOSE_SPEAKER_POWER = 0.6;
+        public static final double CLOSE_SPEAKER_POWER = 2800;
 
-        public static final double MID_SPEAKER_POWER = 0.8;
+        public static final double MID_SPEAKER_POWER = 3500;
 
         public static final double STORAGE_POWER = 0.7;
 
         public static final double LOW_STORAGE_POWER = 0.6;
-
-
     }
 
     /**
@@ -326,6 +326,7 @@ public final class Constants {
     public static class SwerveConstants {
 
         // Joystick axis deadband for the swerve drive
+
         public static final double SWERVE_DEADBAND = 0.1;
 
         // Swerve default translational scalar
@@ -380,6 +381,17 @@ public final class Constants {
         public static final int SLAVE_ID = 31;
         public static final int ARM_PIGEON_ID = 16;
         public static final int ARM_LIMIT_SWITCH_ID = 19;
+        public static final double kArmP = 15.0; // 6.4
+        public static final double kArmI = 0.00;
+        public static final double kArmD = 0.00;
+        public static final double kArmFF = 0.00;
+        public static final int kCurrentLimitDefault = 20;
+        public static final int kCurrentLimitManual = 10;
+        public static final int kCurrentLimitClimbing = 70;
+        public static final double kArmMinOutput = -1.0; // -1.00
+        public static final double kArmMaxOutput = 1.0; // 1.00
+        public static final double kPositionTolerance = 0.05;
+        public static final double kVelocityTolerance = 0.02;
     }
 
     /**

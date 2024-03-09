@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team1126.RobotContainer;
+import frc.team1126.Constants.GeneralConstants;
 import frc.team1126.subsystems.Arm;
 import frc.team1126.subsystems.sensors.Limelight;
 
@@ -29,10 +30,14 @@ public class MoveArmToPosition extends Command {
         // double target = m_targetAngle;
         SmartDashboard.putNumber("Target Angle", m_targetAngle);
         if (currentPitch < m_targetAngle && m_arm.getPitch() < 85) {
-            m_arm.runPigeonPID(m_targetAngle); // positive power to move up
+            m_arm.moveArmToAngle(m_targetAngle);
+           
+           // m_arm.runPigeonPID(m_targetAngle); // positive power to move up
         } else if (currentPitch > m_targetAngle && !m_arm.m_homeLimit.get()) {
-            m_arm.runPigeonPID(m_targetAngle); // negative power to move down
+           m_arm.moveArmToAngle(m_targetAngle);
+            // m_arm.runPigeonPID(m_targetAngle); // negative power to move down
         }
+        
     }
 
     @Override

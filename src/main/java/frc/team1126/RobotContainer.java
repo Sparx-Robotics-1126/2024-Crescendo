@@ -44,6 +44,7 @@ import frc.team1126.commands.arm.MoveArmToAmp;
 import frc.team1126.commands.arm.MoveArmToPosition;
 import frc.team1126.commands.arm.MoveArmToPositionNoPID;
 import frc.team1126.commands.arm.MoveArmWithLimelight;
+import frc.team1126.commands.arm.MoverArmPIDAngle;
 import frc.team1126.commands.arm.ZeroPigeon;
 import frc.team1126.commands.arm.HoldArmAtPosition;
 import frc.team1126.commands.climber.MoveClimber;
@@ -89,7 +90,7 @@ public class RobotContainer {
 
   public final static Arm m_arm = new Arm();
 
- // public final static Storage m_storage = new Storage();
+  public final static Storage m_storage = new Storage();
 
   public final static Shooter m_shooter = new Shooter();
 
@@ -98,21 +99,21 @@ public class RobotContainer {
     configureOperatorBindings();
                                            /*REGISTER PATHPLANNER COMMANDS HERE */
     //ARM COMMANDS
-    NamedCommands.registerCommand("moveArmTo23", new MoveArmToPosition(m_arm, m_limeLight,21).withTimeout(1.5));
-    NamedCommands.registerCommand("moveArmTo30", new MoveArmToPosition(m_arm,m_limeLight,30.8).withTimeout(1.5));
-    NamedCommands.registerCommand("moveArmTo53", new MoveArmToPosition(m_arm,m_limeLight,53).withTimeout(1.5));
-    NamedCommands.registerCommand("moveArmToHome", new MoveArmToPosition(m_arm, m_limeLight, .02).withTimeout(2));
+    NamedCommands.registerCommand("moveArmTo23", new MoverArmPIDAngle(m_arm,21).withTimeout(1.5));
+    NamedCommands.registerCommand("moveArmTo30", new MoverArmPIDAngle(m_arm,30.8).withTimeout(1.5));
+    NamedCommands.registerCommand("moveArmTo53", new MoverArmPIDAngle(m_arm,53).withTimeout(1.5));
+    NamedCommands.registerCommand("moveArmToHome", new MoverArmPIDAngle(m_arm, .02).withTimeout(2));
     NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(1.5));
-    NamedCommands.registerCommand("hold", new HoldArmAtPosition(m_arm).withTimeout(1.5));
+    NamedCommands.registerCommand("hold", new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE).withTimeout(1.5));
     // SHOOTER COMMANDS
-   // NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage).withTimeout(1));
-    NamedCommands.registerCommand("spinShooter", new SpinShooter(m_shooter, 0.6).withTimeout(1.5));
-    NamedCommands.registerCommand("spinShooterMid", new SpinShooter(m_shooter, 0.9).withTimeout(1.5));
+    NamedCommands.registerCommand("shootNote", new ShootNote(m_shooter, m_storage).withTimeout(1));
+    NamedCommands.registerCommand("spinShooter", new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
+    NamedCommands.registerCommand("spinShooterMid", new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
     //STORAGE COMMANDS
-    // NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(2));
-    // NamedCommands.registerCommand("spinStorageLong", new SpinStorage(m_storage,GeneralConstants.STORAGE_POWER).withTimeout(3));
-    // NamedCommands.registerCommand("lowPowerStorage", new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER).withTimeout(3));
-    // NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
+    NamedCommands.registerCommand("spinStorage", new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(2));
+    NamedCommands.registerCommand("spinStorageLong", new SpinStorage(m_storage,GeneralConstants.STORAGE_POWER).withTimeout(3));
+    NamedCommands.registerCommand("lowPowerStorage", new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER).withTimeout(3));
+    NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
     
     m_swerve  = new SwerveSubsystem(
       new File(Filesystem.getDeployDirectory(), "swerve"));
@@ -151,7 +152,8 @@ public class RobotContainer {
 
   private void configureDriverBindings() {
     m_driver.leftTrigger().onTrue(new InstantCommand(() -> m_swerve.zeroGyro()));
-    m_driver.a().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, 0));
+    //m_driver.a().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, 0));
+    //m_driver.b().whileTrue(new MoverArmPIDAngle(m_arm,GeneralConstants.AMP_ANGLE));
   }
 
   private void configureOperatorBindings() {
@@ -169,22 +171,24 @@ public class RobotContainer {
     // .alongWith( new MoveArmToPosition(m_arm, angle)));
 
     // Fire note
-    // m_operator.rightTrigger().whileTrue(new ShootNote(m_shooter, m_storage)
-    //     .alongWith(new HoldArmAtPosition(m_arm)));
-    // m_operator.b().whileTrue(new EjectNote(m_storage));
+    m_operator.rightTrigger().whileTrue(new ShootNote(m_shooter, m_storage)
+                              .alongWith(new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE))); // .alongWith(new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE)
+    m_operator.leftTrigger().whileTrue(new EjectNote(m_storage));
 
     // m_operator.a().whileTrue(new SpinStorage(m_storage).andThen(new
     // MoveArmToPosition(m_arm,m_limeLight.calculateTargetAngle()).alongWith(new
     // SpinShooter(m_shooter))));
 
-    // // pickup and move to driveing/amp angle. no need for shooter yet
-    // m_operator.a().whileTrue(new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER)
-    //     .andThen(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE)));
+    // // pickup and move to driving/amp angle. no need for shooter yet
+    m_operator.a().whileTrue(new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER)
+        .andThen(new MoverArmPIDAngle(m_arm, GeneralConstants.DRIVE_ANGLE)));
 
     //move are to position.  Limelight will return the angle base on specific distances (close, mid, far)
-    m_operator.x().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.CLOSE_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER))); //
-    m_operator.b().whileTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.MID_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
+    m_operator.x().whileTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE)
+    .alongWith(new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER))); //
+    m_operator.b().whileTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE).alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
     m_operator.y().whileTrue(new MoveArmToAmp(m_arm));
+
     // .alongWith(new SpinShooter(m_shooter))
 
     // m_operator.y().whileTrue(new MoveArmToPosition(m_arm, m_limeLight));
@@ -193,13 +197,15 @@ public class RobotContainer {
     m_operator.leftBumper().whileTrue(new MoveMax(m_climber, 0.5));
     m_operator.rightBumper().whileTrue(new MoveHome(m_climber, 0.5));
 
+
     // m_operator.b().whileTrue(new MoveArmWithLimelight(m_arm, m_limeLight)
     //     .alongWith(new SpinShooter(m_shooter)));
 
     m_operator.back().whileTrue(new MoveArmForClimb(m_arm));
-    m_operator.povUp().onTrue(new MoveArmToPosition(m_arm, m_limeLight, GeneralConstants.DRIVE_ANGLE));
+    m_operator.povUp().onTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.DRIVE_ANGLE));
     m_operator.povDown().onTrue(new MoveArmToPositionNoPID(m_arm, m_limeLight, m_rotationAxis));
-    m_operator.povLeft().whileTrue(new SpinShooter(m_shooter, 0.5));
+    m_operator.povLeft().whileTrue(new SpinShooter(m_shooter, 2000));
+    
    // m_operator.povRight().whileTrue(new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
     m_operator.rightStick().onTrue(new ZeroPigeon(m_arm));
 
@@ -277,6 +283,7 @@ public class RobotContainer {
     m_chooser.addOption("shootFromSourceSide", new PathPlannerAuto("ShootFromRight"));
     m_chooser.addOption("3 NOTE AUTO", new PathPlannerAuto("3NoteAuto"));
     m_chooser.addOption("x tuning", new PathPlannerAuto("xTuningTest"));
+    m_chooser.addOption("y tuning", new PathPlannerAuto("test"));
     
 
     //old way to do auto (sequential commands)
@@ -334,23 +341,23 @@ public class RobotContainer {
   public void setCANdle() {
     var ll = Limelight.getInstance();
     //☝️🤓 <- me fr
-    // if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
-    //   m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
-    //  } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
-    //     if (ll.calculateTargetDistanceInInches() > 39 && ll.calculateTargetDistanceInInches() < 41) {
-    //       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
-		// 	  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
-    //       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-		// 	  } else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
-    //      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-		// 	  }
-  //  } else {
-  //     if ( DriverStation.getAlliance().get() == Alliance.Red) {
-  //       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
-  //     } else if ( DriverStation.getAlliance().get() == Alliance.Blue) {
-  //       m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
-  //     }
-  //   }
+    if(RobotContainer.m_storage.getHasNote() && !ll.hasSpeakerTarget()) {
+      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.YELLOW);
+     } else if(ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()){
+        if (ll.calculateTargetDistanceInInches() > 39 && ll.calculateTargetDistanceInInches() < 41) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+			  } else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
+          m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  } else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
+         m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+			  }
+   } else {
+      if ( DriverStation.getAlliance().get() == Alliance.Red) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+      } else if ( DriverStation.getAlliance().get() == Alliance.Blue) {
+        m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+      }
+    }
   }
 
   public void EndGameRumble() {

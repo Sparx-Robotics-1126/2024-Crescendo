@@ -20,7 +20,8 @@ public class SpinShooter extends Command {
 
     @Override
     public void execute(){
-        m_shooter.setShooterSpeed(m_power);
+       // m_shooter.setShooterSpeed(m_power);
+       m_shooter.setShooterPID(m_power);
     }
 
        @Override

@@ -11,22 +11,22 @@ public class HoldArmAtPosition extends Command {
     public HoldArmAtPosition(Arm arm) {
         addRequirements(RobotContainer.m_arm);
         m_arm = arm;
-        m_angle = m_arm.getPitch();
+        m_angle = m_arm.getAngle();
     }
 
      @Override
     public void execute(){
-       m_arm.runPigeonPID(m_arm.getPitch());
+       m_arm.moveArmToAngle(m_angle);
 
     }
 
-    @Override
-    public void end(boolean interupted){
-        m_arm.moveArm(0);
-    }
+    // @Override
+    // public void end(boolean interupted){
+    //     m_arm.moveArm(0);
+    // }
 
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
+    // @Override
+    // public boolean isFinished() {
+    //   return false;
+    // }
 }

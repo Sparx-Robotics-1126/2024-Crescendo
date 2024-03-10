@@ -13,7 +13,7 @@ public class MoveArmForClimb extends Command {
     public MoveArmForClimb(Arm arm) { // -3
         addRequirements(RobotContainer.m_arm);
         m_arm = arm;
-        m_targetAngle = 75;
+        m_targetAngle = 80;
     }
 
     
@@ -22,7 +22,7 @@ public class MoveArmForClimb extends Command {
         double currentPitch = m_arm.getPitch();
 
         if (currentPitch < m_targetAngle && m_arm.getPitch() <85) {
-            m_arm.runClimbPID(m_targetAngle); // positive power to move up
+            m_arm.moveArmToAngle(m_targetAngle); // positive power to move up
         } 
         // else if (currentPitch > m_targetAngle && !m_arm.m_homeLimit.get()) {
         //     m_arm.runClimbPID(m_targetAngle); // negative power to move down

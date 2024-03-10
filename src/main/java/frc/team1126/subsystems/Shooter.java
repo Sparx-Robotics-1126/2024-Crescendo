@@ -16,8 +16,6 @@ import frc.team1126.Constants.GeneralConstants;
 import frc.team1126.Constants.ShooterConstants;
 import frc.team1126.lib.properties.pid.PidProperty;
 import frc.team1126.lib.properties.pid.RevPidPropertyBuilder;
-//import frc.team1126.lib.properties.pid.RevPidPropertyBuilder;
-import frc.team1126.subsystems.Arm.PIDF;
 import frc.team1126.subsystems.sensors.Limelight;
 
 public class Shooter extends SubsystemBase {
@@ -28,9 +26,6 @@ public class Shooter extends SubsystemBase {
     private PIDController m_pidController = new PIDController(1, 0, 1.2);
     private final SparkPIDController m_sparkPIDController;
     private final PidProperty m_pidProperties;
-    
-
-
     private double m_shooterSpeed;
 
     public Shooter() {
@@ -52,6 +47,7 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("PID shooter speed", m_shooterSpeed);
         SmartDashboard.putNumber("Shooter Power", m_shooterEncoder.getVelocity());
+        SmartDashboard.putNumber("Shooter speed", calculateShooter());
     }
     public void setShooterSpeed(double speed) {
         m_shooterSpeed = speed;

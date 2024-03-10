@@ -10,113 +10,110 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import frc.team1126.commands.auto.Autos;
 import frc.team1126.subsystems.CANdleSubsystem;
-import frc.team1126.subsystems.sensors.Limelight;
 
 public class Robot extends TimedRobot {
-  private Command autonomousCommand;
-  public static RobotContainer robotContainer;
-  public static int ledColor;
-  public static final CANdleSubsystem m_candleSubsystem = new CANdleSubsystem();
+    private Command autonomousCommand;
+    public static RobotContainer robotContainer;
+    public static int ledColor;
+    public static final CANdleSubsystem m_candleSubsystem = new CANdleSubsystem();
 
-
-  @Override
-  public void robotInit() {
-    robotContainer = new RobotContainer();
-    // Autos.init();
-  }
-
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-     robotContainer.setCANdle();
-
- SmartDashboard.putData("AUTO CHOICES ",RobotContainer.m_chooser);
-   
-
-    // if(!Limelight.getInstance().inSpeakerRange(75) && robotContainer.m_storage.getHasNote()) {
-    //   m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-    // } 
-  }
-
-  @Override
-  public void disabledInit() {}
-
-  @Override
-  public void disabledPeriodic() {
-    if ( DriverStation.getAlliance().get() == Alliance.Red){
-      ledColor = 0;
-      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+    @Override
+    public void robotInit() {
+        robotContainer = new RobotContainer();
+        // Autos.init();
     }
-    else{
-      ledColor = 1;
-      m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+        
+
+        SmartDashboard.putData("AUTO CHOICES ", RobotContainer.m_chooser);
     }
-  }
 
-  @Override
-  public void disabledExit() {}
-
-  @Override
-  public void autonomousInit() {
-//    robotContainer.setMotorBrake(true);
-    autonomousCommand = robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+    @Override
+    public void disabledInit() {
     }
-  }
 
-  @Override
-  public void autonomousPeriodic() {
-   // RobotContainer.m_storage.setHasNote();
-  }
+    @Override
+    public void disabledPeriodic() {
+        if (DriverStation.getAlliance().get() == Alliance.Red) {
+            ledColor = 0;
+            m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+        } else {
+            ledColor = 1;
+            m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+        }
+    }
 
-  @Override
-  public void autonomousExit() {
-  }
+    @Override
+    public void disabledExit() {
+    }
 
-  @Override
-  public void teleopInit() {
-    if (autonomousCommand != null) autonomousCommand.cancel();
-    
-    //robotContainer.m_swerve.zeroGyro();
-    //robotContainer.m_storage.resetNote();
-    // RobotContainer.swerve.stopAllModules();
-  }
+    @Override
+    public void autonomousInit() {
+        // robotContainer.setMotorBrake(true);
+        autonomousCommand = robotContainer.getAutonomousCommand();
 
-  @Override
-  public void teleopPeriodic() {
+        // schedule the autonomous command (example)
+        if (autonomousCommand != null) {
+            autonomousCommand.schedule();
+        }
+    }
 
-       robotContainer.EndGameRumble();
-  
+    @Override
+    public void autonomousPeriodic() {
+        // RobotContainer.m_storage.setHasNote();
+    }
 
-  
+    @Override
+    public void autonomousExit() {
+    }
 
-    // if (ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()) {
-		// 	if (ll.calculateTargetDistanceInInches() > 40 && ll.calculateTargetDistanceInInches() < 45) {
-    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
-		// 	} else if (ll.calculateTargetDistanceInInches() > 90 && ll.calculateTargetDistanceInInches() < 96) {
-    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-		// 	} else if (ll.calculateTargetDistanceInInches() > 110 && ll.calculateTargetDistanceInInches() < 114) {
-    //     m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-		// 	}
-		// }
-  }
+    @Override
+    public void teleopInit() {
+        if (autonomousCommand != null)
+            autonomousCommand.cancel();
 
-  @Override
-  public void teleopExit() {}
+        // robotContainer.m_swerve.zeroGyro();
+        // robotContainer.m_storage.resetNote();
+        // RobotContainer.swerve.stopAllModules();
+    }
 
-  @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
+    @Override
+    public void teleopPeriodic() {
+        robotContainer.setCANdle();
+        robotContainer.EndGameRumble();
 
-  @Override
-  public void testPeriodic() {}
+        // if (ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()) {
+        // if (ll.calculateTargetDistanceInInches() > 40 &&
+        // ll.calculateTargetDistanceInInches() < 45) {
+        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
+        // } else if (ll.calculateTargetDistanceInInches() > 90 &&
+        // ll.calculateTargetDistanceInInches() < 96) {
+        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+        // } else if (ll.calculateTargetDistanceInInches() > 110 &&
+        // ll.calculateTargetDistanceInInches() < 114) {
+        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
+        // }
+        // }
+    }
 
-  @Override
-  public void testExit() {}
+    @Override
+    public void teleopExit() {
+    }
+
+    @Override
+    public void testInit() {
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void testPeriodic() {
+    }
+
+    @Override
+    public void testExit() {
+    }
 }

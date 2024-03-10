@@ -166,39 +166,6 @@ public class CANdleSubsystem extends SubsystemBase {
         System.out.println("Changed to " + m_currentAnimation.toString());
     }
 
-	// public void clearAllAnims() {m_clearAllAnims = true;}
-
-    // @Override
-    // public void periodic() {
-    //     // This method will be called once per scheduler run
-    //     if(m_toAnimate == null) {
-    //         if(!m_setAnim) {
-    //             /* Only setLEDs once, because every set will transmit a frame */
-    //             m_candle.setLEDs(255, 255, 255, 0, 0, 1);
-    //             m_candle.setLEDs(255, 255, 0, 0, 1, 1);
-    //             m_candle.setLEDs(255, 0, 255, 0, 2, 1);
-    //             m_candle.setLEDs(255, 0, 0, 0, 3, 1);
-    //             m_candle.setLEDs(0, 255, 255, 0, 4, 1);
-    //             m_candle.setLEDs(0, 255, 0, 0, 5, 1);
-    //             m_candle.setLEDs(0, 0, 0, 0, 6, 1);
-    //             m_candle.setLEDs(0, 0, 255, 0, 7, 1);
-    //             m_setAnim = true;
-    //         }
-    //     } else {
-    //         m_toAnimate.setSpeed((joystick.getRightY() + 1.0) / 2.0);
-    //         m_candle.animate(m_toAnimate, m_candleChannel);
-    //         m_setAnim = false;
-    //     }
-    //     m_candle.modulateVBatOutput(joystick.getRightY());
-
-    //     if(m_clearAllAnims) {
-    //         m_clearAllAnims = false;
-    //         for(int i = 0; i < 10; ++i) {
-    //             m_candle.clearAnimation(i);
-    //         }
-    //     }
-    // }
-
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation

@@ -2,7 +2,6 @@ package frc.team1126.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,14 +12,12 @@ public class Storage extends SubsystemBase {
     
     //neo 550 to power both acquisition wheels and storage belts
     private CANSparkMax m_storageWheels;
-    private RelativeEncoder m_storageEncoder;
     private DigitalInput m_noteSensor;
     private boolean m_hasNote;
 
     public Storage() {
 
         m_storageWheels = new CANSparkMax(StorageConstants.ACQ_WHEELS_ID, CANSparkLowLevel.MotorType.kBrushless); // shouldn't need to specify that this is a neo 550 in code, but keep this in mind
-        m_storageEncoder = m_storageWheels.getEncoder();
         
         m_noteSensor = new DigitalInput(StorageConstants.LIGHT_SENSOR);
         m_hasNote = false;
@@ -28,7 +25,6 @@ public class Storage extends SubsystemBase {
 
     @Override
     public void periodic() {
-        var lightSensorState = m_noteSensor.get();
         SmartDashboard.putBoolean("Light Sensor Limit",  !m_noteSensor.get());
         SmartDashboard.putNumber("Storage Wheels Speed",getStorageWheelsSpeed());
     }

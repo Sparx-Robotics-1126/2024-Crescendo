@@ -15,7 +15,6 @@ import frc.lib.Toolbox.PIDGains;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.PIDConstants;
 
 import frc.lib.swervelib.parser.PIDFConfig;
@@ -30,7 +29,7 @@ public final class Constants {
   {
 
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
-    public static final PIDConstants ANGLE_PID   = new PIDConstants(2.5, 0, 0.9);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(1.5, 1, 1.15);
     public static final double MAX_MODULE_SPEED = 4.5;
   }
 
@@ -232,7 +231,7 @@ public final class Constants {
         public static final double K_PUPPY_DRIVE_MOTION_SMOOTHING = 0.4;
 
         public static final PIDGains K_LL_ALIGN_STRAFE_GAINS = new PIDGains(.04, 0.0015, 0.001);
-        public static final PIDGains K_LL_ALIGN_DRIVE_GAINS = new PIDGains(.025, 0.0015, 0.0005);
+        public static final PIDGains K_LL_ALIGN_DRIVE_GAINS = new PIDGains(.09, 0.1, 0.1);
         public static final double K_ALIGN_DRIVE_MOTION_SMOOTHING = 0;
         public static final double K_ALIGN_STRAFE_MOTION_SMOOTHING = 0;
 

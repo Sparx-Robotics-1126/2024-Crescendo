@@ -8,9 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.lib.swervelib.imu.SwerveIMU;
 import static frc.team1126.Constants.ClimberConstants.*;
-import frc.team1126.Constants.ShooterConstants;
 
 public class Climber extends SubsystemBase {
 

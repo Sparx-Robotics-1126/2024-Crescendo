@@ -37,13 +37,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo23"
+                  "name": "calculateArm"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -62,16 +62,10 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hold"
+                  "name": "holdClose"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "moveDown"
           }
         },
         {
@@ -82,6 +76,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Move back to note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
                 }
               },
               {
@@ -100,13 +100,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo30"
+                  "name": "calculateArm"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooterMid"
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -125,7 +125,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hold"
+                  "name": "holdMid"
                 }
               }
             ]

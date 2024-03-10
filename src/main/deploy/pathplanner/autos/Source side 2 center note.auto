@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8393012850426425,
-      "y": 6.755413868609491
+      "x": 0.7979310504075553,
+      "y": 4.431154316854089
     },
-    "rotation": 44.999999999999986
+    "rotation": -59.23728046576109
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveDown"
+                  "name": "calculateShooter"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "calculateArm"
                 }
               }
             ]
@@ -34,123 +34,22 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "calculateShooter"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "move from angled shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveDown"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinStorage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "TurnBackToSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "move to line from angle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveDown"
                 }
               }
             ]
@@ -159,7 +58,158 @@
         {
           "type": "named",
           "data": {
-            "name": "spinStorage"
+            "name": "moveDown"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Source side to second note from Source"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2nd Note from Source to shooting position"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveDown"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2nd note shooting position to source note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "shooting position from soucre side center note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              }
+            ]
           }
         }
       ]

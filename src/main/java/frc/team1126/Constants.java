@@ -303,9 +303,9 @@ public final class Constants {
         // Operator controller port
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
-        public static final double CLOSE_SPEAKER_ANGLE = 22;
+        public static final double CLOSE_SPEAKER_ANGLE = 22.5;
 
-        public static final double MID_SPEAKER_ANGLE = 36;
+        public static final double MID_SPEAKER_ANGLE = 41;
 
         public static final double AMP_ANGLE = 50;
 
@@ -313,7 +313,7 @@ public final class Constants {
 
         public static final double CLOSE_SPEAKER_POWER = 2800;
 
-        public static final double MID_SPEAKER_POWER = 3500;
+        public static final double MID_SPEAKER_POWER = 3800;
 
         public static final double STORAGE_POWER = 0.7;
 

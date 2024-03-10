@@ -184,10 +184,10 @@ private double getP(){
     //     m_sparkPIDController.setFF(f);
     //     m_sparkPIDController.setIZone(iz);
     // }
-    private double calcAngle(){
+    public double calcAngle(){
         if(m_limelight.hasSpeakerTarget()) {
             var dist = m_limelight.getDistance();
-            return  59- Math.atan(50/(dist+35)); // change the 59 or the 35 to tune
+            return  68- Math.toDegrees((Math.atan(50/(dist+35)))); // change the 59 or the 35 to tune
         }
         return GeneralConstants.CLOSE_SPEAKER_ANGLE;
         
@@ -312,6 +312,7 @@ public void runPigeonPID() {
         SmartDashboard.putNumber("Arm Position", m_armRightEncoder.getPosition());
         SmartDashboard.putBoolean("Home Limit", m_homeLimit.get()); // getHomeLimit());\
         SmartDashboard.putNumber("PID Output", m_pidOutput);
+        SmartDashboard.putNumber("Target ANgle", calcAngle());
         // SmartDashboard.putNumber("Arm P",m_sparkPidController.getP());
         // SmartDashboard.putNumber("Arm I",m_sparkPidController.getI());
         // SmartDashboard.putNumber("Arm D",m_sparkPidController.getD());

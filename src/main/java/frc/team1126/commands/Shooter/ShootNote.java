@@ -9,12 +9,14 @@ public class ShootNote extends Command{
 
     private Shooter m_shooter;
     private Storage m_storage;
+    private double m_power;
     private long m_startTime;
 
-    public ShootNote(Shooter shooter, Storage storage) {
+    public ShootNote(Shooter shooter, Storage storage, double power) {
        addRequirements(RobotContainer.m_shooter, RobotContainer.m_storage);
         m_shooter = shooter;
         m_storage = storage;
+        m_power = power;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class ShootNote extends Command{
    public void execute() {
 
     if(m_storage.hasNote()) {
-        m_shooter.setShooterSpeed(.6);
+        m_shooter.setShooterSpeed(m_power);
         m_storage.setStorageWheels(1);
         m_storage.resetNote();
     } else {

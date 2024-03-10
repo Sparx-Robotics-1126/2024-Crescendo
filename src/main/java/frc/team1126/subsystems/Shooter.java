@@ -7,20 +7,24 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants;
+import frc.team1126.Constants.GeneralConstants;
 import frc.team1126.Constants.ShooterConstants;
 import frc.team1126.lib.properties.pid.PidProperty;
 import frc.team1126.lib.properties.pid.RevPidPropertyBuilder;
 //import frc.team1126.lib.properties.pid.RevPidPropertyBuilder;
 import frc.team1126.subsystems.Arm.PIDF;
+import frc.team1126.subsystems.sensors.Limelight;
 
 public class Shooter extends SubsystemBase {
 
     private CANSparkFlex m_shooterMotor;
     private RelativeEncoder m_shooterEncoder;
+    private Limelight m_limelight = Limelight.getInstance();
     private PIDController m_pidController = new PIDController(1, 0, 1.2);
     private final SparkPIDController m_sparkPIDController;
     private final PidProperty m_pidProperties;
@@ -84,6 +88,13 @@ public class Shooter extends SubsystemBase {
     public boolean isMotorUpToSpeed() {
         double currentSpeed = m_shooterMotor.get();
         return currentSpeed >= m_shooterSpeed;
+    }
+
+    public double calculateShooter() {
+        if(m_limelight.hasSpeakerTarget()) {
+            return (34.13 * m_limelight.getDistance()) + 1602;
+        }
+        return GeneralConstants.CLOSE_SPEAKER_POWER;
     }
 
 }

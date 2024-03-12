@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6766573533147066,
-      "y": 4.263236890110144
+      "x": 0.7218158264581296,
+      "y": 4.4057046969192335
     },
-    "rotation": -72.31560797344223
+    "rotation": -59.26451229807991
   },
   "command": {
     "type": "sequential",
@@ -37,13 +37,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo23"
+                  "name": "calculateArm"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -62,7 +62,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hold"
+                  "name": "calculateArm"
                 }
               }
             ]
@@ -82,6 +82,12 @@
                 "type": "named",
                 "data": {
                   "name": "moveDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
                 }
               }
             ]

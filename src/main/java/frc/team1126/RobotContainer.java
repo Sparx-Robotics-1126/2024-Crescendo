@@ -96,7 +96,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(1.5));
         // STORAGE COMMANDS
         NamedCommands.registerCommand("spinStorage",
-                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(2));
+                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
         NamedCommands.registerCommand("spinStorageLong",
                 new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(3));
         NamedCommands.registerCommand("lowPowerStorage",
@@ -298,11 +298,15 @@ public class RobotContainer {
 
     public void EndGameRumble() {
 
-        if (DriverStation.getMatchTime() < SwerveConstants.ENDGAME_SECONDS
-                && DriverStation.getMatchTime() > SwerveConstants.STOP_RUMBLE_SECONDS) {
+        if(DriverStation.getMatchTime() < 20 && DriverStation.getMatchTime() > 18) {
             m_candleSubsystem.setLEDState(LEDState.PURPLE);
-            m_driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
-            m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.5);
+        }
+
+        if (DriverStation.getMatchTime() < SwerveConstants.ENDGAME_SECONDS 
+                && DriverStation.getMatchTime() > SwerveConstants.STOP_RUMBLE_SECONDS) {
+            
+            m_driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 1);
+            m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 1);
 
         } else {
             m_driver.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);

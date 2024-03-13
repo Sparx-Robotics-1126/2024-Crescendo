@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7218158264581296,
-      "y": 4.4057046969192335
+      "x": 0.5162162739352321,
+      "y": 4.082619685811823
     },
-    "rotation": -59.26451229807991
+    "rotation": -1.9305874411669626
   },
   "command": {
     "type": "sequential",
@@ -15,6 +15,12 @@
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "sSShoot from wall to shoot Angle"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -88,6 +94,25 @@
                 "type": "named",
                 "data": {
                   "name": "spinStorage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "noteToBack"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
                 }
               }
             ]

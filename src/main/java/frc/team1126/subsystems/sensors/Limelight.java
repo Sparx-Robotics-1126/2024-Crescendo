@@ -257,6 +257,7 @@ public class Limelight extends SubsystemBase {
 		if (targetId > 0) {
 			return true;
 		}
+		
 		return false;
 
 		// return validTarget.getBoolean(false);

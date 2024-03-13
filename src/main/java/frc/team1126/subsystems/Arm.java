@@ -187,7 +187,7 @@ private double getP(){
     public double calcAngle(){
         if(m_limelight.hasSpeakerTarget()) {
             var dist = m_limelight.getDistance();
-            return  69- Math.toDegrees((Math.atan(50/(dist+35)))); // change the 59 or the 35 to tune
+            return  69.5- Math.toDegrees((Math.atan(50/(dist+35)))); // change the 59 or the 35 to tune
         }
         return GeneralConstants.CLOSE_SPEAKER_ANGLE;
         

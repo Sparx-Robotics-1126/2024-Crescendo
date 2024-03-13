@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8393012850426425,
-      "y": 6.755413868609491
+      "x": 0.8246156027195783,
+      "y": 6.696671139317234
     },
     "rotation": 44.999999999999986
   },
@@ -85,22 +85,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.25
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "spinStorage"
-                      }
-                    }
-                  ]
+                  "name": "spinStorage"
                 }
               }
             ]

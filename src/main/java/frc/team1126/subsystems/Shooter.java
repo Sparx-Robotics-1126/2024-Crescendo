@@ -88,7 +88,7 @@ public class Shooter extends SubsystemBase {
 
     public double calculateShooter() {
         if(m_limelight.hasSpeakerTarget()) {
-            return (34.13 * m_limelight.getDistance()) + 1602;
+            return (34.13 * m_limelight.getDistance()) + 1450;
         }
         return GeneralConstants.CLOSE_SPEAKER_POWER;
     }

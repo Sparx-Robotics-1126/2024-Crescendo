@@ -34,6 +34,7 @@ import frc.team1126.commands.arm.ArmWithCalculation;
 import frc.team1126.commands.arm.MoveArm;
 import frc.team1126.commands.arm.MoveArmForClimb;
 import frc.team1126.commands.arm.MoveArmToAmp;
+import frc.team1126.commands.arm.MoveArmToPosition;
 import frc.team1126.commands.arm.MoveArmToPositionNoPID;
 import frc.team1126.commands.arm.MoverArmPIDAngle;
 import frc.team1126.commands.arm.ZeroPigeon;
@@ -146,8 +147,8 @@ public class RobotContainer {
                 .whileTrue(new ShootNote(m_shooter, m_storage, m_shooter.calculateShooter())
                         .alongWith(new ArmWithCalculation(m_arm))); 
         m_operator.rightTrigger().and(m_operator.b())
-                .whileTrue(new ShootNote(m_shooter, m_storage, GeneralConstants.MID_SPEAKER_POWER)
-                        .alongWith(new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE)));
+                .whileTrue(new ShootNote(m_shooter, m_storage, 3000)
+                        .alongWith(new MoverArmPIDAngle(m_arm, 15.5)));
         m_operator.leftTrigger().whileTrue(new EjectNote(m_storage));
 
         // pickup and move to driving/amp angle. no need for shooter yet
@@ -161,8 +162,10 @@ public class RobotContainer {
         // distances (close, mid, far)
         m_operator.x().whileTrue((new ArmWithCalculation(m_arm))
                 .alongWith(new CalculateShooter(m_shooter))); //
-        m_operator.b().whileTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE)
-                .alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
+        // m_operator.b().whileTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE)
+        //         .alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
+
+        m_operator.b().whileTrue(new SpinShooter(m_shooter, 3000).alongWith(new MoverArmPIDAngle(m_arm, 15.5)));
         m_operator.y().whileTrue(new MoveArmToAmp(m_arm));
        
         //move arm to drive / acquire position

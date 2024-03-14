@@ -215,7 +215,7 @@ public final class Constants {
     public static class LimelightConstants {
         public static final boolean USE_FOR_TARGETING = true;
         public static final boolean LED_ON_DEFAULT = false;
-        public static final double CAMERA_MIN_FLOOR_HEIGHT = 8.628;
+        public static final double CAMERA_MIN_FLOOR_HEIGHT = 12;
         public static final double CAMERA_INITIAL_PITCH = 33.5;
         // declare ID's of pipelines here
         public static final int K_CUBE_PIPELINE = 0;
@@ -237,7 +237,7 @@ public final class Constants {
 
         public static final double SPEAKER_HEIGHT = 78.0; // height needs to be changed
         public static final double AMP_HEIGHT = 26.0;
-        public static final double LIMELIGHT_HEIGHT = 44; // measured from bottom of bumper to bottom of limelight
+        public static final double LIMELIGHT_HEIGHT = 47; // measured from bottom of bumper to bottom of limelight
         public static final double INITIAL_ANGLE = 0;
         public static final double VISION_ANGLE_TOLERANCE = 0;
         public static final double APRILTAG_PIPELINE = 0;
@@ -295,7 +295,6 @@ public final class Constants {
      * General robot constants
      */
     public static final class GeneralConstants {
-
         // Driver controller port
         public static final int DRIVER_CONTROLLER_ID = 0;
 

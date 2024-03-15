@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         robotContainer.setCANdle();
         robotContainer.EndGameRumble();
+        robotContainer.upToSpeedRumble();
 
         // if (ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()) {
         // if (ll.calculateTargetDistanceInInches() > 40 &&

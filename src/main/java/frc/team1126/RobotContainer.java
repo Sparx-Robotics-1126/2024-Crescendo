@@ -77,7 +77,7 @@ public class RobotContainer {
       
         /* REGISTER PATHPLANNER COMMANDS HERE */
         // ARM COMMANDS
-        NamedCommands.registerCommand("moveArmTo23", new MoverArmPIDAngle(m_arm, 24).withTimeout(1.5));
+        NamedCommands.registerCommand("moveArmTo23", new MoverArmPIDAngle(m_arm, 25.5).withTimeout(1.5));
         NamedCommands.registerCommand("moveArmTo30", new MoverArmPIDAngle(m_arm, 30.8).withTimeout(1.5));
         NamedCommands.registerCommand("moveArmTo53", new MoverArmPIDAngle(m_arm, 53).withTimeout(1.5));
         NamedCommands.registerCommand("moveArmToHome", new MoverArmPIDAngle(m_arm, .02).withTimeout(2));
@@ -262,6 +262,8 @@ public class RobotContainer {
         m_chooser.addOption("y tuning", new PathPlannerAuto("test"));
         m_chooser.addOption("angleTuning",new PathPlannerAuto("AngleTuning"));
 
+        //m_chooser.addOption("quals 34",new PathPlannerAuto("quals 34"));
+
     }
 
     /**
@@ -316,6 +318,14 @@ public class RobotContainer {
             m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
 
         }
+    }
+
+    //method for operator to know whether or not the shooter is up to speed for any given distance
+    public void upToSpeedRumble() {
+        if(m_shooter.isMotorUpToSpeed()) {
+            m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble,1);
+        } 
+        m_operator.getHID().setRumble(GenericHID.RumbleType.kBothRumble,0);
     }
 
 }

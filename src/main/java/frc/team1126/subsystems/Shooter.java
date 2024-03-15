@@ -83,7 +83,8 @@ public class Shooter extends SubsystemBase {
 
     public boolean isMotorUpToSpeed() {
         double currentSpeed = m_shooterMotor.get();
-        return currentSpeed >= m_shooterSpeed;
+        // return currentSpeed >= m_shooterSpeed;
+        return currentSpeed >= calculateShooter() || currentSpeed > calculateShooter() - 200;
     }
 
     public double calculateShooter() {

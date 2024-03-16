@@ -1,0 +1,82 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3763132980811417,
+      "y": 5.531946336619947
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveDown"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

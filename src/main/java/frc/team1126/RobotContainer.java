@@ -94,7 +94,7 @@ public class RobotContainer {
                 new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
         NamedCommands.registerCommand("spinShooterMid",
                 new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(1.5));
+        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));
         // STORAGE COMMANDS
         NamedCommands.registerCommand("spinStorage",
                 new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
@@ -262,13 +262,15 @@ public class RobotContainer {
         m_chooser.addOption("y tuning", new PathPlannerAuto("test"));
         m_chooser.addOption("angleTuning",new PathPlannerAuto("AngleTuning"));
 
+        m_chooser.addOption("shootStage", new PathPlannerAuto("playoffs 1"));
+
         //m_chooser.addOption("quals 34",new PathPlannerAuto("quals 34"));
 
     }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
+     *\
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {

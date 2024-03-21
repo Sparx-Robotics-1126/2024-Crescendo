@@ -1,0 +1,34 @@
+[
+  {
+    "name": "/Preferences/Shooter.mm.kp",
+    "type": "double",
+    "value": 0.003,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/Shooter.mm.ki",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/Shooter.mm.kd",
+    "type": "double",
+    "value": 0.14,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/Shooter.mm.kff",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

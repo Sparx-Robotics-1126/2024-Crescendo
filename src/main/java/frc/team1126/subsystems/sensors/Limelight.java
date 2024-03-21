@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.Toolbox.AprilTag;
@@ -264,12 +265,13 @@ public class Limelight extends SubsystemBase {
 	}
 
 	public boolean hasSpeakerTarget() {
-
-		if ((DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && targetId == SPEAKER_1_BLUE_ID) ||
-				(DriverStation.getAlliance().get() == DriverStation.Alliance.Red && targetId == SPEAKER_1_RED_ID)) {
-			return true;
+		if (RobotBase.isReal())
+		{
+			if ((DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && targetId == SPEAKER_1_BLUE_ID) ||
+					(DriverStation.getAlliance().get() == DriverStation.Alliance.Red && targetId == SPEAKER_1_RED_ID)) {
+				return true;
+			}
 		}
-
 		return false;
 	}
 

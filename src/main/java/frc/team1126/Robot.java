@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.team1126.subsystems.CANdleSubsystem;
@@ -38,12 +39,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        if (DriverStation.getAlliance().get() == Alliance.Red) {
-            ledColor = 0;
-            m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
-        } else {
-            ledColor = 1;
-            m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+        if (RobotBase.isReal())
+        {
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                ledColor = 0;
+                m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
+            } else {
+                ledColor = 1;
+                m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
+            }
         }
     }
 

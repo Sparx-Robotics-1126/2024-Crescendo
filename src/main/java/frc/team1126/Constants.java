@@ -33,7 +33,6 @@ public final class Constants {
     public static final double MAX_MODULE_SPEED = 5.5;
   }
 
-
     public static final class Auton
     {
 

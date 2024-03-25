@@ -267,8 +267,11 @@ public class Limelight extends SubsystemBase {
 	public boolean hasSpeakerTarget() {
 		if (RobotBase.isReal())
 		{
-			if ((DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && targetId == SPEAKER_1_BLUE_ID) ||
-					(DriverStation.getAlliance().get() == DriverStation.Alliance.Red && targetId == SPEAKER_1_RED_ID)) {
+			// if ((DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && targetId == SPEAKER_1_BLUE_ID) ||
+			// 		(DriverStation.getAlliance().get() == DriverStation.Alliance.Red && targetId == SPEAKER_1_RED_ID)) {
+			// 	return true;
+			// }
+			if(hasTarget()) {
 				return true;
 			}
 		}

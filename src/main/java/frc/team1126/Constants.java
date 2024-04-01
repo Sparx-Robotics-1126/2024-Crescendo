@@ -343,6 +343,16 @@ public final class Constants {
 
         public static final boolean CHASSIS_VELOCITY_CORRECTION = false;
 
+        public static final double kNoteCameraHeightFOV = 45;
+
+        public static final double kNoteDifferentialTolerance = 10.0;
+
+        public static final double kMinNoteHeight = -13 + kNoteCameraHeightFOV / 2.0;
+
+        public static final double TRANSLATION_SPEED_SCALAR_AUTO_AIM = 0.5;
+
+
+
         //for endgame rumble feature
         public static final int ENDGAME_SECONDS = 30;
         public static final int STOP_RUMBLE_SECONDS = 28;

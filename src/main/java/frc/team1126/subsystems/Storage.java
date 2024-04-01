@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.StorageConstants;
+import frc.team1126.RobotContainer;
+import frc.team1126.subsystems.CANdleSubsystem.LEDState;
 
 public class Storage extends SubsystemBase {
     
@@ -56,4 +58,9 @@ public class Storage extends SubsystemBase {
     public boolean getHasNote() {
         return m_hasNote;
     }
+
+     //for the greece allignment code
+    public boolean isBeamBroken() {
+    return m_noteSensor.get() == false;
+  }
 }

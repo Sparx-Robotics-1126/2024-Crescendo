@@ -6,6 +6,9 @@ package frc.team1126;
 
 import java.io.File;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import com.fasterxml.jackson.core.sym.Name;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -73,11 +76,12 @@ public class RobotContainer {
     public final static Storage m_storage = new Storage();
 
     public final static Shooter m_shooter = new Shooter();
+      PhotonCamera m_noteCamera;
 
     public RobotContainer() {
 
         registerNamedCommands();
-
+        m_noteCamera = new PhotonCamera("Note");
         m_swerve = new SwerveSubsystem(
                 new File(Filesystem.getDeployDirectory(), "swerve"));
 
@@ -317,11 +321,21 @@ public class RobotContainer {
             // double targetDistance = ll.calculateTargetDistanceInInches();
             m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
         } else {
+            var result = m_noteCamera.getLatestResult();
+            PhotonTrackedTarget target = null;
+            if (result != null) {
+                   target = result.getBestTarget();
+            }
+            if (target != null){
+                m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.ORANGE);
+            }
+            else {
             if (DriverStation.getAlliance().get() == Alliance.Red) {
                 m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
             } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
             }
+        }
         }
     }
 

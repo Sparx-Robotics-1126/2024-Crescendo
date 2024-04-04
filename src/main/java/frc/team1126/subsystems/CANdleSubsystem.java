@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.CANdleConstants;
+import frc.team1126.subsystems.sensors.Limelight;
 
 import static edu.wpi.first.wpilibj.DriverStation.Alliance.*;
 
@@ -19,7 +20,7 @@ public class CANdleSubsystem extends SubsystemBase {
     public LEDState ledstate;
     private Animation m_toAnimate = null;
 	XboxController m_controller;
-
+public static CANdleSubsystem  m_instance = null;
 	// private boolean m_clearAllAnims = false;
     // private boolean m_last5V = false;
     // private boolean m_animDirection = false;
@@ -64,7 +65,12 @@ public class CANdleSubsystem extends SubsystemBase {
             }
         }
     }
-
+	public static CANdleSubsystem getInstance() {
+		if (m_instance == null) {
+			m_instance = new CANdleSubsystem();
+		}
+		return m_instance;
+	}
     public void setLEDState(LEDState state) {
 
 
@@ -97,8 +103,8 @@ public class CANdleSubsystem extends SubsystemBase {
         YELLOW(CANdleConstants.YELLOW_R, CANdleConstants.YELLOW_G, CANdleConstants.YELLOW_B),
         RED(CANdleConstants.RED_R, CANdleConstants.RED_G, CANdleConstants.RED_B),
 		BLU(CANdleConstants.BLUE_R, CANdleConstants.BLUE_G, CANdleConstants.BLUE_B),
-        GREEN(CANdleConstants.GREEN_R, CANdleConstants.GREEN_G, CANdleConstants.GREEN_B);
-
+        GREEN(CANdleConstants.GREEN_R, CANdleConstants.GREEN_G, CANdleConstants.GREEN_B),
+        ORANGE(CANdleConstants.ORANGE_R, CANdleConstants.ORANGE_G, CANdleConstants.ORANGE_B);
         public final int r;
         public final int g;
         public final int b;

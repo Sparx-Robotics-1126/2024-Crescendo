@@ -307,8 +307,11 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("NoteConnected", m_noteCamera.isConnected());
+        SmartDashboard.putBoolean("Note Targeted", targetLost);
+        // var target = m_noteCamera.getLatestResult().getBestTarget();
+        // SmartDashboard.putnu("Note Height", target.getPitch())
         try {
-            SmartDashboard.putNumber("Note Latency", m_noteCamera.getLatestResult().getLatencyMillis());
+            // SmartDashboard.putNumber("Note Latency", m_noteCamera.getLatestResult().getLatencyMillis());
         } catch(Exception e) {
 
         }
@@ -320,7 +323,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void simulationPeriodic() {
     }
     public void setPipelineIndex(int index) {
-        m_noteCamera.setPipelineIndex(index);
+        m_noteCamera.setPipelineIndex(0);
     }
     /**
      * Get the swerve drive kinematics object.
@@ -530,7 +533,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void driveRobotRelativeToObject() {
-        System.out.println("driving robot relative to object");
+        // System.out.println("driving robot relative to object");
         var result = m_noteCamera.getLatestResult();
         targetLost = false;
         if (result != null) {
@@ -541,21 +544,26 @@ public class SwerveSubsystem extends SubsystemBase {
                 // translate.
                 double height = target.getPitch() + SwerveConstants.kNoteCameraHeightFOV / 2.0;
                 // If height difference from last read is bigger than tolerance, stop driving
-                if (Math.abs(height - m_lastNoteNeight) < SwerveConstants.kNoteDifferentialTolerance
-                        && (height > SwerveConstants.kMinNoteHeight)) {
+                // if (Math.abs(height - m_lastNoteNeight) < SwerveConstants.kNoteDifferentialTolerance
+                //         && (height > SwerveConstants.kMinNoteHeight)) {
+                            if (Math.abs(height - m_lastNoteNeight) < SwerveConstants.kNoteDifferentialTolerance) {
                     m_lastNoteNeight = height;
                     targetLost = false;
+                    CANdleSubsystem.getInstance().setLEDState(CANdleSubsystem.LEDState.ORANGE);
                     // System.out.println("Running AutoAim");
-                    drive(new Translation2d(-MathUtil.clamp(height * 0.02, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM,
-                            SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM), yaw * 0.004), -yaw * 0.01, false);
+                    drive(new Translation2d(MathUtil.clamp(height * 0.02, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM, SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM)
+                            , yaw * 0.004), -yaw * 0.05, false);
 
                 } else {
+                    // System.out.println("out 1");
                     targetLost = true;
                 }
             } else {
+                // System.out.println("out 2");
                 targetLost = true;
             }
         } else {
+            // System.out.println("out 3");
             targetLost = true;
         }
         if (targetLost) {

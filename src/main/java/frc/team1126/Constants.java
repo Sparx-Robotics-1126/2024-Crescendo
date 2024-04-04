@@ -209,6 +209,11 @@ public final class Constants {
         public static final int BLUE_G = 0;
         public static final int BLUE_B = 255;
 
+         /* Orange RGB */
+         public static final int ORANGE_R = 250;
+         public static final int ORANGE_G = 30;
+         public static final int ORANGE_B = 2;
+
     }
 
     public static class LimelightConstants {
@@ -343,7 +348,7 @@ public final class Constants {
 
         public static final boolean CHASSIS_VELOCITY_CORRECTION = false;
 
-        public static final double kNoteCameraHeightFOV = 45;
+        public static final double kNoteCameraHeightFOV = 115;
 
         public static final double kNoteDifferentialTolerance = 10.0;
 

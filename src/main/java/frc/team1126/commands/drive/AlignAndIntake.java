@@ -31,9 +31,7 @@ public class AlignAndIntake extends SequentialCommandGroup {
                                 driveSubsystem)
                                 .until(() -> driveSubsystem.isTargetLost()),
                         new SequentialCommandGroup(
-                                new MoveArmToPosition(armSubsystem,m_limelight, .2)
-                                        .andThen(new SpinStorage(intakeSubsystem, 5))))
-        );
+                               new SpinStorage(intakeSubsystem, 5))).andThen( new SpinStorage(intakeSubsystem, 5)));
 
     }
 }

@@ -41,6 +41,7 @@ import frc.team1126.commands.arm.ZeroPigeon;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
 import frc.team1126.commands.climber.MoveMax;
+import frc.team1126.commands.drive.AlignAndIntake;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
 import frc.team1126.subsystems.Shooter;
@@ -74,38 +75,8 @@ public class RobotContainer {
     public final static Shooter m_shooter = new Shooter();
 
     public RobotContainer() {
-      
-        /* REGISTER PATHPLANNER COMMANDS HERE */
-        // ARM COMMANDS
-        NamedCommands.registerCommand("moveArmTo23", new MoverArmPIDAngle(m_arm, 25.5).withTimeout(1.5));
-        NamedCommands.registerCommand("moveArmTo30", new MoverArmPIDAngle(m_arm, 30.8).withTimeout(1.5));
-        NamedCommands.registerCommand("moveArmTo53", new MoverArmPIDAngle(m_arm, 53).withTimeout(1.5));
-        NamedCommands.registerCommand("moveArmToHome", new MoverArmPIDAngle(m_arm, .02).withTimeout(2));
-        NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(1.5));
-        NamedCommands.registerCommand("holdClose",
-                new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE).withTimeout(1.5));
-                NamedCommands.registerCommand("holdMid",
-                new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1.5));
-        // SHOOTER COMMANDS
-        NamedCommands.registerCommand("shootNote",
-                new ShootNote(m_shooter, m_storage, m_shooter.calculateShooter()).withTimeout(1));
-        NamedCommands.registerCommand("spinShooter",
-                new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("spinShooterMid",
-                new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));
-        // STORAGE COMMANDS
-        NamedCommands.registerCommand("spinStorage",
-                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
-        NamedCommands.registerCommand("spinStorageLong",
-                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(3));
-        NamedCommands.registerCommand("lowPowerStorage",
-                new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER).withTimeout(3));
-        NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
 
-        //OTHER COMMANDS
-        //NamedCommands.registerCommand("limelightTarget", new LLRotationAlignCommand(m_swerve).withTimeout(1.5));
+        registerNamedCommands();
 
         m_swerve = new SwerveSubsystem(
                 new File(Filesystem.getDeployDirectory(), "swerve"));
@@ -133,10 +104,45 @@ public class RobotContainer {
 
     }
 
+    private static void registerNamedCommands() {
+        /* REGISTER PATHPLANNER COMMANDS HERE */
+        // ARM COMMANDS
+        NamedCommands.registerCommand("moveArmTo23", new MoverArmPIDAngle(m_arm, 25.5).withTimeout(1.5));
+        NamedCommands.registerCommand("moveArmTo30", new MoverArmPIDAngle(m_arm, 30.8).withTimeout(1.5));
+        NamedCommands.registerCommand("moveArmTo53", new MoverArmPIDAngle(m_arm, 53).withTimeout(1.5));
+        NamedCommands.registerCommand("moveArmToHome", new MoverArmPIDAngle(m_arm, .02).withTimeout(2));
+        NamedCommands.registerCommand("moveDown", new MoveArmToPositionNoPID(m_arm, m_limeLight, .02).withTimeout(1.5));
+        NamedCommands.registerCommand("holdClose",
+                new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE).withTimeout(1.5));
+        NamedCommands.registerCommand("holdMid",
+        new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE).withTimeout(1.5));
+        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1.5));
+        // SHOOTER COMMANDS
+        NamedCommands.registerCommand("shootNote",
+                new ShootNote(m_shooter, m_storage, m_shooter.calculateShooter()).withTimeout(1));
+        NamedCommands.registerCommand("spinShooter",
+                new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
+        NamedCommands.registerCommand("spinShooterMid",
+                new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
+        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));
+        // STORAGE COMMANDS
+        NamedCommands.registerCommand("spinStorage",
+                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
+        NamedCommands.registerCommand("spinStorageLong",
+                new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER).withTimeout(3));
+        NamedCommands.registerCommand("lowPowerStorage",
+                new SpinStorage(m_storage, GeneralConstants.LOW_STORAGE_POWER).withTimeout(3));
+        NamedCommands.registerCommand("ejectNote", new EjectNote(m_storage).withTimeout(2));
+
+        //OTHER COMMANDS
+        //NamedCommands.registerCommand("limelightTarget", new LLRotationAlignCommand(m_swerve).withTimeout(1.5));
+    }
+
     private void configureDriverBindings() {
         
         m_driver.leftTrigger().onTrue(new InstantCommand(() -> m_swerve.zeroGyro()));
         m_driver.a().whileTrue(new LLRotationAlignCommand(m_swerve));
+        m_driver.rightBumper().whileTrue(new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve));
     }
 
     private void configureOperatorBindings() {
@@ -201,7 +207,12 @@ public class RobotContainer {
         // climber.moveLeftClimber(operator.getLeftY()));
 
     }
-
+    public void teleopInit() {
+        m_swerve.setPipelineIndex(2);
+//        m_robotDrive.setAutoAimRotPIDConstants(false);
+//        m_ArmSubsystem.ArmOff();
+//        m_ShooterSubsystem.shooterOff();
+    }
     double getXSpeed() {
         int pov = m_driver.getHID().getPOV();
         double finalX;
@@ -282,7 +293,17 @@ public class RobotContainer {
         // // the command to be run in autonomous
 
         // return _chooser.getSelected();
+
+        boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+                .equals(DriverStation.Alliance.Blue);
+        if (isBlue) {
+            m_swerve.setPipelineIndex(1);
+        } else {
+            m_swerve.setPipelineIndex(0);
+        }
+
         return m_chooser.getSelected();
+
         // return swerve.getAutonomousCommand(_chooser.getSelected().getName(), true);
 
     }

@@ -19,9 +19,10 @@ public class AlignAndIntake extends SequentialCommandGroup {
     public AlignAndIntake(Shooter shooterSubsystem,
             Arm armSubsystem,
             Storage intakeSubsystem,
-            Limelight m_limelight,
             SwerveSubsystem driveSubsystem) {
         addRequirements(RobotContainer.m_shooter, RobotContainer.m_arm, RobotContainer.m_storage, RobotContainer.m_swerve);
+
+        Limelight m_limelight = Limelight.getInstance();
         addCommands(
                 new InstantCommand(() -> driveSubsystem.resetNoteHeight()),
                 new ParallelRaceGroup(
@@ -30,7 +31,8 @@ public class AlignAndIntake extends SequentialCommandGroup {
                                 driveSubsystem)
                                 .until(() -> driveSubsystem.isTargetLost()),
                         new SequentialCommandGroup(
-                                new MoveArmToPosition(armSubsystem,m_limelight, .2).andThen(new SpinStorage(intakeSubsystem, 5))))
+                                new MoveArmToPosition(armSubsystem,m_limelight, .2)
+                                        .andThen(new SpinStorage(intakeSubsystem, 5))))
         );
 
     }

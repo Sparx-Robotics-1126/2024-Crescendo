@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
 
+        robotContainer.teleopInit();
         // robotContainer.m_swerve.zeroGyro();
         // robotContainer.m_storage.resetNote();
         // RobotContainer.swerve.stopAllModules();

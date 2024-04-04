@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.AutonConstants;
@@ -69,6 +70,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary
         // objects being created.
+        m_noteCamera = new PhotonCamera("Note");
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
         try {
             m_swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
@@ -80,8 +82,8 @@ public class SwerveSubsystem extends SubsystemBase {
             throw new RuntimeException(e);
         }
         m_swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot
-                                                   // via
-                                                   // angle.
+        // via
+        // angle.
         m_swerveDrive.updateCacheValidityPeriods(20, 20, 20);
         setupPathPlanner();
     }
@@ -106,7 +108,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
-                                                 // Constants class
+                        // Constants class
                         AutonConstants.TRANSLATION_PID,
                         // Translation PID constants
                         AutonConstants.ANGLE_PID,
@@ -116,7 +118,7 @@ public class SwerveSubsystem extends SubsystemBase {
                         m_swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
                         // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig()
-                // Default path replanning config. See the API for the options here
+                        // Default path replanning config. See the API for the options here
                 ),
                 () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red
@@ -168,7 +170,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 constraints,
                 0.0, // Goal end velocity in meters/sec
                 0.0 // Rotation delay distance in meters. This is how far the robot should travel
-                    // before attempting to rotate.
+                // before attempting to rotate.
         );
     }
 
@@ -185,7 +187,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Drive command.
      */
     public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
-            DoubleSupplier headingY) {
+                                DoubleSupplier headingY) {
         // swerveDrive.setHeadingCorrection(true); // Normally you would want heading
         // correction for this kind of control.
         return run(() -> {
@@ -235,7 +237,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Drive command.
      */
     public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY,
-            DoubleSupplier angularRotationX) {
+                                DoubleSupplier angularRotationX) {
         return run(() -> {
             // Make the robot move
             var x = Math.pow(translationX.getAsDouble(), 3) * m_swerveDrive.getMaximumVelocity();
@@ -304,12 +306,22 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("NoteConnected", m_noteCamera.isConnected());
+        try {
+            SmartDashboard.putNumber("Note Latency", m_noteCamera.getLatestResult().getLatencyMillis());
+        } catch(Exception e) {
+
+        }
     }
+
+
 
     @Override
     public void simulationPeriodic() {
     }
-
+    public void setPipelineIndex(int index) {
+        m_noteCamera.setPipelineIndex(index);
+    }
     /**
      * Get the swerve drive kinematics object.
      *
@@ -491,7 +503,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
-
     private double getNoteHeight() {
         var result = m_noteCamera.getLatestResult();
         if (result != null && result.hasTargets() && result.getBestTarget() != null) {
@@ -502,23 +513,23 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
 
-        // gets robot relative note angle from 0 (Center)
-        private double getNoteAngle() {
-            var result = m_noteCamera.getLatestResult();
-            if (result != null && result.hasTargets() && result.getBestTarget() != null) {
-                return result.getBestTarget().getYaw();
-            } else {
-                return 0;
-            }
-    
+    // gets robot relative note angle from 0 (Center)
+    private double getNoteAngle() {
+        var result = m_noteCamera.getLatestResult();
+        if (result != null && result.hasTargets() && result.getBestTarget() != null) {
+            return result.getBestTarget().getYaw();
+        } else {
+            return 0;
         }
 
-        public void resetNoteHeight() {
-            targetLost = false;
-            m_lastNoteNeight = getNoteHeight();
-        }
+    }
 
-         public void driveRobotRelativeToObject() {
+    public void resetNoteHeight() {
+        targetLost = false;
+        m_lastNoteNeight = getNoteHeight();
+    }
+
+    public void driveRobotRelativeToObject() {
         System.out.println("driving robot relative to object");
         var result = m_noteCamera.getLatestResult();
         targetLost = false;
@@ -535,19 +546,16 @@ public class SwerveSubsystem extends SubsystemBase {
                     m_lastNoteNeight = height;
                     targetLost = false;
                     // System.out.println("Running AutoAim");
-                    drive(new Translation2d( -MathUtil.clamp(height * 0.02, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM,
-                    SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM),  yaw * 0.004), -yaw * 0.01, false);
-                            
-                }
-                else {
+                    drive(new Translation2d(-MathUtil.clamp(height * 0.02, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM,
+                            SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM), yaw * 0.004), -yaw * 0.01, false);
+
+                } else {
                     targetLost = true;
                 }
-            }
-            else {
+            } else {
                 targetLost = true;
             }
-        }
-        else {
+        } else {
             targetLost = true;
         }
         if (targetLost) {

@@ -9,7 +9,6 @@ import java.io.File;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import com.fasterxml.jackson.core.sym.Name;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -37,7 +36,6 @@ import frc.team1126.commands.arm.ArmWithCalculation;
 import frc.team1126.commands.arm.MoveArm;
 import frc.team1126.commands.arm.MoveArmForClimb;
 import frc.team1126.commands.arm.MoveArmToAmp;
-import frc.team1126.commands.arm.MoveArmToPosition;
 import frc.team1126.commands.arm.MoveArmToPositionNoPID;
 import frc.team1126.commands.arm.MoverArmPIDAngle;
 import frc.team1126.commands.arm.ZeroPigeon;
@@ -128,7 +126,7 @@ public class RobotContainer {
                 new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
         NamedCommands.registerCommand("spinShooterMid",
                 new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));
+        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter, m_limeLight).withTimeout(2));
         // STORAGE COMMANDS
         NamedCommands.registerCommand("spinStorage",
                 new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
@@ -172,7 +170,7 @@ public class RobotContainer {
         // move are to position. Limelight will return the angle base on specific
         // distances (close, mid, far)
         m_operator.x().whileTrue((new ArmWithCalculation(m_arm))
-                .alongWith(new CalculateShooter(m_shooter))); //
+                .alongWith(new CalculateShooter(m_shooter, m_limeLight))); //
         // m_operator.b().whileTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE)
         //         .alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
 

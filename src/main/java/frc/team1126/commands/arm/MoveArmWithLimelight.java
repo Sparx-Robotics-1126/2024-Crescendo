@@ -24,12 +24,13 @@ public class MoveArmWithLimelight extends Command {
     public void execute() {
         double currentPitch = m_arm.getPitch();
         double target = m_Limelight.calculateTargetAngle();
-        // SmartDashboard.putNumber("Target Angle", target);
-        if (currentPitch < target && m_arm.getPitch() < 85) {
-            m_arm.runPigeonPID(target); // positive power to move up
-        } else if (currentPitch > target && !m_arm.m_homeLimit.get()) {
-            m_arm.runPigeonPID(target); // negative power to move down
-        }
+            // SmartDashboard.putNumber("Target Angle", target);
+            if (currentPitch < target && m_arm.getPitch() < 85) {
+                m_arm.runPigeonPID(target); // positive power to move up
+            } else if (currentPitch > target && !m_arm.m_homeLimit.get()) {
+                m_arm.runPigeonPID(target); // negative power to move down
+            }
+        
     }
 
     @Override

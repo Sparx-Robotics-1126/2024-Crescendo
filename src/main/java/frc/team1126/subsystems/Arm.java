@@ -185,9 +185,12 @@ private double getP(){
     //     m_sparkPIDController.setIZone(iz);
     // }
     public double calcAngle(){
-        if(m_limelight.hasSpeakerTarget()) {
+        if(m_limelight.hasHumanTarget()) {
             var dist = m_limelight.getDistance();
-            return  90 - Math.toDegrees((Math.atan(50/(dist+35)))); // change the 59 or the 35 to tune
+            return  50 - Math.toDegrees((Math.atan(50/(dist+35)))); // change the 59 or the 35 to tune
+        } else if(m_limelight.hasSpeakerTarget()) {
+            var dist = m_limelight.getDistance();
+            return 71 - Math.toDegrees((Math.atan(50/(dist+35))));
         }
         return GeneralConstants.CLOSE_SPEAKER_ANGLE;
         

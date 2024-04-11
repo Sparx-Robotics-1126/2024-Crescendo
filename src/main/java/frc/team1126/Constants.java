@@ -235,7 +235,7 @@ public final class Constants {
         public static final double K_PUPPY_DRIVE_MOTION_SMOOTHING = 0.4;
 
         public static final PIDGains K_LL_ALIGN_STRAFE_GAINS = new PIDGains(.04, 0.0015, 0.001);
-        public static final PIDGains K_LL_ALIGN_DRIVE_GAINS = new PIDGains(.09, 0.1, 0.1);
+        public static final PIDGains K_LL_ALIGN_DRIVE_GAINS = new PIDGains(.08, 0.0, 0.0);
         public static final double K_ALIGN_DRIVE_MOTION_SMOOTHING = 0;
         public static final double K_ALIGN_STRAFE_MOTION_SMOOTHING = 0;
 
@@ -354,7 +354,7 @@ public final class Constants {
 
         public static final double kMinNoteHeight = -13 + kNoteCameraHeightFOV / 2.0;
 
-        public static final double TRANSLATION_SPEED_SCALAR_AUTO_AIM = 0.5;
+        public static final double TRANSLATION_SPEED_SCALAR_AUTO_AIM = 1.5;
 
 
 

@@ -29,6 +29,10 @@ public class MoveArmToPosition extends Command {
         double currentPitch = m_arm.getPitch();
         // double target = m_targetAngle;
         SmartDashboard.putNumber("Target Angle", m_targetAngle);
+
+        if(m_Limelight.hasHumanTarget()) {
+            
+        }
         if (currentPitch < m_targetAngle && m_arm.getPitch() < 85) {
             m_arm.moveArmToAngle(m_targetAngle);
            

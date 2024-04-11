@@ -539,7 +539,7 @@ public class SwerveSubsystem extends SubsystemBase {
         if (result != null) {
             PhotonTrackedTarget target = result.getBestTarget();
             if (target != null) {
-                double yaw = target.getYaw();
+                double yaw = target.getYaw() + 2.5;
                 // Pitch of 0 is center. Height is from bottom of FOV, so add half of FOV to
                 // translate.
                 double height = target.getPitch() + SwerveConstants.kNoteCameraHeightFOV / 2.0;
@@ -551,8 +551,8 @@ public class SwerveSubsystem extends SubsystemBase {
                     targetLost = false;
                     CANdleSubsystem.getInstance().setLEDState(CANdleSubsystem.LEDState.ORANGE);
                     // System.out.println("Running AutoAim");
-                    drive(new Translation2d(MathUtil.clamp(height * 0.02, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM, SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM)
-                            , yaw * 0.004), -yaw * 0.05, false);
+                    drive(new Translation2d(MathUtil.clamp(height * 0.04, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM, SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM)
+                            , yaw * 0.004), -yaw * 0.2, false);// it was originally .02
 
                 } else {
                     // System.out.println("out 1");

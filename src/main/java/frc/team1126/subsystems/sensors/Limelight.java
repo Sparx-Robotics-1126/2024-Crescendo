@@ -1,3 +1,4 @@
+
 package frc.team1126.subsystems.sensors;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.Toolbox.AprilTag;
+import frc.team1126.Robot;
 import frc.team1126.Constants.LimelightConstants;
 
 import static frc.team1126.Constants.AprilTags.*;
@@ -275,6 +277,16 @@ public class Limelight extends SubsystemBase {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	public boolean hasHumanTarget() {
+		if(RobotBase.isReal()) {
+			if(targetId == SPEAKER_2_RED_ID ) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 

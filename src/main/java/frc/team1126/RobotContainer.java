@@ -111,9 +111,9 @@ public class RobotContainer {
                 new File(Filesystem.getDeployDirectory(), "swerve"));
 
         Command driveFieldOrientedAnglularVelocity = m_swerve.driveCommand(
-                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), .1), -1,
+                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), 1), -1,
                         1),
-                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftX(), .1), -1,
+                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftX(), 1), -1,
                         1),
                 () -> -m_driver.getRightX());
 

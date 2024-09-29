@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
 
-        // robotContainer.m_swerve.zeroGyro();
+         // robotContainer.m_swerve.zeroGyro();
         // robotContainer.m_storage.resetNote();
         // RobotContainer.swerve.stopAllModules();
     }
@@ -91,18 +91,6 @@ public class Robot extends TimedRobot {
         robotContainer.EndGameRumble();
         robotContainer.upToSpeedRumble();
 
-        // if (ll.hasSpeakerTarget() && RobotContainer.m_storage.getHasNote()) {
-        // if (ll.calculateTargetDistanceInInches() > 40 &&
-        // ll.calculateTargetDistanceInInches() < 45) {
-        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
-        // } else if (ll.calculateTargetDistanceInInches() > 90 &&
-        // ll.calculateTargetDistanceInInches() < 96) {
-        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-        // } else if (ll.calculateTargetDistanceInInches() > 110 &&
-        // ll.calculateTargetDistanceInInches() < 114) {
-        // m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);
-        // }
-        // }
     }
 
     @Override

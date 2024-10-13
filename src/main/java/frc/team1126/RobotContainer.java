@@ -6,6 +6,9 @@ package frc.team1126;
 
 import java.io.File;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import com.fasterxml.jackson.core.sym.Name;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -41,6 +44,7 @@ import frc.team1126.commands.arm.ZeroPigeon;
 import frc.team1126.commands.climber.MoveClimber;
 import frc.team1126.commands.climber.MoveHome;
 import frc.team1126.commands.climber.MoveMax;
+import frc.team1126.commands.drive.AlignAndIntake;
 import frc.team1126.subsystems.CANdleSubsystem;
 import frc.team1126.subsystems.Climber;
 import frc.team1126.subsystems.Shooter;
@@ -72,8 +76,13 @@ public class RobotContainer {
     public final static Storage m_storage = new Storage();
 
     public final static Shooter m_shooter = new Shooter();
+    PhotonCamera m_noteCamera;
 
     public RobotContainer() {
+
+        m_swerve = new SwerveSubsystem(
+            new File(Filesystem.getDeployDirectory(), "swerve"));
+
       
         /* REGISTER PATHPLANNER COMMANDS HERE */
         // ARM COMMANDS
@@ -106,14 +115,15 @@ public class RobotContainer {
 
         //OTHER COMMANDS
         //NamedCommands.registerCommand("limelightTarget", new LLRotationAlignCommand(m_swerve).withTimeout(1.5));
+        //NamedCommand.registerCommand("autoAquire",new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve).withTimeout(2));
+        NamedCommands.registerCommand("autoAllign",new LLRotationAlignCommand(m_swerve).withTimeout(1));
+        m_noteCamera = new PhotonCamera("Note");
 
-        m_swerve = new SwerveSubsystem(
-                new File(Filesystem.getDeployDirectory(), "swerve"));
-
+       
         Command driveFieldOrientedAnglularVelocity = m_swerve.driveCommand(
-                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), 1), -1,
+                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), .1), -1,
                         1),
-                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftX(), 1), -1,
+                () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftX(), .1), -1,
                         1),
                 () -> -m_driver.getRightX());
 
@@ -122,8 +132,7 @@ public class RobotContainer {
         configureChooser();
 
         // use only if we want manual control of climber;
-        m_climber
-                .setDefaultCommand(
+        m_climber.setDefaultCommand(
                         new MoveClimber(m_climber, () -> -m_operator.getRawAxis(XboxController.Axis.kLeftY.value)));
 
         m_arm.setDefaultCommand(new MoveArm(m_arm, () -> -m_operator.getRawAxis(XboxController.Axis.kRightY.value)));
@@ -136,6 +145,7 @@ public class RobotContainer {
         
         m_driver.leftTrigger().onTrue(new InstantCommand(() -> m_swerve.zeroGyro()));
         m_driver.a().whileTrue(new LLRotationAlignCommand(m_swerve));
+        m_driver.rightBumper().whileTrue(new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve));
     }
 
     private void configureOperatorBindings() {
@@ -250,7 +260,7 @@ public class RobotContainer {
         // PathPlannerAuto("movefromangleshoot"));
         m_chooser.addOption("ShootAndMoveFromFront", new PathPlannerAuto("ShootMoveShoot"));
 
-        m_chooser.addOption("shootfromAmpSide", new PathPlannerAuto("MoveFromAngleShoot"));
+        m_chooser.addOption("shootfromAmpSide", new PathPlannerAuto("movefromangleshoot"));
         // m_chooser.addOption("test",new PathPlannerAuto("test"));
         // m_chooser.addOption("shootmoveshootpaths", new
         // PathPlannerAuto("shootmoveshootpaths"));
@@ -295,11 +305,21 @@ public class RobotContainer {
             // double targetDistance = ll.calculateTargetDistanceInInches();
             m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.GREEN);// close angle
         } else {
+            var result = m_noteCamera.getLatestResult();
+            PhotonTrackedTarget target = null;
+            if (result != null) {
+                   target = result.getBestTarget();
+            }
+            if (target != null){
+                m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.ORANGE);
+            }
+            else {
             if (DriverStation.getAlliance().get() == Alliance.Red) {
                 m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.RED);
             } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 m_candleSubsystem.setLEDState(CANdleSubsystem.LEDState.BLU);
             }
+        }
         }
     }
 

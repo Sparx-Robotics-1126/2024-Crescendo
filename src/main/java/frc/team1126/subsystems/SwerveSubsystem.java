@@ -5,6 +5,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,12 +16,18 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1126.Constants.AutonConstants;
+import frc.team1126.Constants.SwerveConstants;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveControllerConfiguration;
@@ -38,7 +46,9 @@ public class SwerveSubsystem extends SubsystemBase {
      * Maximum speed of the robot in meters per second, used to limit acceleration.
      */
     public double maximumSpeed = Units.feetToMeters(14.875);
-
+    PhotonCamera m_noteCamera;
+    boolean targetLost;
+    double m_lastNoteNeight = 0.0;
     /**
      * Initialize {@link SwerveDrive} with the directory provided.
      *
@@ -61,6 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // objects being created.
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
         try {
+            m_noteCamera = new PhotonCamera("Note");
             m_swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
             // Alternative method if you don't want to supply the conversion factor via JSON
             // files.
@@ -294,10 +305,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+          SmartDashboard.putBoolean("NoteConnected", m_noteCamera.isConnected());
+        SmartDashboard.putBoolean("Note Targeted", targetLost);
     }
 
     @Override
     public void simulationPeriodic() {
+    }
+    public void setPipelineIndex(int index) {
+        m_noteCamera.setPipelineIndex(0);
     }
 
     /**
@@ -478,5 +494,77 @@ public class SwerveSubsystem extends SubsystemBase {
      */
     public void addFakeVisionReading() {
         m_swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+    }
+     private double getNoteHeight() {
+        var result = m_noteCamera.getLatestResult();
+        if (result != null && result.hasTargets() && result.getBestTarget() != null) {
+            return result.getBestTarget().getPitch() + SwerveConstants.kNoteCameraHeightFOV / 2.0;
+        } else {
+            return -SwerveConstants.kNoteCameraHeightFOV / 2.0;
+        }
+
+    }
+
+    // gets robot relative note angle from 0 (Center)
+    private double getNoteAngle() {
+        var result = m_noteCamera.getLatestResult();
+        if (result != null && result.hasTargets() && result.getBestTarget() != null) {
+            return result.getBestTarget().getYaw();
+        } else {
+            return 0;
+        }
+
+    }
+
+    public void resetNoteHeight() {
+        targetLost = false;
+        m_lastNoteNeight = getNoteHeight();
+    }
+
+    public void driveRobotRelativeToObject() {
+        // System.out.println("driving robot relative to object");
+        var result = m_noteCamera.getLatestResult();
+        targetLost = false;
+        if (result != null) {
+            PhotonTrackedTarget target = result.getBestTarget();
+            if (target != null) {
+                double yaw = target.getYaw() + 2.5;
+                // Pitch of 0 is center. Height is from bottom of FOV, so add half of FOV to
+                // translate.
+                double height = target.getPitch() + SwerveConstants.kNoteCameraHeightFOV / 2.0;
+                // If height difference from last read is bigger than tolerance, stop driving
+                // if (Math.abs(height - m_lastNoteNeight) < SwerveConstants.kNoteDifferentialTolerance
+                //         && (height > SwerveConstants.kMinNoteHeight)) {
+                            if (Math.abs(height - m_lastNoteNeight) < SwerveConstants.kNoteDifferentialTolerance) {
+                    m_lastNoteNeight = height;
+                    targetLost = false;
+                    CANdleSubsystem.getInstance().setLEDState(CANdleSubsystem.LEDState.ORANGE);
+                    // System.out.println("Running AutoAim");
+                    drive(new Translation2d(MathUtil.clamp(height * 0.04, -SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM, SwerveConstants.TRANSLATION_SPEED_SCALAR_AUTO_AIM)
+                            , yaw * 0.004), -yaw * 0.2, false);// it was originally .02
+
+                } else {
+                    // System.out.println("out 1");
+                    targetLost = true;
+                }
+            } else {
+                // System.out.println("out 2");
+                targetLost = true;
+            }
+        } else {
+            // System.out.println("out 3");
+            targetLost = true;
+        }
+        if (targetLost) {
+            drive(new Translation2d(), 0, false);
+        }
+    }
+
+    public boolean isTargetLost() {
+        return targetLost;
+    }
+
+    public void changeHeadingCorrection(boolean change) {
+        m_swerveDrive.setHeadingCorrection(change);
     }
 }

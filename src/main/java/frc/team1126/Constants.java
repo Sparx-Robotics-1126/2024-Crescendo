@@ -210,6 +210,11 @@ public final class Constants {
         public static final int BLUE_G = 0;
         public static final int BLUE_B = 255;
 
+         /* Orange RGB */
+         public static final int ORANGE_R = 250;
+         public static final int ORANGE_G = 30;
+         public static final int ORANGE_B = 2;
+
     }
 
     public static class LimelightConstants {
@@ -347,6 +352,13 @@ public final class Constants {
         //for endgame rumble feature
         public static final int ENDGAME_SECONDS = 30;
         public static final int STOP_RUMBLE_SECONDS = 28;
+        public static final double kNoteCameraHeightFOV = 115;
+
+        public static final double kNoteDifferentialTolerance = 10.0;
+
+        public static final double kMinNoteHeight = -13 + kNoteCameraHeightFOV / 2.0;
+
+        public static final double TRANSLATION_SPEED_SCALAR_AUTO_AIM = 1.5;
     }
 
     public static class ClimberConstants {

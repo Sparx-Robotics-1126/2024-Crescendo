@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 7.726886294559709,
-        "y": 7.783411631223979
+        "x": 7.262751980049414,
+        "y": 7.3790380308033345
       },
       "prevControl": {
-        "x": 7.716973931550726,
-        "y": 7.781625276094918
+        "x": 7.25283961704043,
+        "y": 7.377251675674273
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,11 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.14138555207524,
+    "rotation": -1.0230301886678115,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "shootmoveshootangled",
+  "folder": "2NoteAmpSide",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

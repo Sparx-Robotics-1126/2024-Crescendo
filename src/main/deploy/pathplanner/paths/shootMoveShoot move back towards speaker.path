@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.980663700146722,
-        "y": 6.946327738809324
+        "x": 4.731007100654631,
+        "y": 7.313469796885927
       },
       "prevControl": {
-        "x": 4.965978017823657,
-        "y": 6.946327738809324
+        "x": 4.7163214183315665,
+        "y": 7.313469796885927
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "shootmoveshoot",
+  "folder": "2NoteFront",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77,
-      "y": 6.68
+      "x": 1.3763132980811417,
+      "y": 5.531946336619947
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -19,12 +19,6 @@
                 "type": "named",
                 "data": {
                   "name": "moveDown"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Move Back To Shoot"
                 }
               },
               {
@@ -81,7 +75,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "move from angled shoot"
+                  "pathName": "Move back to note"
                 }
               },
               {
@@ -104,9 +98,72 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
-                  "pathName": "TurnBackToSpeaker"
+                  "pathName": "3NoteMoveToOtherNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3NoteTurnToSpeaker"
                 }
               },
               {
@@ -150,82 +207,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "move to line from angle"
+                  "pathName": "3NoteMoveBack"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "moveDown"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinStorage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "angled move back towards speaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
                 }
               }
             ]
@@ -234,12 +222,12 @@
         {
           "type": "named",
           "data": {
-            "name": "moveDown"
+            "name": "autoAquire"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Good Autos",
   "choreoAuto": false
 }

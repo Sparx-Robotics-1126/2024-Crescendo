@@ -3,14 +3,16 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "2NoteAmpSide",
+    "2NoteFront",
+    "2NoteSourceSideFar",
     "3noteAuto",
     "Jessica's folder",
-    "sourceSideShoot",
-    "shootmoveshoot",
-    "shootmoveshootangled",
+    "2NoteSourceSideClose",
     "testOrUnused"
   ],
   "autoFolders": [
+    "Good Autos",
     "testOrUnused"
   ],
   "defaultMaxVel": 3.0,

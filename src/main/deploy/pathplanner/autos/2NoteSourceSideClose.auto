@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.531946336619947
+      "x": 0.7365015087811937,
+      "y": 4.4057046969192335
     },
-    "rotation": 0
+    "rotation": -59.26451229807991
   },
   "command": {
     "type": "sequential",
@@ -16,15 +16,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "moveDown"
+                  "pathName": "2NoteSourceSideClose 1"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "moveDown"
                 }
               }
             ]
@@ -37,13 +37,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveArmTo23"
+                  "name": "calculateArm"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -62,7 +62,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hold"
+                  "name": "calculateArm"
                 }
               }
             ]
@@ -72,12 +72,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Move back to note"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -85,28 +79,40 @@
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "lowPowerStorage"
+                  "pathName": "2NoteSourceSideClose 2"
                 }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
+          "data": {
+            "name": "autoAquire"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "moveArmTo30"
+                  "pathName": "2NoteSourceSideClose 3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooterMid"
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -125,7 +131,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hold"
+                  "name": "calculateArm"
                 }
               }
             ]
@@ -135,75 +141,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "3NoteMoveToOtherNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinStorage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "3NoteTurnToSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveArmTo30"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "hold"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "3NoteMoveBack"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -211,30 +148,23 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "spinStorage"
-                      }
-                    }
-                  ]
+                  "pathName": "2NoteSourceSideClose 4"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoAquire"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Good Autos",
   "choreoAuto": false
 }

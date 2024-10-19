@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.765872873427322,
-        "y": 6.68
+        "x": 1.74,
+        "y": 4.07
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9714724259502194,
-        "y": 7.049127515070773
+        "x": 1.699813589072617,
+        "y": 4.054848992381349
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.96,
-        "y": 6.96
+        "x": 2.278498152702925,
+        "y": 4.111991050457951
       },
       "prevControl": {
-        "x": 0.9746856823230641,
-        "y": 6.96
+        "x": 2.278498152702925,
+        "y": 4.141362415104079
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,13 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.62087398863165,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "2NoteAmpSide",
+  "folder": "2NoteSourceSideClose",
   "previewStartingState": {
-    "rotation": 60.018360631150706,
+    "rotation": -45.768081431675775,
     "velocity": 0
   },
   "useDefaultConstraints": true

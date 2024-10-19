@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.531946336619947
+      "x": 0.5162162739352321,
+      "y": 4.082619685811823
     },
-    "rotation": 0
+    "rotation": -1.9305874411669626
   },
   "command": {
     "type": "sequential",
@@ -15,6 +15,12 @@
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "sSShoot from wall to shoot Angle"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -69,14 +75,52 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "moveDown"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "fixed Angled leave"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "noteToBack"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveDown"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Good Autos",
   "choreoAuto": false
 }

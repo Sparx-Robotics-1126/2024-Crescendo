@@ -33,6 +33,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "testOrUnused",
   "choreoAuto": false
 }

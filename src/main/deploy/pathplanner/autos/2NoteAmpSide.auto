@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5162162739352321,
-      "y": 4.082619685811823
+      "x": 0.77,
+      "y": 6.68
     },
-    "rotation": -1.9305874411669626
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -16,15 +16,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "sSShoot from wall to shoot Angle"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "moveDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Move Back To Shoot"
                 }
               },
               {
@@ -81,7 +81,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "fixed Angled leave"
+                  "pathName": "move from angled shoot"
                 }
               },
               {
@@ -106,7 +106,51 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "noteToBack"
+                  "pathName": "TurnBackToSpeaker"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move to line from angle"
                 }
               },
               {
@@ -117,10 +161,41 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoAquire"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "angled move back towards speaker"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "moveArmTo32"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveDown"
+          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Good Autos",
   "choreoAuto": false
 }

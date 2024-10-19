@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.71,
-        "y": 7.28
+        "x": 8.204955319001547,
+        "y": 7.407024268593991
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.71,
-        "y": 7.28
+        "x": 9.204955319001549,
+        "y": 7.407024268593991
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.892549606208337,
-        "y": 6.65
+        "x": 4.240238298658415,
+        "y": 7.53762671161706
       },
       "prevControl": {
-        "x": 4.892549606208337,
-        "y": 6.637928410024977
+        "x": 4.240238298658415,
+        "y": 7.525555121642037
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 3.6652968277409377,
+    "rotation": 1.005086005254255,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "shootmoveshootangled",
+  "folder": "2NoteAmpSide",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

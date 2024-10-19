@@ -61,11 +61,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 17.927919762007367,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "shootmoveshootangled",
+  "folder": "2NoteAmpSide",
   "previewStartingState": {
     "rotation": 65.6954507340633,
     "velocity": 0

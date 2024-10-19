@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.531946336619947
+      "x": 0.7979310504075553,
+      "y": 4.431154316854089
     },
-    "rotation": 0
+    "rotation": -59.23728046576109
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "moveDown"
+                  "name": "calculateShooter"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinShooter"
+                  "name": "calculateArm"
                 }
               }
             ]
@@ -40,117 +40,10 @@
                   "name": "calculateArm"
                 }
               },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
               {
                 "type": "named",
                 "data": {
                   "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "holdClose"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Move back to note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveDown"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "lowPowerStorage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "move out to line"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "moveDown"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinStorage"
                 }
               }
             ]
@@ -159,7 +52,7 @@
         {
           "type": "named",
           "data": {
-            "name": "spinStorage"
+            "name": "moveDown"
           }
         },
         {
@@ -167,21 +60,40 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "shootMoveShoot move back towards speaker"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "spinStorage"
                 }
               },
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Source side to second note from Source"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2nd Note from Source to shooting position"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
                 "type": "named",
                 "data": {
                   "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
                 }
               }
             ]
@@ -195,25 +107,6 @@
                 "type": "named",
                 "data": {
                   "name": "calculateShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "calculateArm"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootNote"
                 }
               },
               {
@@ -230,10 +123,80 @@
           "data": {
             "name": "moveDown"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinStorage"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2nd note shooting position to source note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "shooting position from soucre side center note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "calculateArm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootNote"
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Good Autos",
   "choreoAuto": false
 }

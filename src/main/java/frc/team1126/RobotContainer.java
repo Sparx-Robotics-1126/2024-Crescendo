@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.sym.Name;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -77,6 +78,7 @@ public class RobotContainer {
 
     public final static Shooter m_shooter = new Shooter();
     PhotonCamera m_noteCamera;
+    HttpCamera m_streamCamera;
 
     public RobotContainer() {
 
@@ -95,7 +97,7 @@ public class RobotContainer {
                 new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE).withTimeout(1.5));
                 NamedCommands.registerCommand("holdMid",
                 new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1.5));
+        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1));//was 1.5
         // SHOOTER COMMANDS
         NamedCommands.registerCommand("shootNote",
                 new ShootNote(m_shooter, m_storage, m_shooter.calculateShooter()).withTimeout(1));
@@ -103,7 +105,7 @@ public class RobotContainer {
                 new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
         NamedCommands.registerCommand("spinShooterMid",
                 new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));
+        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(1.25));//2as 2
         // STORAGE COMMANDS
         NamedCommands.registerCommand("spinStorage",
                 new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
@@ -115,10 +117,10 @@ public class RobotContainer {
 
         //OTHER COMMANDS
         //NamedCommands.registerCommand("limelightTarget", new LLRotationAlignCommand(m_swerve).withTimeout(1.5));
-        //NamedCommand.registerCommand("autoAquire",new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve).withTimeout(2));
+        NamedCommands.registerCommand("autoAquire",new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve).withTimeout(2));
         NamedCommands.registerCommand("autoAllign",new LLRotationAlignCommand(m_swerve).withTimeout(1));
         m_noteCamera = new PhotonCamera("Note");
-
+        // m_streamCamera = new HttpCamera("PhotonVisionCamera", "http://photonvision.local:5800");
        
         Command driveFieldOrientedAnglularVelocity = m_swerve.driveCommand(
                 () -> MathUtil.clamp(MathUtil.applyDeadband(-m_driver.getLeftY(), .1), -1,
@@ -142,6 +144,7 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
+
         
         m_driver.leftTrigger().onTrue(new InstantCommand(() -> m_swerve.zeroGyro()));
         m_driver.a().whileTrue(new LLRotationAlignCommand(m_swerve));
@@ -176,7 +179,7 @@ public class RobotContainer {
         //         .alongWith(new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER)));
 
         m_operator.b().whileTrue(new SpinShooter(m_shooter, 3000).alongWith(new MoverArmPIDAngle(m_arm, 15.5)));
-        m_operator.y().whileTrue(new MoveArmToAmp(m_arm));
+        m_operator.y().whileTrue(new MoverArmPIDAngle(m_arm,GeneralConstants.AMP_ANGLE));
        
         //move arm to drive / acquire position
         m_operator.povUp().onTrue(new MoverArmPIDAngle(m_arm, GeneralConstants.DRIVE_ANGLE));
@@ -250,30 +253,12 @@ public class RobotContainer {
         // autos using pathplanner
         m_chooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         m_chooser.addOption("Leave Start Area", new PathPlannerAuto("LeaveStartingZone"));
-        // m_chooser.addOption("Leave Angled Start",new
-        // PathPlannerAuto("angledLeaveAuto"));
-        // m_chooser.addOption("Move Arm Pathplanner", new
-        // PathPlannerAuto("moveArmTest"));
-        // m_chooser.addOption("Leave from subwoofer", new
-        // PathPlannerAuto("angledLeaveAuto"));
-        // m_chooser.addOption("fromangleshoot(PATH ONLY)", new
-        // PathPlannerAuto("movefromangleshoot"));
-        m_chooser.addOption("ShootAndMoveFromFront", new PathPlannerAuto("ShootMoveShoot"));
-
-        m_chooser.addOption("shootfromAmpSide", new PathPlannerAuto("movefromangleshoot"));
-        // m_chooser.addOption("test",new PathPlannerAuto("test"));
-        // m_chooser.addOption("shootmoveshootpaths", new
-        // PathPlannerAuto("shootmoveshootpaths"));
-        // am_chooser.addOption("moveFromSourceSide", new
-        // PathPlannerAuto("MoveFromRight"));
-        m_chooser.addOption("shootFromSourceSide", new PathPlannerAuto("ShootFromRight"));
-        m_chooser.addOption("3 NOTE AUTO", new PathPlannerAuto("3NoteAuto"));
-        m_chooser.addOption("x tuning", new PathPlannerAuto("xTuningTest"));
-        m_chooser.addOption("y tuning", new PathPlannerAuto("test"));
-        m_chooser.addOption("angleTuning",new PathPlannerAuto("AngleTuning"));
-
-        m_chooser.addOption("shootStage", new PathPlannerAuto("playoffs 1"));
-
+        m_chooser.addOption("2NoteFront", new PathPlannerAuto("2NoteFront"));
+        m_chooser.addOption("2NoteAmpSide", new PathPlannerAuto("2NoteAmpSide"));
+        m_chooser.addOption("2NoteSourceSideFar", new PathPlannerAuto("2NoteSourceSideFar"));
+        m_chooser.addOption("2NoteSourceSideClose", new PathPlannerAuto("2NoteSourceSideClose"));
+        m_chooser.addOption("3NoteFront", new PathPlannerAuto("3NoteFront"));
+        //m_chooser.addOption("1NoteFront", new PathPlannerAuto("playoffs 1"));
         //m_chooser.addOption("quals 34",new PathPlannerAuto("quals 34"));
 
     }

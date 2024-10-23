@@ -39,13 +39,14 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 public class SwerveSubsystem extends SubsystemBase {
 
     /**
+     * 
      * Swerve drive object.
      */
     private final SwerveDrive m_swerveDrive;
     /**
      * Maximum speed of the robot in meters per second, used to limit acceleration.
      */
-    public double maximumSpeed = Units.feetToMeters(14.5);
+    public double maximumSpeed = Units.feetToMeters(12.5);
     PhotonCamera m_noteCamera;
     boolean targetLost;
     double m_lastNoteNeight = 0.0;

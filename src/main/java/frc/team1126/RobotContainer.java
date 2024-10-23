@@ -97,7 +97,7 @@ public class RobotContainer {
                 new MoverArmPIDAngle(m_arm, GeneralConstants.CLOSE_SPEAKER_ANGLE).withTimeout(1.5));
                 NamedCommands.registerCommand("holdMid",
                 new MoverArmPIDAngle(m_arm, GeneralConstants.MID_SPEAKER_ANGLE).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1));//was 1.5
+        NamedCommands.registerCommand("calculateArm", new ArmWithCalculation(m_arm).withTimeout(1.2));//was 1.5
         // SHOOTER COMMANDS
         NamedCommands.registerCommand("shootNote",
                 new ShootNote(m_shooter, m_storage, m_shooter.calculateShooter()).withTimeout(1));
@@ -105,7 +105,7 @@ public class RobotContainer {
                 new SpinShooter(m_shooter, GeneralConstants.CLOSE_SPEAKER_POWER).withTimeout(1.5));
         NamedCommands.registerCommand("spinShooterMid",
                 new SpinShooter(m_shooter, GeneralConstants.MID_SPEAKER_POWER).withTimeout(1.5));
-        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(1.25));//2as 2
+        NamedCommands.registerCommand("calculateShooter", new CalculateShooter(m_shooter).withTimeout(2));//was 2
         // STORAGE COMMANDS
         NamedCommands.registerCommand("spinStorage",
                 new SpinStorage(m_storage, GeneralConstants.STORAGE_POWER));
@@ -117,7 +117,7 @@ public class RobotContainer {
 
         //OTHER COMMANDS
         //NamedCommands.registerCommand("limelightTarget", new LLRotationAlignCommand(m_swerve).withTimeout(1.5));
-        NamedCommands.registerCommand("autoAquire",new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve).withTimeout(2));
+        NamedCommands.registerCommand("autoAquire",new AlignAndIntake(m_shooter, m_arm, m_storage, m_swerve).withTimeout(1)); // was 2
         NamedCommands.registerCommand("autoAllign",new LLRotationAlignCommand(m_swerve).withTimeout(1));
         m_noteCamera = new PhotonCamera("Note");
         // m_streamCamera = new HttpCamera("PhotonVisionCamera", "http://photonvision.local:5800");
@@ -310,7 +310,7 @@ public class RobotContainer {
 
     public void EndGameRumble() {
 
-        if(DriverStation.getMatchTime() < 20 && DriverStation.getMatchTime() > 18) {
+        if(DriverStation.getMatchTime() < 18 && DriverStation.getMatchTime() > 15) {
             m_candleSubsystem.setLEDState(LEDState.PURPLE);
         }
 
